@@ -146,10 +146,10 @@
                                     <span t-if="o.create_uid"  t-field="o.create_uid" />
                                 </span>
                                 <br/>
-<!--                                <span>-->
-<!--                                    <span t-if="o.create_date"  t-field="o.create_date" />-->
-<!--                                </span>-->
-<!--                                <br/>-->
+                                <span>
+                                    <span t-if="o.create_date"  t-field="o.create_date" />
+                                </span>
+                                <br/>
                                 <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created By
                                 </span>
                                 <br/>
@@ -171,10 +171,10 @@
                                     <span t-if="o.coo_uid"  t-field="o.coo_uid" />
                                 </span>
                                 <br/>
-<!--                                <span>-->
-<!--                                    <span t-if="o.coo_date"  t-field="o.coo_date" />-->
-<!--                                </span>-->
-<!--                                <br/>-->
+                                <span>
+                                    <span t-if="o.coo_date"  t-field="o.coo_date" />
+                                </span>
+                                <br/>
                                 <span style="border-top:1px solid black;font-weight: bold;">Approved By COO</span>
                                 <br/>
                             </div>
@@ -183,10 +183,10 @@
                                     <span t-if="o.ceo_uid"  t-field="o.ceo_uid" />
                                 </span>
                                 <br/>
-<!--                                <span>-->
-<!--                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" />-->
-<!--                                </span>-->
-<!--                                <br/>-->
+                                <span>
+                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" />
+                                </span>
+                                <br/>
                                 <span style="border-top:1px solid black;font-weight: bold;">Approved By CEO</span>
                                 <br/>
                             </div>
@@ -195,10 +195,10 @@
                                     <span t-if="o.post_uid"  t-field="o.post_uid" />
                                 </span>
                                 <br/>
-<!--                                <span>-->
-<!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
-<!--                                </span>-->
-<!--                                <br/>-->
+                                <span>
+                                    <span t-if="o.post_date"  t-field="o.post_date" />
+                                </span>
+                                <br/>
                                 <span style="border-top:1px solid black;font-weight: bold;">Posted By</span>
                                 <br/>
                             </div>
