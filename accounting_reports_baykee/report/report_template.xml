@@ -5,48 +5,52 @@
                 <t t-foreach="docs" t-as="o">
                     <div class="header" style="border-bottom:1px solid black;">
                         <div class="row">
-                            <div class="col-7 text-left">
-                                <h2 t-if="o.company_id"><t t-esc="o.company_id.name"/></h2>
-                                <h4><span t-esc="vals"/></h4>
-                            </div>
-                            <div class="col-5 text-right">
+                            <div class="col-5 text-left">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
                                      style="height:100px;width:150px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <h3 t-if="o.company_id"><t t-esc="o.company_id.name"/></h3>
+<!--                                <h4><span t-esc="vals"/></h4>-->
                             </div>
                         </div>
                     </div>
                     <div class="article" style="font-size:15px;">
                         <div class="row">
+                            <div class="col-12 text-center">
+                                <h4 t-if="o.name">Voucher No: <t t-esc="o.name"/></h4><br/>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-3">
                             </div>
                             <div class="col-6 text-right">
-                                <span>Created on</span>
-                                <br/>
-                                <span>Voucher No</span>
-                                <br/>
-                                <span>Voucher Date</span>
-                                <br/>
                                 <span>Status</span>
                                 <br/>
-                                <span>Transaction Amount</span>
+<!--                                <span>Voucher No</span>-->
+<!--                                <br/>-->
+                                <span>Voucher Date</span>
                                 <br/>
+                                <span>Created on</span>
+                                <br/>
+<!--                                <span>Transaction Amount</span>-->
+<!--                                <br/>-->
                             </div>
                             <div class="col-3 text-right">
-                                <span>
-                                    <t t-esc="o.create_date.strftime('%d-%B-%Y')"/>
-                                </span>
+                                <span t-field="o.state"/>
                                 <br/>
-                                <span t-field="o.name"/>
-                                <br/>
+<!--                                <br/>-->
                                 <span>
                                     <t t-esc="o.date.strftime('%d-%B-%Y')"/>
                                 </span>
                                 <br/>
-                                <span t-field="o.state"/>
-                                <br/>
                                 <span>
-                                   <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(o.amount_total_signed)"/>
+                                    <t t-esc="o.create_date.strftime('%d-%B-%Y')"/>
                                 </span>
+                                <br/>
+<!--                                <span>-->
+<!--                                   <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(o.amount_total_signed)"/>-->
+<!--                                </span>-->
                             </div>
                         </div>
                         <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
@@ -117,45 +121,61 @@
                             </tr>
                         </table>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-12">
                                 <b>In Words:</b>
                                 <br/>
                                 <span>
                                     <span t-if="o.currency_id" t-esc="o.currency_id.amount_to_text(total_credit)"/>
                                     Only.
+                                    <br/>
+                                </span>
+                                <span t-if="o.ref">
+                                    <b>Reference:</b>
+                                    <br/>
+                                    <span t-field="o.ref"/>
+                                    <br/>
                                 </span>
                                 <br/>
                                 <br/>
-                                <b>Remarks:</b>
                                 <br/>
-                                <span t-field="o.ref"/>
                             </div>
                         </div>
                         <div class="row" style="margin-top:20px">
-                            <div class="col-3 text-center">
+                            <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.create_uid"  t-field="o.create_uid" />
                                 </span>
                                 <br/>
-                                <span>
-                                    <span t-if="o.create_date"  t-field="o.create_date" />
-                                </span>
-                                <br/>
-                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created
-                                    By/Date
+<!--                                <span>-->
+<!--                                    <span t-if="o.create_date"  t-field="o.create_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created By
                                 </span>
                                 <br/>
                             </div>
+<!--                            <div class="col-2 text-center">-->
+<!--                                <span>-->
+<!--                                    <span t-if="o.checked_uid"  t-field="o.checked_uid" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+<!--&lt;!&ndash;                                <span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <span t-if="o.checked_date"  t-field="o.checked_date" />&ndash;&gt;-->
+<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <br/>&ndash;&gt;-->
+<!--                                <span style="border-top:1px solid black;font-weight: bold;">Checked By</span>-->
+<!--                                <br/>-->
+<!--                            </div>-->
                             <div class="col-3 text-center">
                                 <span>
-                                    <span t-if="o.checked_uid"  t-field="o.checked_uid" />
+                                    <span t-if="o.coo_uid"  t-field="o.coo_uid" />
                                 </span>
                                 <br/>
-                                <span>
-                                    <span t-if="o.checked_date"  t-field="o.checked_date" />
-                                </span>
-                                <br/>
-                                <span style="border-top:1px solid black;font-weight: bold;">Checked By/Date</span>
+<!--                                <span>-->
+<!--                                    <span t-if="o.coo_date"  t-field="o.coo_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Approved By COO</span>
                                 <br/>
                             </div>
                             <div class="col-3 text-center">
@@ -163,23 +183,35 @@
                                     <span t-if="o.ceo_uid"  t-field="o.ceo_uid" />
                                 </span>
                                 <br/>
-                                <span>
-                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" />
-                                </span>
-                                <br/>
-                                <span style="border-top:1px solid black;font-weight: bold;">Approved By/Date</span>
+<!--                                <span>-->
+<!--                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Approved By CEO</span>
                                 <br/>
                             </div>
-                            <div class="col-3 text-center">
+                            <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.post_uid"  t-field="o.post_uid" />
                                 </span>
                                 <br/>
-                                <span>
-                                    <span t-if="o.post_date"  t-field="o.post_date" />
-                                </span>
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Posted By</span>
                                 <br/>
-                                <span style="border-top:1px solid black;font-weight: bold;">Posted By/Date</span>
+                            </div>
+                            <div class="col-2 text-center">
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_uid"  t-field="o.post_uid" />-->
+<!--                                </span>-->
+                                <br/>
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Received By</span>
                                 <br/>
                             </div>
                         </div>

@@ -7,7 +7,7 @@
                 report_type="qweb-pdf"
                 name="accounting_reports_baykee.journal_entry_voucher"
                 file="accounting_reports_baykee.journal_entry_voucher"
-                print_report_name="'General Entry Voucher'"
+                print_report_name="'Journal Entry Voucher'"
         />
     </data>
 </odoo>

@@ -19,26 +19,26 @@ class JournalEntryReport(models.AbstractModel):
         # elif docs.name.find('JV') != -1:
         #     vals = 'JV Report'
         # el
-        if docs.journal_id:
-            if docs.journal_id.type == 'sale' and docs.amount_tax_signed == 0:
-                vals = 'Non Tax Sale Report'
-            elif docs.journal_id.type == 'sale' and docs.amount_tax_signed != 0:
-                vals = 'Tax Sale Report'
-            elif docs.journal_id.type == 'purchase' and docs.amount_tax_signed == 0:
-                vals = 'Non Tax Payment Report'
-            elif docs.journal_id.type == 'purchase' and docs.amount_tax_signed != 0:
-                vals = 'Tax Payment Report'
-            elif docs.journal_id.type == 'bank':
-                vals = 'Bank Voucher'
-            elif docs.journal_id.type == 'cash':
-                vals = 'Cash Voucher'
-            else:
-                vals = '%s Report' % docs.journal_id.name
-        else:
-            vals = '%s Report' % "Undefined"
+        # if docs.journal_id:
+        #     if docs.journal_id.type == 'sale' and docs.amount_tax_signed == 0:
+        #         vals = 'Non Tax Sale Report'
+        #     elif docs.journal_id.type == 'sale' and docs.amount_tax_signed != 0:
+        #         vals = 'Tax Sale Report'
+        #     elif docs.journal_id.type == 'purchase' and docs.amount_tax_signed == 0:
+        #         vals = 'Non Tax Payment Report'
+        #     elif docs.journal_id.type == 'purchase' and docs.amount_tax_signed != 0:
+        #         vals = 'Tax Payment Report'
+        #     elif docs.journal_id.type == 'bank':
+        #         vals = 'Bank Voucher'
+        #     elif docs.journal_id.type == 'cash':
+        #         vals = 'Cash Voucher'
+        #     else:
+        #         vals = '%s Report' % docs.journal_id.name
+        # else:
+        #     vals = '%s Report' % "Undefined"
         return {
             'doc_model': 'account.move',
             'data': data,
             'docs': docs,
-            'vals': vals,
+            # 'vals': vals,
         }
