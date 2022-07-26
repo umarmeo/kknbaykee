@@ -11,7 +11,7 @@ class update_account_module_baykee(models.Model):
         ('draft', 'Draft'),
         ('check', 'To Check'),
         ('coo approval', 'COO Approval'),
-        ('ceo approval', 'COO Approval'),
+        ('ceo approval', 'CEO Approval'),
         ('approved', 'Approved'),
         ('posted', 'Posted'),
         ('rejected', 'Rejected'),
