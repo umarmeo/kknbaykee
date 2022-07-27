@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_accounting_reports_baykee_accounting_reports_baykee,accounting_reports_baykee.accounting_reports_baykee,model_accounting_reports_baykee_accounting_reports_baykee,base.group_user,1,1,1,1

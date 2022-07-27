@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <report
+                id="action_journal_entry_voucher"
+                model="account.move"
+                string="Journal Entry Voucher"
+                report_type="qweb-pdf"
+                name="accounting_reports_baykee.journal_entry_voucher"
+                file="accounting_reports_baykee.journal_entry_voucher"
+                print_report_name="'Journal Entry Voucher'"
+        />
+    </data>
+</odoo>
