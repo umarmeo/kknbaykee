@@ -7,9 +7,10 @@
                         <div class="row">
                             <div class="col-5 text-left">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                     style="height:100px;width:150px;margin-bottom:15px"/>
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
                             </div>
                             <div class="col-7 text-right">
+                                <br/>
                                 <h3 t-if="o.company_id"><t t-esc="o.company_id.name"/></h3>
 <!--                                <h4><span t-esc="vals"/></h4>-->
                             </div>
@@ -18,7 +19,8 @@
                     <div class="article" style="font-size:15px;">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <h4 t-if="o.name">Voucher No: <t t-esc="o.name"/></h4><br/>
+                                <h4 t-if="o.name">Voucher</h4>
+                                <h5 t-if="o.name"><t t-esc="o.name"/></h5><br/>
                             </div>
                         </div>
                         <div class="row">
@@ -54,7 +56,7 @@
                             </div>
                         </div>
                         <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
-                            <tr>
+                            <tr style="background-color:#f48531;color:white;">
                                 <td width="5%" class="text-right">
                                     <b>Sr.</b>
                                 </td>
@@ -65,7 +67,7 @@
                                     <b>Partner</b>
                                 </td>
                                 <td width="25%" class="text-left">
-                                    <b>Label</b>
+                                    <b>Description</b>
                                 </td>
                                 <td width="5%" class="text-right">
                                     <b>Debit</b>
@@ -98,7 +100,7 @@
                                     </td>
                                 </tr>
                             </t>
-                            <tr>
+                            <tr style="background-color:#f48531;color:white;">
                                 <td class="text-right" colspan="4">
                                     <b>Total</b>
                                 </td>
@@ -147,7 +149,7 @@
                                 </span>
                                 <br/>
                                 <span>
-                                    <span t-if="o.create_date"  t-field="o.create_date" />
+                                    <span t-if="o.create_date"  t-field="o.create_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
                                 </span>
                                 <br/>
                                 <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created By
@@ -172,7 +174,7 @@
                                 </span>
                                 <br/>
                                 <span>
-                                    <span t-if="o.coo_date"  t-field="o.coo_date" />
+                                    <span t-if="o.coo_date"  t-field="o.coo_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
                                 </span>
                                 <br/>
                                 <span style="border-top:1px solid black;font-weight: bold;">Approved By COO</span>
@@ -184,7 +186,7 @@
                                 </span>
                                 <br/>
                                 <span>
-                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" />
+                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
                                 </span>
                                 <br/>
                                 <span style="border-top:1px solid black;font-weight: bold;">Approved By CEO</span>
@@ -196,7 +198,7 @@
                                 </span>
                                 <br/>
                                 <span>
-                                    <span t-if="o.post_date"  t-field="o.post_date" />
+                                    <span t-if="o.post_date"  t-field="o.post_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
                                 </span>
                                 <br/>
                                 <span style="border-top:1px solid black;font-weight: bold;">Posted By</span>
@@ -206,6 +208,7 @@
 <!--                                <span>-->
 <!--                                    <span t-if="o.post_uid"  t-field="o.post_uid" />-->
 <!--                                </span>-->
+                                <br/>
                                 <br/>
 <!--                                <span>-->
 <!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
