@@ -3,13 +3,6 @@ import datetime
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class update_sale_module_baykee(models.Model):
-    _inherit = 'sale.order'
-
-    def _prepare_confirmation_values(self):
-        return {
-            'state': 'sale'
-        }
 
 class update_account_module_baykee(models.Model):
     _inherit = 'account.move'
