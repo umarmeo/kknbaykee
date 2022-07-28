@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from odoo import models, fields, api
-
+from odoo.exceptions import ValidationError
 
 class update_account_module_baykee(models.Model):
     _inherit = 'account.move'
@@ -34,7 +34,13 @@ class update_account_module_baykee(models.Model):
         self.state = 'check'
 
     def submit_for_coo_approval(self):
-        self.state = 'coo approval'
+        if self.journal_id:
+            if self.journal_id.type in ('bank', 'cash'):
+                self.state = 'coo approval'
+            else:
+                self.action_post()
+        else:
+            raise ValidationError('Select Journal')
         self.checked_uid = self.env.user
         self.checked_date = datetime.datetime.now()
 
