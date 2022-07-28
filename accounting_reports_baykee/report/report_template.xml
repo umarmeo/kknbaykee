@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="article" style="font-size:15px;">
+                    <div class="article" style="font-size:15px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h4 t-if="o.name">Voucher</h4>
@@ -142,7 +142,7 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:20px">
+                        <div class="row" style="margin-top:20px" t-if="o.journal_id.type in ('bank','cash')">
                             <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.create_uid"  t-field="o.create_uid" />
@@ -156,19 +156,7 @@
                                 </span>
                                 <br/>
                             </div>
-<!--                            <div class="col-2 text-center">-->
-<!--                                <span>-->
-<!--                                    <span t-if="o.checked_uid"  t-field="o.checked_uid" />-->
-<!--                                </span>-->
-<!--                                <br/>-->
-<!--&lt;!&ndash;                                <span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <span t-if="o.checked_date"  t-field="o.checked_date" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <br/>&ndash;&gt;-->
-<!--                                <span style="border-top:1px solid black;font-weight: bold;">Checked By</span>-->
-<!--                                <br/>-->
-<!--                            </div>-->
-                            <div class="col-3 text-center">
+                            <div class="col-3 text-center" >
                                 <span>
                                     <span t-if="o.coo_uid"  t-field="o.coo_uid" />
                                 </span>
@@ -205,6 +193,46 @@
                                 <br/>
                             </div>
                             <div class="col-2 text-center">
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_uid"  t-field="o.post_uid" />-->
+<!--                                </span>-->
+                                <br/>
+                                <br/>
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Received By</span>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px" t-if="not o.journal_id.type in ('bank','cash')">
+                            <div class="col-4 text-center">
+                                <span>
+                                    <span t-if="o.create_uid"  t-field="o.create_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.create_date"  t-field="o.create_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created By
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-4 text-center">
+                                <span>
+                                    <span t-if="o.post_uid"  t-field="o.post_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.post_date"  t-field="o.post_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Posted By</span>
+                                <br/>
+                            </div>
+                            <div class="col-4 text-center">
 <!--                                <span>-->
 <!--                                    <span t-if="o.post_uid"  t-field="o.post_uid" />-->
 <!--                                </span>-->
