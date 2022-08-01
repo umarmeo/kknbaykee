@@ -77,7 +77,7 @@ class update_account_module_baykee(models.Model):
 
     def submit_for_coo_approval(self):
         if self.journal_id:
-            if self.journal_id.type in ('bank', 'cash'):
+            if self.journal_id.code in ('CPV', 'BPV', 'CRV', 'BRV'):
                 self.state = 'coo approval'
             else:
                 self.action_post()
