@@ -14,7 +14,6 @@ class update_sale_module_baykee(models.Model):
 class update_account_module_baykee(models.Model):
     _inherit = 'account.move'
 
-
     @api.model
     def _get_default_journal(self):
         ''' Get the default journal.
