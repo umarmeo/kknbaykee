@@ -2,4 +2,3 @@
 
 from . import models
 from . import account_payment
-from . import sale_order
