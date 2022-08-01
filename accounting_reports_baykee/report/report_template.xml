@@ -63,11 +63,17 @@
                                 <td width="15%">
                                     <b>Account</b>
                                 </td>
-                                <td width="10%" class="text-left">
+                                <td width="15%" class="text-left">
                                     <b>Partner</b>
                                 </td>
                                 <td width="25%" class="text-left">
                                     <b>Description</b>
+                                </td>
+                                <td width="15%" class="text-left">
+                                    <b>Analytic Account</b>
+                                </td>
+                                <td width="15%" class="text-left">
+                                    <b>Analytic Tags</b>
                                 </td>
                                 <td width="5%" class="text-right">
                                     <b>Debit</b>
@@ -86,11 +92,17 @@
                                     <td width="15%">
                                         <span t-field="line.account_id"/>
                                     </td>
-                                    <td width="10%" class="text-left">
+                                    <td width="15%" class="text-left">
                                         <span t-field="line.partner_id"/>
                                     </td>
                                     <td width="25%">
                                         <span t-field="line.name" class="text-left"/>
+                                    </td>
+                                    <td width="15%">
+                                        <span t-if="line.analytic_account_id" t-field="line.analytic_account_id" class="text-left"/>
+                                    </td>
+                                    <td width="15%">
+                                        <span t-if="line.analytic_tag_ids" t-field="line.analytic_tag_ids" class="text-left"/>
                                     </td>
                                     <td style="text-align:right" width="5%">
                                         <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(line['debit'])"/>
@@ -101,7 +113,7 @@
                                 </tr>
                             </t>
                             <tr style="background-color:#f48531;color:white;">
-                                <td class="text-right" colspan="4">
+                                <td class="text-right" colspan="6">
                                     <b>Total</b>
                                 </td>
                                 <t t-set="total_debit" t-value="0"/>
@@ -142,7 +154,7 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:20px" t-if="o.journal_id.type in ('bank','cash')">
+                        <div class="row" style="margin-top:20px" t-if="o.journal_id.code in ('BPV','CPV','CRV','BRV')">
                             <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.create_uid"  t-field="o.create_uid" />
@@ -206,7 +218,7 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:20px" t-if="not o.journal_id.type in ('bank','cash')">
+                        <div class="row" style="margin-top:20px" t-if="not o.journal_id.code in ('BPV','CPV','CRV','BRV')">
                             <div class="col-4 text-center">
                                 <span>
                                     <span t-if="o.create_uid"  t-field="o.create_uid" />
@@ -246,19 +258,20 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="footer" style="border-top:1px solid black;">
-                            <div class="row">
-                                <div class="col-5 text-left">
-                                    <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
-                                </div>
-                                <div class="col-7 text-right">
-                                    <span>Page</span>
-                                    <span class="page"/>/
-                                    <span class="topage"/>
-                                </div>
+                    </div>
+                    <div class="footer" style="border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
                             </div>
                         </div>
                     </div>
+
                 </t>
             </t>
         </template>
