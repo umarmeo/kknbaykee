@@ -3,13 +3,6 @@ import datetime
 from odoo import api, fields, models, Command, _
 from odoo.exceptions import RedirectWarning, UserError, ValidationError, AccessError
 
-class update_sale_module_baykee(models.Model):
-    _inherit = 'sale.order'
-
-    def _prepare_confirmation_values(self):
-        return {
-            'state': 'sale'
-        }
 
 class update_account_module_baykee(models.Model):
     _inherit = 'account.move'
