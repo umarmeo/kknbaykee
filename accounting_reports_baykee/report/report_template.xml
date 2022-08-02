@@ -3,7 +3,7 @@
         <template id="journal_entry_voucher">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <div class="header" style="border-bottom:1px solid black;">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
                         <div class="row">
                             <div class="col-5 text-left">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
@@ -16,7 +16,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="article" style="font-size:15px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h4 t-if="o.name">Voucher</h4>
@@ -57,28 +57,28 @@
                         </div>
                         <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
                             <tr style="background-color:#f48531;color:white;">
-                                <td width="5%" class="text-right">
+                                <td style="width:4%;" class="text-right">
                                     <b>Sr.</b>
                                 </td>
-                                <td width="15%">
+                                <td style="width:14%;">
                                     <b>Account</b>
                                 </td>
-                                <td width="15%" class="text-left">
+                                <td style="width:12%;" class="text-left">
                                     <b>Partner</b>
                                 </td>
-                                <td width="25%" class="text-left">
+                                <td style="width:30%;" class="text-left">
                                     <b>Description</b>
                                 </td>
-                                <td width="15%" class="text-left">
+                                <td style="width:14%;" class="text-left">
                                     <b>Analytic Account</b>
                                 </td>
-                                <td width="15%" class="text-left">
+                                <td style="width:12%;" class="text-left">
                                     <b>Analytic Tags</b>
                                 </td>
-                                <td width="5%" class="text-right">
+                                <td style="width:7%;" class="text-right">
                                     <b>Debit</b>
                                 </td>
-                                <td width="5%" class="text-right">
+                                <td style="width:7%;" class="text-right">
                                     <b>Credit</b>
                                 </td>
                             </tr>
@@ -86,29 +86,29 @@
                             <t t-foreach="o.line_ids" t-as="line">
                                 <t t-set="serial" t-value="serial + 1"/>
                                 <tr>
-                                    <td style="text-align:right" width="5%">
+                                    <td style="text-align:right;width:4%;">
                                         <span t-esc="serial"/>
                                     </td>
-                                    <td width="15%">
+                                    <td style="width:14%;">
                                         <span t-field="line.account_id"/>
                                     </td>
-                                    <td width="15%" class="text-left">
+                                    <td style="width:12%;" class="text-left">
                                         <span t-field="line.partner_id"/>
                                     </td>
-                                    <td width="25%">
+                                    <td style="width:30%;">
                                         <span t-field="line.name" class="text-left"/>
                                     </td>
-                                    <td width="15%">
+                                    <td style="width:14%;">
                                         <span t-if="line.analytic_account_id" t-field="line.analytic_account_id" class="text-left"/>
                                     </td>
-                                    <td width="15%">
+                                    <td style="width:12%;">
                                         <span t-if="line.analytic_tag_ids" t-field="line.analytic_tag_ids" class="text-left"/>
                                     </td>
-                                    <td style="text-align:right" width="5%">
-                                        <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(line['debit'])"/>
+                                    <td style="text-align:right;width:7%;">
+                                        <t t-esc="'{:,.2f}'.format(line['debit'])"/>
                                     </td>
-                                    <td style="text-align:right" width="5%">
-                                       <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(line['credit'])"/>
+                                    <td style="text-align:right;width:7%;">
+                                       <t t-esc="'{:,.2f}'.format(line['credit'])"/>
                                     </td>
                                 </tr>
                             </t>
@@ -124,12 +124,12 @@
                                 </t>
                                 <td class="text-right">
                                     <strong>
-                                      <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(total_debit)"/>
+                                      <t t-esc="'{:,.2f}'.format(total_debit)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                       <span t-field="o.currency_id.symbol" /><span t-esc="'{:,.2f}'.format(total_credit)"/>
+                                       <span t-esc="'{:,.2f}'.format(total_credit)"/>
                                     </strong>
                                 </td>
                             </tr>
@@ -164,7 +164,7 @@
                                     <span t-if="o.create_date"  t-field="o.create_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
                                 </span>
                                 <br/>
-                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created By
+                                <span style="border-top:1px solid black;font-weight: bold;">Created By
                                 </span>
                                 <br/>
                             </div>
@@ -228,7 +228,7 @@
                                     <span t-if="o.create_date"  t-field="o.create_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
                                 </span>
                                 <br/>
-                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Created By
+                                <span style="border-top:1px solid black;font-weight: bold;">Created By
                                 </span>
                                 <br/>
                             </div>
@@ -259,7 +259,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="footer" style="border-top:1px solid black;">
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
                         <div class="row">
                             <div class="col-5 text-left">
                                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
