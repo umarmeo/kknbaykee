@@ -31,5 +31,6 @@
         # 'security/ir.model.access.csv',
         'report/report.xml',
         'report/report_template.xml',
+        'report/invoice_report_template.xml',
     ],
 }

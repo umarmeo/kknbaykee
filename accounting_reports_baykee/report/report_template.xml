@@ -152,6 +152,8 @@
                                 <br/>
                                 <br/>
                                 <br/>
+                                <br/>
+                                <br/>
                             </div>
                         </div>
                         <div class="row" style="margin-top:20px" t-if="o.journal_id.code in ('BPV','CPV','CRV','BRV')">
