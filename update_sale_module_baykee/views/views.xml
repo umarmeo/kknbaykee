@@ -1,10 +1,10 @@
 <odoo>
     <data>
-       <record id="sale_order_form_mrp" model="ir.ui.view">
-          <field name="name">sale.order.inherited.form.mrp</field>
-          <field name="model">sale.order</field>
-          <field name="inherit_id" ref="sale.view_order_form"/>
-          <field name="arch" type="xml">
+        <record id="sale_order_form_mrp" model="ir.ui.view">
+            <field name="name">sale.order.inherited.form.mrp</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
                 <field name="partner_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                 </field>
@@ -38,7 +38,7 @@
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                 </xpath>
-          </field>
-       </record>
+            </field>
+        </record>
     </data>
 </odoo>
