@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <data>
+
         <record model="ir.ui.view" id="payment_process_module_baykee_form_view">
             <field name="name">payment.process.module.baykee.form.view</field>
             <field name="model">payment.process</field>
@@ -58,6 +58,18 @@
                             <group>
                                 <field name="currency_id" invisible="1"/>
                                 <field name="amount" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="division" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_open':True,'no_edit':True,'no_create': True}"/>
+                                <field name="payment_mode" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_open':True,'no_edit':True,'no_create': True}"
+                                       groups="update_payment_process_module_baykee.payment_process_show_field,
+                                          update_payment_process_module_baykee.payment_process_coo_Approval,
+                                          update_payment_process_module_baykee.payment_process_ceo_Approval"/>
+                            </group>
+                            <group>
+                                <field name="term" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="analytic_account_id" attrs="{'readonly':[('state','!=','draft')]}"
+                                       options="{'no_open':True,'no_edit':True,'no_create': True}"/>
                             </group>
                         </group>
                         <group>
@@ -90,6 +102,12 @@
                     <field name="name"/>
                     <field name="purpose"/>
                     <field name="amount"/>
+                    <field name="division"/>
+                    <field name="term"/>
+                    <field name="analytic_account_id"/>
+                    <field name="payment_mode" groups="update_payment_process_module_baykee.payment_process_show_field,
+                                          update_payment_process_module_baykee.payment_process_coo_Approval,
+                                          update_payment_process_module_baykee.payment_process_ceo_Approval"/>
                     <field name="create_uid"/>
                     <field name="create_date"/>
                     <field name="state"/>
@@ -125,9 +143,12 @@
                   groups="update_payment_process_module_baykee.payment_process_menu_item"
                   web_icon="update_payment_process_module_baykee,static/description/odoo_icon.png"/>
 
-        <menuitem name="Payment Process" id="payment_process_module_baykee_menu_action"
+        <menuitem name="Payment Process" id="payment_process_module_baykee_menu_action" sequence="1"
                   parent="payment_process_module_baykee_main_menu"
                   action="payment_process_module_action"/>
+
+        <menuitem name="Configuration" id="payment_process_module_baykee_configuration" sequence="2"
+                  parent="payment_process_module_baykee_main_menu"/>
 
 
     </data>

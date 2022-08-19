@@ -23,4 +23,8 @@
         <field name="name">Cancel</field>
         <field name="category_id" ref="category_payment_process"/>
     </record>
+        <record id="payment_process_show_field" model="res.groups">
+        <field name="name">Show Field</field>
+        <field name="category_id" ref="category_payment_process"/>
+    </record>
 </odoo>

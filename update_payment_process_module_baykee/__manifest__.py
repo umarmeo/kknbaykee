@@ -28,13 +28,17 @@
     'version': '15.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'account'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'report/report.xml',
+        'report/report_template.xml',
         'security/security.xml',
         'views/views.xml',
+        'views/division.xml',
+        'views/payment_mode.xml',
 
     ],
 
