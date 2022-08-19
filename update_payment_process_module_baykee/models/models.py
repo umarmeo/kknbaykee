@@ -38,13 +38,13 @@ class update_payment_process(models.Model):
     ceo_date_time = fields.Datetime('CEO Date and Time', tracking=True)
     submit_uid = fields.Many2one('res.users', string='Submit uid', tracking=True)
     submit_date_time = fields.Datetime('Submit Date and Time', tracking=True)
-    division = fields.Many2one('payment.division', string="Division", tracking=True, required=True)
+    division = fields.Many2one('payment.division', string="Division", tracking=True, required=False)
     term = fields.Selection(selection=[
         ('advance', 'Advance'),
         ('reimbursement', 'Reimbursement'),
-    ], string='Term', tracking=True, default='advance',required=True)
-    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', tracking=True, required=True)
-    payment_mode = fields.Many2one('payment.mode', string="Payment Mode", tracking=True, required=True)
+    ], string='Term', tracking=True, default='advance',required=False)
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', tracking=True, required=False)
+    payment_mode = fields.Many2one('payment.mode', string="Payment Mode", tracking=True, required=False)
 
 
     @api.model
