@@ -15,6 +15,14 @@
         -Add cancel buttons
         -Add Reset to draft , Reset to Manager , Reset to coo buttons.
         -Give Access Rights to all buttons.
+        -Create a new model for division field which is editable tree view. 
+        -Create a new model for payment_mode field which is editable tree view.
+        -Add a menu in payment process model which name is configuration and add sub menu of division and payment_mode 
+         and trigger both models on both menus.
+        -create many2One field on payment process model which name is division.
+        -Create a new Group which name is Show field.
+        -create many2One field on payment process model which name is payment_mode set COO, CEO , Show field rights.
+        -Make report of payment process which show all fields in it.
     """,
 
     'author': "Barak Ullah",
