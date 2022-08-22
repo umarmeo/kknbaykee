@@ -3,7 +3,7 @@
         <template id="payment_report">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <div class="header" style="border-bottom:1px solid black;font-size:12px;font-family:Ariel">
+                    <div class="header" style="border-bottom:1px solid black;font-size:12px;font-family:Arial">
                         <div class="row">
                             <div class="col-5 text-left">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
-                         t-att-data-oe-id="o and o.id" style="font-family:Ariel">
+                         t-att-data-oe-id="o and o.id" style="font-family:Arial">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h1>Payment Process Report</h1>
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="footer" style="font-size:12px;border-top:1px solid black;font-family:Ariel">
+                    <div class="footer" style="font-size:12px;border-top:1px solid black;font-family:Arial">
                         <div class="row">
                             <div class="col-5 text-left">
                                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>

@@ -60,7 +60,8 @@
                                 <field name="amount" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="division" attrs="{'readonly':[('state','!=','draft')]}"
                                        options="{'no_open':True,'no_edit':True,'no_create': True}"/>
-                                <field name="payment_mode" attrs="{'readonly':[('state','!=','draft')]}"
+                                <field name="payment_mode"
+                                       attrs="{'readonly':[('state', 'in', ('cancel', 'approved', 'reject'))]}"
                                        options="{'no_open':True,'no_edit':True,'no_create': True}"
                                        groups="update_payment_process_module_baykee.payment_process_show_field,
                                           update_payment_process_module_baykee.payment_process_coo_Approval,
