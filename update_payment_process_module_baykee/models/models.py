@@ -64,17 +64,26 @@ class update_payment_process(models.Model):
     def action_coo_approval(self):
         self.manager_uid = self.env.user.id
         self.manager_date_time = datetime.now()
-        self.state = 'coo'
+        if self.amount <= 0:
+            raise ValidationError('Cannot move to next state because amount is zero')
+        else:
+            self.state = 'coo'
 
     def action_ceo_approval(self):
         self.coo_uid = self.env.user.id
         self.coo_date_time = datetime.now()
-        self.state = 'ceo'
+        if self.amount <= 0:
+            raise ValidationError('Cannot move to next state because amount is zero')
+        else:
+            self.state = 'ceo'
 
     def action_approved(self):
         self.ceo_uid = self.env.user.id
         self.ceo_date_time = datetime.now()
-        self.state = 'approved'
+        if self.amount <= 0:
+            raise ValidationError('Cannot move to next state because amount is zero')
+        else:
+            self.state = 'approved'
 
     def action_cancel(self):
         self.state = 'cancel'
