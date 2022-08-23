@@ -23,8 +23,23 @@
         <field name="name">Cancel</field>
         <field name="category_id" ref="category_payment_process"/>
     </record>
-        <record id="payment_process_show_field" model="res.groups">
+    <record id="payment_process_show_field" model="res.groups">
         <field name="name">Show Field</field>
         <field name="category_id" ref="category_payment_process"/>
+    </record>
+    <record id="payment_process_own" model="res.groups">
+        <field name="name">Show Own Payment's</field>
+        <field name="category_id" ref="category_payment_process"/>
+    </record>
+    <record id="payment_process_own_rule" model="ir.rule">
+        <field name="name">Payment Process Own Rule</field>
+        <field name="model_id" ref="model_payment_process"/>
+        <field name="domain_force">[('create_uid','=', user.id)]</field>
+        <field name="groups"
+               eval="[(4,ref('update_payment_process_module_baykee.payment_process_own'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="False"/>
     </record>
 </odoo>
