@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <template id="payment_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:12px;font-family:Arial">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <div t-if="o.company_id.partner_id" name="partner_header">
+                                    <div t-field="o.company_id.partner_id"
+                                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                    <p t-if="o.sudo().company_id.partner_id.vat"><t
+                                            t-esc="o.company_id.country_id.vat_label or 'Tax ID'"/>:
+                                        <span t-field="o.sudo().company_id.partner_id.vat"/>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article o_report_layout_standard" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" style="font-family:Arial">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h1>Payment Process Report</h1>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:50px;">
+                            <div class="col-12 text-left">
+                                <h1 t-field="o.name" class="mt0 float-left"/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:30px;">
+                            <div class="col-3 text-left">
+                                <strong>Amount:</strong>
+                            </div>
+                            <div class="col-9 text-left">
+                                <span t-field="o.amount"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-left">
+                                <strong>Division:</strong>
+                            </div>
+                            <div class="col-9 text-left">
+                                <span t-field="o.division"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-left">
+                                <strong groups="update_payment_process_module_baykee.payment_process_show_field,
+                                          update_payment_process_module_baykee.payment_process_coo_Approval,
+                                          update_payment_process_module_baykee.payment_process_ceo_Approval">Payment
+                                    Mode:
+                                </strong>
+                            </div>
+                            <div class="col-9 text-left">
+                                <span t-field="o.payment_mode" groups="update_payment_process_module_baykee.payment_process_show_field,
+                                          update_payment_process_module_baykee.payment_process_coo_Approval,
+                                          update_payment_process_module_baykee.payment_process_ceo_Approval"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-left">
+                                <strong>Term:</strong>
+                            </div>
+                            <div class="col-9 text-left">
+                                <span t-field="o.term"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-left">
+                                <strong>Analytic Account:</strong>
+                            </div>
+                            <div class="col-9 text-left">
+                                <span t-field="o.analytic_account_id"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3 text-left">
+                                <strong>Purpose:</strong>
+                            </div>
+                            <div class="col-9 text-left">
+                                <span t-field="o.purpose"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer" style="font-size:12px;border-top:1px solid black;font-family:Arial">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
