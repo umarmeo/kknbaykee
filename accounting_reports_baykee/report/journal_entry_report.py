@@ -40,5 +40,4 @@ class JournalEntryReport(models.AbstractModel):
             'doc_model': 'account.move',
             'data': data,
             'docs': docs,
-            # 'vals': vals,
         }

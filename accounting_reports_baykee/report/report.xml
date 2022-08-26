@@ -9,5 +9,24 @@
             <field name="report_file">accounting_reports_baykee.journal_entry_voucher</field>
             <field name="attachment">'Journal Entry Voucher'</field>
         </record>
+        <record id="action_cash_bank_summary_report_template" model="ir.actions.report">
+            <field name="name">Cash and Bank Summary Report</field>
+            <field name="model">cash.bank.summary.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">accounting_reports_baykee.cash_bank_summary_temp</field>
+            <field name="report_file">accounting_reports_baykee.cash_bank_summary_temp</field>
+            <field name="binding_model_id" ref="model_cash_bank_summary_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_cash_bank_summary_report_xlsx" model="ir.actions.report">
+            <field name="name">Cash and Bank Summary Report</field>
+            <field name="model">cash.bank.summary.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">accounting_reports_baykee.cash_bank_summary_xlsx</field>
+            <field name="report_file">accounting_reports_baykee.cash_bank_summary_xlsx</field>
+            <field name="binding_model_id" ref="model_cash_bank_summary_report"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>

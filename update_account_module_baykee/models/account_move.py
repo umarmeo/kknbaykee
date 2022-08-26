@@ -10,6 +10,12 @@ class AccountMove(models.Model):
         move.add_data()
         return move
 
+    def write(self, vals):
+        res = super(AccountMove, self).write(vals)
+        print("hi i m write function")
+        self.add_data()
+        return res
+
     def add_data(self):
         tag_ids = []
         analytic_account = []
@@ -21,10 +27,10 @@ class AccountMove(models.Model):
             if line.analytic_tag_ids:
                 tag_ids = line.analytic_tag_ids
                 analytic_account = line.analytic_account_id
-        if tag_ids:
-            for tag_id in tag_ids:
-                self.line_ids.write({'analytic_tag_ids': [(4, tag_id.id)]})
-        if analytic_account:
-            for account_id in analytic_account:
-                self.line_ids.write({'analytic_account_id': account_id.id})
+            if tag_ids:
+                for tag_id in tag_ids:
+                    line.write({'analytic_tag_ids': [(4, tag_id.id)]})
+            if analytic_account:
+                for account_id in analytic_account:
+                    line.write({'analytic_account_id': account_id.id})
 
