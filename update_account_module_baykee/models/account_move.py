@@ -20,17 +20,18 @@ class AccountMove(models.Model):
         tag_ids = []
         analytic_account = []
         label = []
-        for line in self.line_ids:
-            label = self.invoice_origin
-            if not line.name:
-                line.write({'name': label})
-            if line.analytic_tag_ids:
-                tag_ids = line.analytic_tag_ids
-                analytic_account = line.analytic_account_id
-            if tag_ids:
-                for tag_id in tag_ids:
-                    line.write({'analytic_tag_ids': [(4, tag_id.id)]})
-            if analytic_account:
-                for account_id in analytic_account:
-                    line.write({'analytic_account_id': account_id.id})
+        for move in self:
+            for line in move.line_ids:
+                label = move.invoice_origin
+                if not line.name:
+                    line.write({'name': label})
+                if line.analytic_tag_ids:
+                    tag_ids = line.analytic_tag_ids
+                    analytic_account = line.analytic_account_id
+                if tag_ids:
+                    for tag_id in tag_ids:
+                        line.write({'analytic_tag_ids': [(4, tag_id.id)]})
+                if analytic_account:
+                    for account_id in analytic_account:
+                        line.write({'analytic_account_id': account_id.id})
 
