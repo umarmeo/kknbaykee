@@ -25,12 +25,14 @@
 
     'version': '15.0.1',
 
-    'depends': ['base', 'account', 'update_account_module_baykee'],
+    'depends': ['base', 'account', 'update_account_module_baykee', 'report_xlsx'],
 
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'report/report.xml',
         'report/report_template.xml',
         'report/invoice_report_template.xml',
+        'report/cash_and_bank_summary_template.xml',
+        'wizard/cash_and_bank_summary.xml',
     ],
 }
