@@ -7,19 +7,19 @@ class AccountMove(models.Model):
     @api.model
     def create(self, vals):
         move = super(AccountMove, self).create(vals)
-        move.add_data()
+        if move.move_type in ['out_invoice', 'in_invoice', 'in_refund', 'out_refund', 'in_receipt', 'out_receipt']:
+            move.add_data()
         return move
 
     def write(self, vals):
         res = super(AccountMove, self).write(vals)
-        print("hi i m write function")
-        self.add_data()
+        if self.move_type in ['out_invoice', 'in_invoice', 'in_refund', 'out_refund', 'in_receipt', 'out_receipt']:
+            self.add_data()
         return res
 
     def add_data(self):
         tag_ids = []
         analytic_account = []
-        label = []
         for move in self:
             for line in move.line_ids:
                 label = move.invoice_origin
