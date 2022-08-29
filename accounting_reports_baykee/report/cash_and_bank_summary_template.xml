@@ -49,12 +49,12 @@
                         </div>
                         <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
                             <tr style="background-color:#f48531;color:white;">
-                                <th style="width:10%">Nature of Account</th>
-                                <th style="text-align:right; width:10%">Opening Balance</th>
-                                <th t-if="fold == '1'" style="text-align:right; width:10%">Narration</th>
-                                <th style="text-align:right; width:10%">Receipts</th>
-                                <th style="text-align:right; width:10%">Payments</th>
-                                <th style="text-align:right; width:10%">Closing Balance</th>
+                                <th style="width:14%">Nature of Account</th>
+                                <th style="text-align:right; width:14%">Opening Balance</th>
+                                <th t-if="fold == '1'" style="text-align:right; width:30%">Narration</th>
+                                <th style="text-align:right; width:14%">Receipts</th>
+                                <th style="text-align:right; width:14%">Payments</th>
+                                <th style="text-align:right; width:14%">Closing Balance</th>
                             </tr>
                             <t t-foreach="main" t-as="m">
                                 <tr style="font-size:12px;">
@@ -62,7 +62,7 @@
                                         <span t-esc="m['account']"/>
 
                                     </td>
-                                    <td>
+                                    <td style="text-align:right">
                                         <span t-if="m['open_bal'] != 0" t-esc="'{:,.2f}'.format(m['open_bal'])"/>
                                     </td>
                                     <td t-if="fold == '1'" style="text-align:left">

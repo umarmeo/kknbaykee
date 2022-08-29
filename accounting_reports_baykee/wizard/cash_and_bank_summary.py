@@ -49,6 +49,10 @@ class CashAndBankSummary(models.TransientModel):
         ('0', 'Yes'),
         ('1', 'No')], string="Fold", required=True, default='0')
 
+    posted = fields.Selection([
+        ('0', 'Yes'),
+        ('1', 'No')], string="Posted Entries", required=True, default='0')
+
     def export_cash_and_bank_summary(self):
         self.ensure_one()
         [data] = self.read()
@@ -67,12 +71,17 @@ class CashAndBankSummary(models.TransientModel):
         start_date = self.start_date
         end_date = self.end_date
         fold = self.fold
+        post = self.posted
         main = []
         account_type = self.env['account.account.type'].search([('name', '=', 'Bank and Cash')])
         chart_of_account = self.env['account.account'].search([('user_type_id.name', '=', account_type.name)])
         for chart in chart_of_account:
-            open_balance = self.env['account.move.line'].search(
-                [('date', '<', start_date), ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')])
+            if post == '0':
+                open_balance = self.env['account.move.line'].search(
+                    [('date', '<', start_date), ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')])
+            else:
+                open_balance = self.env['account.move.line'].search(
+                    [('date', '<', start_date), ('account_id', '=', chart.id)])
             open_bal = 0
             for op in open_balance:
                 open_bal += op.balance
@@ -85,9 +94,14 @@ class CashAndBankSummary(models.TransientModel):
                     'payment': False,
                     'close_bal': open_bal,
                 })
-                move_lines = self.env['account.move.line'].search(
-                    [('date', '>=', start_date), ('date', '<=', end_date),
-                     ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')], order='id')
+                if post == '0':
+                    move_lines = self.env['account.move.line'].search(
+                        [('date', '>=', start_date), ('date', '<=', end_date),
+                         ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')], order='id')
+                else:
+                    move_lines = self.env['account.move.line'].search(
+                        [('date', '>=', start_date), ('date', '<=', end_date),
+                         ('account_id', '=', chart.id)], order='id')
                 for line in move_lines:
                     open_bal += line.balance
                     main.append({
@@ -102,9 +116,14 @@ class CashAndBankSummary(models.TransientModel):
                 debit = 0
                 credit = 0
                 close_bal = 0
-                move_lines = self.env['account.move.line'].search(
-                    [('date', '>=', start_date), ('date', '<=', end_date),
-                     ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')], order='id')
+                if post == '0':
+                    move_lines = self.env['account.move.line'].search(
+                        [('date', '>=', start_date), ('date', '<=', end_date),
+                         ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')], order='id')
+                else:
+                    move_lines = self.env['account.move.line'].search(
+                        [('date', '>=', start_date), ('date', '<=', end_date),
+                         ('account_id', '=', chart.id)], order='id')
                 for line in move_lines:
                     debit += line.debit
                     credit += line.credit
