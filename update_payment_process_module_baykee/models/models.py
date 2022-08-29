@@ -45,6 +45,10 @@ class update_payment_process(models.Model):
     ], string='Term', tracking=True, default='advance',required=False)
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', tracking=True, required=False)
     payment_mode = fields.Many2one('payment.mode', string="Payment Mode", tracking=True, required=False)
+    payment_status = fields.Selection(selection=[
+        ('partial', 'Partial Payment'),
+        ('full', 'Full Payment'),
+    ], string='Payment Status', tracking=True, required=True)
 
     @api.model
     def create(self, vals):
