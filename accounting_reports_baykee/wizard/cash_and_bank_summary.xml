@@ -8,9 +8,18 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
-                        <field name="start_date" required="1"/>
-                        <field name="end_date" required="1"/>
-                        <field name="fold" widget="radio" required="1"/>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                        </group>
+                        <group>
+                        </group>
+                        <group>
+                            <field name="fold" widget="radio" required="1" options="{'horizontal': true}"/>
+                        </group>
+                        <group>
+                            <field name="posted" widget="radio" required="1" options="{'horizontal': true}"/>
+                        </group>
                     </group>
                     <footer>
                         <button name="%(action_cash_bank_summary_report_template)d" string="Export PDF" type="action"

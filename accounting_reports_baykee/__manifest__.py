@@ -25,7 +25,7 @@
 
     'version': '15.0.1',
 
-    'depends': ['base', 'account', 'update_account_module_baykee', 'report_xlsx'],
+    'depends': ['base', 'account', 'update_account_module_baykee'],
 
     'data': [
         'security/ir.model.access.csv',
