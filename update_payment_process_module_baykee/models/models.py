@@ -48,7 +48,7 @@ class update_payment_process(models.Model):
     payment_status = fields.Selection(selection=[
         ('partial', 'Partial Payment'),
         ('full', 'Full Payment'),
-    ], string='Payment Status', tracking=True, required=True)
+    ], string='Payment Status', tracking=True)
 
     @api.model
     def create(self, vals):

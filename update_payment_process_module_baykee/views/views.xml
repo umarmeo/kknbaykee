@@ -72,7 +72,8 @@
                                 <field name="term" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="analytic_account_id" attrs="{'readonly':[('state','!=','draft')]}"
                                        options="{'no_open':True,'no_edit':True,'no_create': True}"/>
-                                <field name="payment_status" attrs="{'readonly':[('state','!=','draft')]}"/>
+                                <field name="payment_status"
+                                       attrs="{'readonly':[('state', 'in', ('cancel', 'approved', 'reject'))]}"/>
                             </group>
                         </group>
                         <group>
