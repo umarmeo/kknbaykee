@@ -72,6 +72,7 @@
                                 <field name="term" attrs="{'readonly':[('state','!=','draft')]}"/>
                                 <field name="analytic_account_id" attrs="{'readonly':[('state','!=','draft')]}"
                                        options="{'no_open':True,'no_edit':True,'no_create': True}"/>
+                                <field name="payment_status" attrs="{'readonly':[('state','!=','draft')]}"/>
                             </group>
                         </group>
                         <group>
@@ -107,6 +108,7 @@
                     <field name="division"/>
                     <field name="term"/>
                     <field name="analytic_account_id"/>
+                    <field name="payment_status"/>
                     <field name="payment_mode" groups="update_payment_process_module_baykee.payment_process_show_field,
                                           update_payment_process_module_baykee.payment_process_coo_Approval,
                                           update_payment_process_module_baykee.payment_process_ceo_Approval"/>
