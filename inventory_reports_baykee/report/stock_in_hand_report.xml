@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="inventory_reports_baykee.stock_in_hand_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="o.company_id.partner_id.name"/>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h1>
+                                    <strong>
+                                        <u>
+                                            Cash In Hand Report
+                                        </u>
+                                    </strong>
+                                </h1>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px">
+                            <div class="col-12 text-center">
+                                <table class="table table-bordered mb64">
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <td>
+                                            <span>Location</span>
+                                        </td>
+                                        <td>
+                                            <span>Product</span>
+                                        </td>
+                                        <td>
+                                            <span>Products Category</span>
+                                        </td>
+                                        <td>
+                                            <span>Lot/Serial Number</span>
+                                        </td>
+                                        <td>
+                                            <span>On Hand Quantity</span>
+                                        </td>
+                                        <td>
+                                            <span>Available Quantity</span>
+                                        </td>
+                                        <td>
+                                            <span>UOM</span>
+                                        </td>
+                                        <td>
+                                            <span>Value</span>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="main" t-as="m">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="m['loc']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['pro']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['categ']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['lot']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['inv_qty_auto']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['ava_qty']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['pro_uom']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['value']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-center" style="margin-left:25px">
+                                    <strong>Address:</strong>
+                                    <t t-if="o.company_id.street" t-esc="o.company_id.street"/>
+                                    <span t-if="o.company_id.city">,
+                                        <t t-esc="o.company_id.city"/>
+                                    </span>
+                                    <span t-if="o.company_id.country_id">-
+                                        <t t-esc="o.company_id.country_id.name"/>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Mobile:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.mobile"/>
+                                    </span>
+                                </span>
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Tel:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.phone"/>
+                                    </span>
+                                </span>
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Web:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.website"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
