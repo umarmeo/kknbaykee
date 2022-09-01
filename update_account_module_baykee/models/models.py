@@ -90,6 +90,7 @@ class update_account_module_baykee(models.Model):
         self.state = 'rejected'
 
     def coo_sent_in_check(self):
+        self._get_last_sequence(lock=False)
         self.state = 'check'
 
     def button_approved(self):
