@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
-import datetime
+from datetime import datetime
 
 
 class StockQuant(models.Model):
@@ -13,5 +13,5 @@ class StockQuant(models.Model):
     def _compute_in_date(self):
         for rec in self:
             if rec.in_date:
-                date = datetime.strptime(rec.in_date, '%Y-%m-%d').date()
+                date = datetime.strptime(str(rec.in_date), '%Y-%m-%d %H:%M:%S').date()
                 rec.new_date = date
