@@ -33,6 +33,11 @@
         'report/report_template.xml',
         'report/invoice_report_template.xml',
         'report/cash_and_bank_summary_template.xml',
+        'report/partner_ledger_report_template.xml',
+        'report/general_ledger_report_template.xml',
+        'report/baykee_invoice_template.xml',
         'wizard/cash_and_bank_summary.xml',
+        'wizard/partner_ledger_report.xml',
+        'wizard/general_ledger_report.xml',
     ],
 }
