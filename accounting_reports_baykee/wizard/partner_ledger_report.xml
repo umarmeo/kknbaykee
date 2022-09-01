@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="partner_ledger_report">
+            <field name="name">partner_ledger_report</field>
+            <field name="model">partner.ledger.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="partner_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="analytical_account_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="analytical_tag_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_partner_ledger_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button name="export_excel" string="Export Excel" type="object"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="partner_ledger_report_action_window">
+            <field name="name">Partner Ledger Report</field>
+            <field name="res_model">partner.ledger.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_partner_ledger_report"
+                  name="Partner Ledger"
+                  action="partner_ledger_report_action_window"
+                  parent="account.account_reports_management_menu"
+                  sequence="16"/>
+
+    </data>
+</odoo>
