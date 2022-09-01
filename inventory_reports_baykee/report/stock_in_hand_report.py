@@ -1,5 +1,5 @@
 from odoo import api, fields, models
-
+from datetime import datetime
 
 class StockInHandTemplate(models.AbstractModel):
     _name = 'report.inventory_reports_baykee.stock_in_hand_report'
@@ -21,7 +21,7 @@ class StockInHandTemplate(models.AbstractModel):
         if products:
             domain += [('product_id', 'in', new_products)]
         if date:
-            domain += [('inventory_date', '=', date)]
+            domain += [('new_date', '=', date)]
         stock = self.env['stock.quant'].search(domain)
         for rec in stock:
             main.append({

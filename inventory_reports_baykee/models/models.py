@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api
+import datetime
 
 
-# class inventory_reports_baykee(models.Model):
-#     _name = 'inventory_reports_baykee.inventory_reports_baykee'
-#     _description = 'inventory_reports_baykee.inventory_reports_baykee'
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+    new_date = fields.Date('New Date', compute='_compute_in_date', store=True)
+
+    @api.depends('in_date')
+    def _compute_in_date(self):
+        for rec in self:
+            if rec.in_date:
+                date = datetime.strptime(rec.in_date, '%Y-%m-%d').date()
+                rec.new_date = date

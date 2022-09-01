@@ -1,7 +1,7 @@
 <odoo>
     <data>
         <record model="ir.ui.view" id="create_wizard_stock_in_hand">
-            <field name="name">stock.in.hand.wizard.form</field>
+            <field name="name">Stock In Hand Wizard</field>
             <field name="model">stock.in.hand.wizard</field>
             <field name="arch" type="xml">
                 <form>

@@ -30,6 +30,6 @@
         'report/report.xml',
         'report/stock_in_hand_report.xml',
         'wizard/stock_in_hand_wizard.xml',
-        # 'views/views.xml',
+        'views/views.xml',
     ],
 }
