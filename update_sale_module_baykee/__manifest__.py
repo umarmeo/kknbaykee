@@ -20,11 +20,14 @@
     'version': '15.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale'],
+    'depends': ['base', 'sale', 'account', 'crm', 'sale_crm'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
+        'views/crm_lead.xml',
+        'report/reports.xml',
+        'report/report_template.xml',
     ],
 }
