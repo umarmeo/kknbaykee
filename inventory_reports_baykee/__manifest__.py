@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "inventory Reports Baykee",
+    'name': "Inventory Reports Baykee",
 
     'summary': """
         Customize Inventory Reports""",
@@ -10,6 +10,7 @@
         Add a menu in reporting which name is stock in hand
         open wizard by this menu
         two fields on wizard products and locations
+        print report if the fields is selected then it will show the select fields data.
     """,
 
     'author': "Barak Ullah",

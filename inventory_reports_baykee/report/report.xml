@@ -1,19 +1,19 @@
 <odoo>
     <data>
-<!--        <record id="paperformat_stock_in_hand_report" model="report.paperformat">-->
-<!--            <field name="name">Stock In Hand</field>-->
-<!--            <field name="default" eval="True"/>-->
-<!--            <field name="format">A4</field>-->
-<!--            <field name="orientation">Landscape</field>-->
-<!--            <field name="margin_top">30</field>-->
-<!--            <field name="margin_bottom">0</field>-->
-<!--            <field name="margin_left">0</field>-->
-<!--            <field name="margin_right">0</field>-->
-<!--            <field name="header_line" eval="False"/>-->
-<!--            <field name="header_spacing">0</field>-->
-<!--            <field name="disable_shrinking" eval="True"/>-->
-<!--            <field name="dpi">96</field>-->
-<!--        </record>-->
+        <record id="paperformat_stock_in_hand_report" model="report.paperformat">
+            <field name="name">Stock In Hand Paperformat</field>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
 
         <record id="action_stock_in_hand_report" model="ir.actions.report">
             <field name="name">Stock In Hand</field>
@@ -23,7 +23,7 @@
             <field name="report_name">inventory_reports_baykee.stock_in_hand_report</field>
             <field name="report_file">inventory_reports_baykee.stock_in_hand_report</field>
             <field name="attachment">'Stock In Hand Report'</field>
-<!--            <field name="paperformat_id" ref="paperformat_stock_in_hand_report"/>-->
+            <field name="paperformat_id" ref="paperformat_stock_in_hand_report"/>
         </record>
     </data>
 </odoo>
