@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <record id="crm_lead_inh_view" model="ir.ui.view">
+            <field name="name">crm.lead.inh.view</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="account_analytic_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                </xpath>
+                  <xpath expr="//field[@name='account_analytic_id']" position="after">
+                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
