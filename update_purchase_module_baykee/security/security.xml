@@ -1,0 +1,14 @@
+<odoo>
+    <record model="ir.module.category" id="category_purchase_order_baykee">
+        <field name="name">Purchase Order</field>
+        <field name="description">Helps you manage Purchase Order Rights.</field>
+    </record>
+    <record id="purchase_order_baykee_cancel" model="res.groups">
+        <field name="name">Cancel Button</field>
+        <field name="category_id" ref="category_purchase_order_baykee"/>
+    </record>
+    <record id="purchase_order_baykee_confirm" model="res.groups">
+        <field name="name">Confirm Button</field>
+        <field name="category_id" ref="category_purchase_order_baykee"/>
+    </record>
+</odoo>
