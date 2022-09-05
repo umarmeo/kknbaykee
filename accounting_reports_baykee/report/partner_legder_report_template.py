@@ -12,105 +12,84 @@ class PartnerLedgerTemplate(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data=None):
         docs = self.env['partner.ledger.report'].browse(docids[0])
-        company_id = self.env.user.company_id
         start_date = docs.start_date
         end_date = docs.end_date
         partners = docs.partner_id
-        analytic_accounts = docs.analytical_account_id
-        analytic_tags = docs.analytical_tag_id
-        main = []
-        partner_domain = []
-        analytic_account_domain = []
-        analytic_tag_domain = []
+        analytic_accounts = docs.analytical_account_id.ids if docs.analytical_account_id else []
+        analytic_tags = docs.analytical_tag_id.ids if docs.analytical_tag_id else []
+        data_temp = []
+        temp1 = []
+        deb = []
+        cre = []
+        credit = 0
+        debit = 0
+        balance = 0
+        part_domain = []
         partner_list = []
-        analytic_account_list = []
-        analytic_tag_list = []
         for p in partners:
             partner_list.append(p.id)
         if partner_list:
-            partner_domain += [('id', 'in', partner_list)]
-        for aa in analytic_accounts:
-            analytic_account_list.append(aa.id)
-        if analytic_account_list:
-            analytic_account_domain += [('id', 'in', analytic_account_list)]
-        for at in analytic_tags:
-            analytic_tag_list.append(at.id)
-        if analytic_tag_list:
-            analytic_tag_domain += [('id', 'in', analytic_tag_list)]
-        partner_search = self.env['res.partner'].search(partner_domain)
-        for part in partner_search:
-            open_balance = self.env['account.move.line'].search(
-                [('date', '<', start_date), ('partner_id', '=', part.id),
-                 ('move_id.state', '=', 'posted')])
-            open_bal = 0
-            for op in open_balance:
-                open_bal += op.balance
-            main.append({
-                'partner': part.name,
-                'analytic_account': False,
-                'analytic_tag': False,
+            part_domain += [('id', 'in', partner_list)]
+        partner_search = self.env['res.partner'].search(part_domain)
+        for partner in partner_search:
+            domain = [('date', '<', start_date),
+                      ('partner_id', '=', partner.id),
+                      ('move_id.state', '=', 'posted')]
+            if analytic_accounts:
+                domain.append(('analytic_account_id', '=', analytic_accounts))
+            if analytic_tags:
+                domain.append(('analytic_tag_ids', '=', analytic_tags))
+            data_complete = self.env['account.move.line'].search(domain)
+            for line in data_complete:
+                credit += line.credit
+                debit += line.debit
+                balance += line.balance
+            vals = {
+                'date': False,
+                'jrnl': False,
                 'account': False,
-                'open_bal': open_bal,
                 'narration': False,
-                'receipt': False,
-                'payment': False,
-                'close_bal': open_bal,
-            })
-            analytic_account_search = self.env['account.analytic.account'].search(analytic_account_domain)
-            for account in analytic_account_search:
-                main.append({
-                    'partner': False,
-                    'analytic_account': account.name,
-                    'analytic_tag': False,
-                    'account': False,
-                    'open_bal': False,
-                    'narration': False,
-                    'receipt': False,
-                    'payment': False,
-                    'close_bal': False,
-                })
-                analytic_tag_search = self.env['account.analytic.tag'].search(analytic_tag_domain)
-                for tag in analytic_tag_search:
-                    main.append({
-                        'partner': False,
-                        'analytic_account': False,
-                        'analytic_tag': tag.name,
-                        'account': False,
-                        'open_bal': False,
-                        'narration': False,
-                        'receipt': False,
-                        'payment': False,
-                        'close_bal': False,
-                    })
-                    move_lines = self.env['account.move.line'].search(
-                        [('date', '>=', start_date), ('date', '<=', end_date),
-                         ('partner_id', '=', part.id), ('analytic_tag_ids', '=', tag.id),
-                         ('analytic_account_id', '=', account.id), ('move_id.state', '=', 'posted')], order='id')
-                    close_bal = 0
-                    for line in move_lines:
-                        close_bal += line.balance
-                        main.append({
-                            'partner': False,
-                            'analytic_account': False,
-                            'analytic_tag': False,
-                            'account': line.account_id.name,
-                            'open_bal': False,
-                            'narration': line.name,
-                            'receipt': line.debit,
-                            'payment': line.credit,
-                            'close_bal': close_bal,
-                        })
+                'debit': debit,
+                'credit': credit,
+                'balance': balance,
+            }
+            temp1.append(vals)
 
-        report = self.env['ir.actions.report']._get_report_from_name(
-            'accounting_reports_baykee.partner_ledger_temp')
-        docargs = {
-            'doc_ids': [],
-            'doc_model': 'account.move',
-            'data': data,
+            temp = []
+            # partner1 = self.env['account.account'].search([('id', '=', partner)])
+            domain = [('date', '>=', start_date), ('date', '<=', end_date),
+                      ('partner_id', '=', partner.id), ('move_id.state', '=', 'posted')]
+            if analytic_accounts:
+                domain.append(('analytic_account_id', '=', analytic_accounts))
+            if analytic_tags:
+                domain.append(('analytic_tag_ids', '=', analytic_tags))
+            data_complete = self.env['account.move.line'].search(domain).sorted(key=lambda r: r.date)
+            for line in data_complete:
+                balance += line.balance
+                vals = {
+                    'date': line.date,
+                    'jrnl': line.journal_id.code,
+                    'account': line.account_id.code,
+                    'narration': line.name,
+                    'debit': line.debit,
+                    'credit': line.credit,
+                    'balance': balance,
+                }
+                credit += line.credit
+                debit += line.debit
+                temp.append(vals)
+            temp2 = temp
+            data_temp.append(
+                [partner.name, temp2, debit, credit, balance])
+        return {
+            'doc_ids': self.ids,
+            'doc_model': 'account.move.line',
             'start_date': start_date,
             'end_date': end_date,
-            'main': main,
-            'docs': docs,
-            'company_id': company_id or False,
+            'analytic_accounts': docs.analytical_account_id,
+            'analytic_accounts_all': "All",
+            'analytic_tags': docs.analytical_tag_id,
+            'analytic_tags_all': "All",
+            'dat': data_temp,
+            'data': data,
         }
-        return docargs
