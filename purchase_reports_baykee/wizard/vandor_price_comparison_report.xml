@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="vendor_price_comparison_wizard">
+            <field name="name">vendor_price_comparison_wizard</field>
+            <field name="model">vendor.price.comparison.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="product_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_vendor_price_comparison_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="vendor_price_comparison_wizard_action_window">
+            <field name="name">Vendor Price Comparison Report</field>
+            <field name="res_model">vendor.price.comparison.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_vendor_price_comparison_wizard_report"
+                  name="Vendor Price Comparison Report"
+                  action="vendor_price_comparison_wizard_action_window"
+                  parent="purchase.purchase_report_main"
+                  sequence="110"/>
+
+    </data>
+</odoo>
