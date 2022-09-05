@@ -20,7 +20,7 @@
     'version': '15.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'sale', 'account', 'crm', 'sale_crm'],
+    'depends': ['base', 'sale', 'account', 'analytic'],
 
     # always loaded
     'data': [
