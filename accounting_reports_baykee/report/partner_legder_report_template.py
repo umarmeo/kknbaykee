@@ -34,12 +34,14 @@ class PartnerLedgerTemplate(models.AbstractModel):
         for partner in partner_search:
             domain = [('date', '<', start_date),
                       ('partner_id', '=', partner.id),
+                      ('account_id', '=', [partner.property_account_payable_id.id, partner.property_account_receivable_id.id]),
                       ('move_id.state', '=', 'posted')]
             if analytic_accounts:
                 domain.append(('analytic_account_id', '=', analytic_accounts))
             if analytic_tags:
                 domain.append(('analytic_tag_ids', '=', analytic_tags))
             data_complete = self.env['account.move.line'].search(domain)
+            print(data_complete)
             for line in data_complete:
                 credit += line.credit
                 debit += line.debit
@@ -48,7 +50,9 @@ class PartnerLedgerTemplate(models.AbstractModel):
                 'date': False,
                 'jrnl': False,
                 'account': False,
+                'move': False,
                 'narration': False,
+                'text': "Initial Balance",
                 'debit': debit,
                 'credit': credit,
                 'balance': balance,
@@ -58,7 +62,8 @@ class PartnerLedgerTemplate(models.AbstractModel):
             temp = []
             # partner1 = self.env['account.account'].search([('id', '=', partner)])
             domain = [('date', '>=', start_date), ('date', '<=', end_date),
-                      ('partner_id', '=', partner.id), ('move_id.state', '=', 'posted')]
+                      ('partner_id', '=', partner.id), ('move_id.state', '=', 'posted'),
+                      ('account_id', '=', [partner.property_account_payable_id.id, partner.property_account_receivable_id.id])]
             if analytic_accounts:
                 domain.append(('analytic_account_id', '=', analytic_accounts))
             if analytic_tags:
@@ -70,7 +75,9 @@ class PartnerLedgerTemplate(models.AbstractModel):
                     'date': line.date,
                     'jrnl': line.journal_id.code,
                     'account': line.account_id.code,
+                    'move': line.move_id.name,
                     'narration': line.name,
+                    'text': False,
                     'debit': line.debit,
                     'credit': line.credit,
                     'balance': balance,
@@ -78,7 +85,7 @@ class PartnerLedgerTemplate(models.AbstractModel):
                 credit += line.credit
                 debit += line.debit
                 temp.append(vals)
-            temp2 = temp
+            temp2 = temp1 + temp
             data_temp.append(
                 [partner.name, temp2, debit, credit, balance])
         return {
