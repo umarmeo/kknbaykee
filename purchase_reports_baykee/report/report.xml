@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="action_vendor_price_comparison_template" model="ir.actions.report">
+            <field name="name">Vendor Price Comparison Report</field>
+            <field name="model">vendor.price.comparison.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">purchase_reports_baykee.vendor_price_comparison_temp</field>
+            <field name="report_file">purchase_reports_baykee.vendor_price_comparison_temp</field>
+            <field name="binding_model_id" ref="model_vendor_price_comparison_report"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>
