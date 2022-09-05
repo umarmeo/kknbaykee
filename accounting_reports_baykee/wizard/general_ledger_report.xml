@@ -36,11 +36,11 @@
             <field name="target">new</field>
         </record>
 
-        <menuitem id="menu_general_ledger_report"
-                  name="General Ledger"
-                  action="general_ledger_report_action_window"
-                  parent="account.account_reports_management_menu"
-                  sequence="17"/>
+<!--        <menuitem id="menu_general_ledger_report"-->
+<!--                  name="General Ledger"-->
+<!--                  action="general_ledger_report_action_window"-->
+<!--                  parent="account.account_reports_management_menu"-->
+<!--                  sequence="17"/>-->
 
     </data>
 </odoo>

@@ -36,6 +36,7 @@
         'report/partner_ledger_report_template.xml',
         'report/general_ledger_report_template.xml',
         'report/baykee_invoice_template.xml',
+        'views/account_move.xml',
         'wizard/cash_and_bank_summary.xml',
         'wizard/partner_ledger_report.xml',
         'wizard/general_ledger_report.xml',

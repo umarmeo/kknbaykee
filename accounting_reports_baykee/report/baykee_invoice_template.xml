@@ -11,16 +11,12 @@
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
                                      style="height:100px;width:250px;margin-bottom:15px"/>
                             </div>
-                            <div class="col-5" name="signature">
-                                <p style="font-size:12px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;width:100%;margin:auto;padding:45px"
-                                   t-esc="o.company_id.partner_id.name"/>
-                            </div>
                         </div>
                     </div>
                     <div class="article">
                         <div class="row">
                             <div class="col-12">
-                                <h4 style="color:#f48531;font-family: 'Calibri', sans-serif;margin-top:-10px;text-align:center;">
+                                <h4 style="font-size:30px;color:#000000;font-family: 'Calibri', sans-serif;font-weight:bold;margin-top:-10px;text-align:center;text-decoration: underline;">
                                     <span t-if="o.amount_tax">Sale Tax Invoice</span>
                                     <span t-if="not o.amount_tax">Sale Invoice</span>
                                 </h4>
@@ -57,6 +53,14 @@
 
                                 </p>
                             </div>
+                            <div class="col-6">
+                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
+                                    <strong>Manual Invoice No:</strong>
+                                    <span>
+                                    </span>
+
+                                </p>
+                            </div>
                         </div>
                         <br/>
                         <div class="row">
@@ -74,7 +78,7 @@
                         <div class="row">
                             <div class="col-6"
                                  style="border: 2px solid;">
-                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left margin-top:10px; margin-bottom:10px;">
+                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left margin-top:15px; margin-bottom:15px;">
                                     <strong>Supplier's Name:</strong>
                                     <span>
                                         <t t-esc="o.company_id.partner_id.name"/>
@@ -88,6 +92,17 @@
                                     </span>
                                     <span t-if="o.company_id.country_id">-
                                         <t t-esc="o.company_id.country_id.name"/>
+                                    </span>
+                                </p>
+                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
+                                    <strong>NTN:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.partner_id.vat"/>
+                                    </span>
+                                </p>
+                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
+                                    <strong>STRN:</strong>
+                                    <span>
                                     </span>
                                 </p>
                             </div>
@@ -108,6 +123,17 @@
                                     </span>
                                     <span t-if="o.partner_id.country_id">-
                                         <t t-esc="o.partner_id.country_id.name"/>
+                                    </span>
+                                </p>
+                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
+                                    <strong>NTN:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.partner_id.vat"/>
+                                    </span>
+                                </p>
+                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
+                                    <strong>STRN:</strong>
+                                    <span>
                                     </span>
                                 </p>
                             </div>
@@ -258,63 +284,35 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <div class="row">
-                            <div class="col-6">
-                                <hr style="width:50%;align:left;margin-left:10px; border: 2px solid;"/>
-                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:50%;text-align:center;margin-left:10px">
-                                    PREPARED BY
-                                </p>
-                            </div>
-                            <div class="col-6">
-                                <hr style="width:50%;align:right; border: 2px solid;"/>
-                                <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:50%;text-align:center;margin-right:10px">
-                                    AUTHORIZED BY
-                                </p>
+                            <br/>
+                            <div style="font-size:16px; padding-bottom:30px;">
+                                <tr class="border-black">
+                                    <td>
+                                        <strong>Amount In Word :</strong>
+                                    </td>
+                                    <td>
+                                        <span t-field="o.num_word"/>
+                                    </td>
+                                </tr>
                             </div>
                         </div>
-
-                        <div class="footer" style="border-top:1px dashed black;font-size:11px;">
-                            <div class="row">
-                                <div class="col-12">
-                                    <p class="text-center" style="margin-left:25px">
-                                        <strong>Address:</strong>
-                                        <t t-if="o.company_id.street" t-esc="o.company_id.street"/>
-                                        <span t-if="o.company_id.city">,
-                                            <t t-esc="o.company_id.city"/>
-                                        </span>
-                                        <span t-if="o.company_id.country_id">-
-                                            <t t-esc="o.company_id.country_id.name"/>
-                                        </span>
+                        <div class="footer">
+                            <div class="row" style="margin-top:250px">
+                                <div class="col-3">
+                                    <hr style="width:100%;align:left;margin-left:10px; border: 2px solid;"/>
+                                    <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                        PREPARED BY
                                     </p>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <span class="text-center" style="margin-left:100px">
-                                        <strong>Mobile:</strong>
-                                        <span>
-                                            <t t-esc="o.company_id.mobile"/>
-                                        </span>
-                                    </span>
-                                    <span class="text-center" style="margin-left:100px">
-                                        <strong>Tel:</strong>
-                                        <span>
-                                            <t t-esc="o.company_id.phone"/>
-                                        </span>
-                                    </span>
-                                    <span class="text-center" style="margin-left:100px">
-                                        <strong>Web:</strong>
-                                        <span>
-                                            <t t-esc="o.company_id.website"/>
-                                        </span>
-                                    </span>
+                                <div class="col-3">
+                                </div>
+                                <div class="col-3">
+                                </div>
+                                <div class="col-3">
+                                    <hr style="width:100%;align:right; border: 2px solid;"/>
+                                    <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                        AUTHORIZED BY
+                                    </p>
                                 </div>
                             </div>
                         </div>
