@@ -8,7 +8,7 @@ class StockInHandTemplate(models.AbstractModel):
     @api.model
     def _get_report_values(self, docids, data=None):
         docs = self.env['stock.in.hand.wizard'].browse(docids[0])
-        domain = []
+        domain = [('location_id.usage', '=', 'internal')]
         new_products = []
         location = docs.location_id
         products = docs.product_ids
@@ -16,24 +16,23 @@ class StockInHandTemplate(models.AbstractModel):
         main = []
         for product in products:
             new_products.append(product.id)
-        if location:
-            domain += [('location_id', '=', location.id)]
+        # if location:
+        #     domain += [('location_id', '=', location.id)]
         if products:
             domain += [('product_id', 'in', new_products)]
         if date:
             domain += [('new_date', '<=', date)]
-        stock = self.env['stock.move.line'].search(domain)
+        stock = self.env['stock.quant'].search(domain)
         for rec in stock:
             main.append({
-                'date': rec.date,
-                'ref': rec.reference,
+                'loc': rec.location_id.name,
                 'pro': rec.product_id.name,
+                'categ': rec.product_categ_id.name,
                 'lot': rec.lot_id.name,
-                'loc_id': rec.location_id.name,
-                'loc_dest': rec.location_dest_id.name,
-                'qty_done': rec.qty_done,
+                'inv_qty_auto': rec.inventory_quantity_auto_apply,
+                'ava_qty': rec.available_quantity,
                 'pro_uom': rec.product_uom_id.name,
-                'state': rec.state,
+                'value': rec.value,
             })
 
 

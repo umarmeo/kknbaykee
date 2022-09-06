@@ -5,13 +5,13 @@ from datetime import datetime
 
 
 class StockQuant(models.Model):
-    _inherit = 'stock.move.line'
+    _inherit = 'stock.quant'
 
-    new_date = fields.Date('New Date', compute='_compute_date', store=True)
+    new_date = fields.Date('New Date', compute='_compute_in_date', store=True)
 
-    @api.depends('date')
-    def _compute_date(self):
+    @api.depends('in_date')
+    def _compute_in_date(self):
         for rec in self:
-            if rec.date:
-                date = datetime.strptime(str(rec.date), '%Y-%m-%d %H:%M:%S').date()
+            if rec.in_date:
+                date = datetime.strptime(str(rec.in_date), '%Y-%m-%d %H:%M:%S').date()
                 rec.new_date = date
