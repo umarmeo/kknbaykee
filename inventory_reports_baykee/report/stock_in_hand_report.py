@@ -21,9 +21,8 @@ class StockInHandTemplate(models.AbstractModel):
         if products:
             domain += [('product_id', 'in', new_products)]
         if date:
-            domain += [('new_date', '=', date)]
+            domain += [('new_date', '<=', date)]
         stock = self.env['stock.move.line'].search(domain)
-        print(stock)
         for rec in stock:
             main.append({
                 'date': rec.date,
