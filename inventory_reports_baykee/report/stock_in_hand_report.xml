@@ -35,55 +35,61 @@
                                 <table class="table table-bordered mb64">
                                     <tr style="background-color:#f48531;color:white;">
                                         <td>
-                                            <span>Location</span>
+                                            <span>Date</span>
                                         </td>
                                         <td>
-                                            <span>Product</span>
+                                            <span>Reference</span>
                                         </td>
                                         <td>
-                                            <span>Products Category</span>
+                                            <span>Products</span>
                                         </td>
                                         <td>
                                             <span>Lot/Serial Number</span>
                                         </td>
                                         <td>
-                                            <span>On Hand Quantity</span>
+                                            <span>From</span>
                                         </td>
                                         <td>
-                                            <span>Available Quantity</span>
+                                            <span>To</span>
                                         </td>
                                         <td>
-                                            <span>UOM</span>
+                                            <span>Quantity Done</span>
                                         </td>
                                         <td>
-                                            <span>Value</span>
+                                            <span>Unit of Measure</span>
+                                        </td>
+                                        <td>
+                                            <span>Status</span>
                                         </td>
                                     </tr>
                                     <t t-foreach="main" t-as="m">
                                         <tr>
                                             <td>
-                                                <span t-esc="m['loc']"/>
+                                                <span t-esc="m['date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['ref']"/>
                                             </td>
                                             <td>
                                                 <span t-esc="m['pro']"/>
                                             </td>
                                             <td>
-                                                <span t-esc="m['categ']"/>
-                                            </td>
-                                            <td>
                                                 <span t-esc="m['lot']"/>
                                             </td>
                                             <td>
-                                                <span t-esc="m['inv_qty_auto']"/>
+                                                <span t-esc="m['loc_id']"/>
                                             </td>
                                             <td>
-                                                <span t-esc="m['ava_qty']"/>
+                                                <span t-esc="m['loc_dest']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="m['qty_done']"/>
                                             </td>
                                             <td>
                                                 <span t-esc="m['pro_uom']"/>
                                             </td>
                                             <td>
-                                                <span t-esc="m['value']"/>
+                                                <span t-esc="m['state']"/>
                                             </td>
                                         </tr>
                                     </t>

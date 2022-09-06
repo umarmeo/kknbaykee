@@ -22,17 +22,19 @@ class StockInHandTemplate(models.AbstractModel):
             domain += [('product_id', 'in', new_products)]
         if date:
             domain += [('new_date', '=', date)]
-        stock = self.env['stock.quant'].search(domain)
+        stock = self.env['stock.move.line'].search(domain)
+        print(stock)
         for rec in stock:
             main.append({
-                'loc': rec.location_id.name,
+                'date': rec.date,
+                'ref': rec.reference,
                 'pro': rec.product_id.name,
-                'categ': rec.product_categ_id.name,
                 'lot': rec.lot_id.name,
-                'inv_qty_auto': rec.inventory_quantity_auto_apply,
-                'ava_qty': rec.available_quantity,
+                'loc_id': rec.location_id.name,
+                'loc_dest': rec.location_dest_id.name,
+                'qty_done': rec.qty_done,
                 'pro_uom': rec.product_uom_id.name,
-                'value': rec.value,
+                'state': rec.state,
             })
 
 
