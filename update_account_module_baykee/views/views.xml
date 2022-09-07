@@ -7,16 +7,21 @@
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <field name="state" position="attributes">
-                    <attribute name="statusbar_visible">draft,check,coo approval,ceo approval,approved,posted</attribute>
+                    <attribute name="statusbar_visible">draft,check,coo approval,ceo approval,approved,posted
+                    </attribute>
                 </field>
                 <!-- Button Post (with name of POST) -->
                 <xpath expr="//header[1]/button[1]" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', '|', ('state', '!=', 'approved'), ('auto_post', '=', True), ('move_type', '!=', 'entry')]}</attribute>
+                    <attribute name="attrs">{'invisible': ['|', '|', ('state', '!=', 'approved'), ('auto_post', '=',
+                        True), ('move_type', '!=', 'entry')]}
+                    </attribute>
                     <attribute name="groups">update_account_module_baykee.group_accounting_post_rights</attribute>
                 </xpath>
                 <!-- Button Post (with name of Confirm) -->
                 <xpath expr="//header[1]/button[2]" position="attributes">
-                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'approved'), ('auto_post', '=', True), ('move_type', '=', 'entry'), ('display_inactive_currency_warning','=',True)]}</attribute>
+                    <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'approved'), ('auto_post',
+                        '=', True), ('move_type', '=', 'entry'), ('display_inactive_currency_warning','=',True)]}
+                    </attribute>
                     <attribute name="groups">update_account_module_baykee.group_accounting_post_rights</attribute>
                 </xpath>
                 <!-- Sent Invoice -->
@@ -36,26 +41,41 @@
                 </xpath>
                 <!-- Cancel Buttons -->
                 <xpath expr="//header[1]/button[11]" position="attributes">
-                    <attribute name="attrs">{'invisible' : ['|', '|', ('id', '=', False), ('state', 'in', ('posted', 'cancel','rejected')),('move_type', '!=', 'entry')]}</attribute>
+                    <attribute name="attrs">{'invisible' : ['|', '|', ('id', '=', False), ('state', 'in', ('posted',
+                        'cancel','rejected')),('move_type', '!=', 'entry')]}
+                    </attribute>
                     <attribute name="groups">update_account_module_baykee.group_accounting_cancel_rights</attribute>
                 </xpath>
                 <xpath expr="//header[1]/button[14]" position="attributes">
-                    <attribute name="attrs">{'invisible' : ['|', '|', ('id', '=', False), ('state', 'in', ('posted', 'cancel','rejected')),('move_type', '==', 'entry')]}</attribute>
+                    <attribute name="attrs">{'invisible' : ['|', '|', ('id', '=', False), ('state', 'in', ('posted',
+                        'cancel','rejected')),('move_type', '==', 'entry')]}
+                    </attribute>
                     <attribute name="groups">update_account_module_baykee.group_accounting_cancel_rights</attribute>
                 </xpath>
                 <xpath expr="//header[1]/button[11]" position="before">
-                    <button name="submit_for_check" class="oe_highlight" string="To Check" type="object" states="draft"/>
+                    <button name="submit_for_check" class="oe_highlight" string="To Check" type="object"
+                            states="draft"/>
+                    <button name="submit_for_coo_approval"
+                            groups="update_account_module_baykee.group_accounting_checked" class="oe_highlight"
+                            string="Checked" type="object" states="check"/>
+                    <button name="reset_to_draft_from_check"
+                            groups="update_account_module_baykee.group_accounting_checked" class="oe_highlight"
+                            string="Reset To Draft" type="object" states="check"/>
 
-                    <button name="submit_for_coo_approval" groups="update_account_module_baykee.group_accounting_checked" class="oe_highlight" string="Checked" type="object" states="check"/>
-                    <button name="reset_to_draft_from_check" groups="update_account_module_baykee.group_accounting_checked" class="oe_highlight" string="Reset To Draft" type="object" states="check"/>
+                    <button name="submit_for_ceo_approval"
+                            groups="update_account_module_baykee.group_accounting_coo_approval" class="oe_highlight"
+                            string="Approved" type="object" states="coo approval"/>
+                    <button name="coo_reject" groups="update_account_module_baykee.group_accounting_coo_approval"
+                            class="oe_highlight" string="Rejected" type="object" states="coo approval"/>
+                    <button name="coo_sent_in_check" groups="update_account_module_baykee.group_accounting_coo_approval"
+                            class="oe_highlight" string="Reset For Re-Check" type="object" states="coo approval"/>
 
-                    <button name="submit_for_ceo_approval" groups="update_account_module_baykee.group_accounting_coo_approval" class="oe_highlight" string="Approved" type="object" states="coo approval"/>
-                    <button name="coo_reject" groups="update_account_module_baykee.group_accounting_coo_approval" class="oe_highlight" string="Rejected" type="object" states="coo approval"/>
-                    <button name="coo_sent_in_check" groups="update_account_module_baykee.group_accounting_coo_approval" class="oe_highlight" string="Reset For Re-Check" type="object" states="coo approval"/>
-
-                    <button name="button_approved" groups="update_account_module_baykee.group_accounting_ceo_approval" class="oe_highlight" string="Approved" type="object" states="ceo approval"/>
-                    <button name="ceo_reject" groups="update_account_module_baykee.group_accounting_ceo_approval" class="oe_highlight" string="Rejected" type="object" states="ceo approval"/>
-                    <button name="ceo_sent_to_coo" groups="update_account_module_baykee.group_accounting_ceo_approval" class="oe_highlight" string="Reset To COO" type="object" states="ceo approval"/>
+                    <button name="button_approved" groups="update_account_module_baykee.group_accounting_ceo_approval"
+                            class="oe_highlight" string="Approved" type="object" states="ceo approval"/>
+                    <button name="ceo_reject" groups="update_account_module_baykee.group_accounting_ceo_approval"
+                            class="oe_highlight" string="Rejected" type="object" states="ceo approval"/>
+                    <button name="ceo_sent_to_coo" groups="update_account_module_baykee.group_accounting_ceo_approval"
+                            class="oe_highlight" string="Reset To COO" type="object" states="ceo approval"/>
                     <field name="checked_uid" invisible="1"/>
                     <field name="checked_date" invisible="1"/>
                     <field name="coo_uid" invisible="1"/>
@@ -68,10 +88,12 @@
                 <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='product_id']" position="attributes">
                     <attribute name="options">{'no_edit': True, 'no_create': True, 'no_open': True}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='analytic_account_id']" position="attributes">
+                <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='analytic_account_id']"
+                       position="attributes">
                     <attribute name="options">{'no_edit': True, 'no_create': True, 'no_open': True}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
+                <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='analytic_tag_ids']"
+                       position="attributes">
                     <attribute name="options">{'no_edit': True, 'no_create': True, 'no_open': True}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='invoice_line_ids']/tree[1]/field[@name='account_id']" position="attributes">
@@ -87,7 +109,8 @@
                 <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
                     <attribute name="options">{'no_edit': True, 'no_create': True, 'no_open': True}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='analytic_account_id']" position="attributes">
+                <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='analytic_account_id']"
+                       position="attributes">
                     <attribute name="options">{'no_edit': True, 'no_create': True, 'no_open': True}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='line_ids']/tree[1]/field[@name='tax_tag_ids']" position="attributes">
