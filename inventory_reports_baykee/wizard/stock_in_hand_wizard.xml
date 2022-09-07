@@ -7,12 +7,10 @@
                 <form>
                     <group>
                         <group>
-                            <field name="location_id"
-                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="location_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
                         </group>
                         <group>
-                            <field name="product_ids"
-                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                            <field name="product_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
                                    widget="many2many_tags"/>
                         </group>
                         <group>

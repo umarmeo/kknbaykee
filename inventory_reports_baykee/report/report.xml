@@ -1,7 +1,8 @@
 <odoo>
     <data>
         <record id="paperformat_stock_in_hand_report" model="report.paperformat">
-            <field name="name">Stock In Hand Paperformat</field>
+            <field name="name">Stock In Hand</field>
+            <field name="default" eval="True"/>
             <field name="format">A4</field>
             <field name="page_height">0</field>
             <field name="page_width">0</field>
