@@ -106,10 +106,12 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
                     <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='account_analytic_id']"
                        position="attributes">
                     <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='name']" position="after">
                     <field name="state" invisible="1"/>
