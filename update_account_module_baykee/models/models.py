@@ -92,9 +92,9 @@ class update_account_module_baykee(models.Model):
                 # In the form view, we need to compute a default sequence so that the user can edit
                 # it. We only check the first move as an approximation (enough for new in form view)
                 pass
-            elif (move.name and move.name != '/') or move.state != 'check':
+            elif (move.name and move.name != '/') or move.state not in ('check','posted'):
                 try:
-                    if not move.state == 'check':
+                    if not move.state in ('check','posted'):
                         move._constrains_date_sequence()
                     # Has already a name or is not posted, we don't add to a batch
                     continue
