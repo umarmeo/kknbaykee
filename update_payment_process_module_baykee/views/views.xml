@@ -7,8 +7,11 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="action_manager_approval" class="oe_highlight" string="Submit"
+                        <button name="action_hod_approval" class="oe_highlight" string="Submit"
                                 type="object" states="draft"/>
+                        <button name="action_manager_approval" class="oe_highlight" string="Approved" type="object"
+                                states="hod"
+                                groups="update_payment_process_module_baykee.payment_process_hod_Approval"/>
 
                         <button name="action_coo_approval" class="oe_highlight" string="Approved" type="object"
                                 states="manager"
@@ -21,7 +24,9 @@
                         <button name="action_approved" class="oe_highlight" string="Approved" type="object" states="ceo"
                                 groups="update_payment_process_module_baykee.payment_process_ceo_Approval"/>
 
-
+                        <button name="action_reject" class="btn-primary" string="Reject" type="object"
+                                states="hod"
+                                groups="update_payment_process_module_baykee.payment_process_hod_Approval"/>
                         <button name="action_reject" class="btn-primary" string="Reject" type="object"
                                 states="manager"
                                 groups="update_payment_process_module_baykee.payment_process_manager_Approval"/>
@@ -35,6 +40,9 @@
                                 groups="update_payment_process_module_baykee.payment_process_ceo_Approval"/>
 
                         <button name="action_reset_to_draft" class="oe_highlight" string="Reset To Draft" type="object"
+                                states="hod"
+                                groups="update_payment_process_module_baykee.payment_process_hod_Approval"/>
+                        <button name="action_reset_to_hod" class="oe_highlight" string="Reset To HOD" type="object"
                                 states="manager"
                                 groups="update_payment_process_module_baykee.payment_process_manager_Approval"/>
                         <button name="action_reset_to_manager" class="oe_highlight" string="Reset To Manager"
@@ -44,9 +52,9 @@
                                 states="ceo"
                                 groups="update_payment_process_module_baykee.payment_process_ceo_Approval"/>
                         <button name="action_cancel" class="btn-secondary" string="Cancel" type="object"
-                                states="draft,manager,coo,ceo"
+                                states="draft,hod,manager,coo,ceo"
                                 groups="update_payment_process_module_baykee.payment_process_cancel"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,manager,coo,ceo,approved"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,hod,manager,coo,ceo,approved"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
