@@ -7,8 +7,8 @@
         <field name="name">HOD Approval</field>
         <field name="category_id" ref="category_payment_process"/>
     </record>
-    <record id="payment_process_manager_Approval" model="res.groups">
-        <field name="name">Manager Approval</field>
+    <record id="payment_process_accounts_Approval" model="res.groups">
+        <field name="name">Accounts Approval</field>
         <field name="category_id" ref="category_payment_process"/>
     </record>
     <record id="payment_process_coo_Approval" model="res.groups">
