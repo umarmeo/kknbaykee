@@ -23,7 +23,7 @@ class update_payment_process(models.Model):
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
         ('hod', 'HOD Approval'),
-        ('accounts', 'Accounts Approval'),
+        ('manager', 'Accounts Approval'),
         ('coo', 'COO Approval'),
         ('ceo', 'CEO Approval'),
         ('approved', 'Approved'),
@@ -74,7 +74,7 @@ class update_payment_process(models.Model):
         if self.amount <= 0:
             raise ValidationError('Cannot move to next state because amount is zero')
         else:
-            self.state = 'accounts'
+            self.state = 'manager'
 
     def action_coo_approval(self):
         self.manager_uid = self.env.user.id
@@ -110,7 +110,7 @@ class update_payment_process(models.Model):
         self.state = 'hod'
 
     def action_reset_to_accounts(self):
-        self.state = 'accounts'
+        self.state = 'manager'
 
     def action_reset_to_coo(self):
         self.state = 'coo'

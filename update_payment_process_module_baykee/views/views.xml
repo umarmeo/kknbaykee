@@ -14,7 +14,7 @@
                                 groups="update_payment_process_module_baykee.payment_process_hod_Approval"/>
 
                         <button name="action_coo_approval" class="oe_highlight" string="Approved" type="object"
-                                states="accounts"
+                                states="manager"
                                 groups="update_payment_process_module_baykee.payment_process_accounts_Approval"/>
 
                         <button name="action_ceo_approval" class="oe_highlight" string="Approved" type="object"
@@ -28,7 +28,7 @@
                                 states="hod"
                                 groups="update_payment_process_module_baykee.payment_process_hod_Approval"/>
                         <button name="action_reject" class="btn-primary" string="Reject" type="object"
-                                states="accounts"
+                                states="manager"
                                 groups="update_payment_process_module_baykee.payment_process_accounts_Approval"/>
 
                         <button name="action_reject" class="btn-primary" string="Reject" type="object"
@@ -43,7 +43,7 @@
                                 states="hod"
                                 groups="update_payment_process_module_baykee.payment_process_hod_Approval"/>
                         <button name="action_reset_to_hod" class="oe_highlight" string="Reset To HOD" type="object"
-                                states="accounts"
+                                states="manager"
                                 groups="update_payment_process_module_baykee.payment_process_accounts_Approval"/>
                         <button name="action_reset_to_accounts" class="oe_highlight" string="Reset To accounts"
                                 type="object" states="coo"
@@ -52,9 +52,9 @@
                                 states="ceo"
                                 groups="update_payment_process_module_baykee.payment_process_ceo_Approval"/>
                         <button name="action_cancel" class="btn-secondary" string="Cancel" type="object"
-                                states="draft,hod,accounts,coo,ceo"
+                                states="draft,hod,manager,coo,ceo"
                                 groups="update_payment_process_module_baykee.payment_process_cancel"/>
-                        <field name="state" widget="statusbar" statusbar_visible="draft,hod,accounts,coo,ceo,approved"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,hod,manager,coo,ceo,approved"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
