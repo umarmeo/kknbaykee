@@ -95,7 +95,12 @@
                                 <span t-field="o.purpose"/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:145px">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="row">
                             <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.create_uid" t-field="o.create_uid"/>
@@ -137,30 +142,62 @@
                                 </span>
                                 <br/>
                             </div>
-                            <div class="col-2 text-center">
-                                <span>
-                                    <span t-if="o.coo_uid" t-field="o.coo_uid"/>
-                                </span>
-                                <br/>
-                                <span>
-                                    <span t-if="o.coo_date_time" t-field="o.coo_date_time"/>
-                                </span>
-                                <br/>
-                                <span style="border-top:1px solid black;font-weight: bold;">COO</span>
-                                <br/>
-                            </div>
-                            <div class="col-2 text-center">
-                                <span>
-                                    <span t-if="o.ceo_uid" t-field="o.ceo_uid"/>
-                                </span>
-                                <br/>
-                                <span>
-                                    <span t-if="o.ceo_date_time" t-field="o.ceo_date_time"/>
-                                </span>
-                                <br/>
-                                <span style="border-top:1px solid black;font-weight: bold;">CEO</span>
-                                <br/>
-                            </div>
+                            <t t-if="o.coo_uid">
+                                <div class="col-2 text-center">
+                                    <span>
+                                        <span t-if="o.coo_uid" t-field="o.coo_uid"/>
+                                    </span>
+                                    <br/>
+                                    <span>
+                                        <span t-if="o.coo_date_time" t-field="o.coo_date_time"/>
+                                    </span>
+                                    <br/>
+                                    <span style="border-top:1px solid black;font-weight: bold;">COO</span>
+                                    <br/>
+                                </div>
+                            </t>
+                            <t t-if="not o.coo_uid">
+                                <div class="col-2 text-center" style="margin-top:25px;">
+                                    <span>
+                                        <span t-if="o.coo_uid" t-field="o.coo_uid"/>
+                                    </span>
+                                    <br/>
+                                    <span>
+                                        <span t-if="o.coo_date_time" t-field="o.coo_date_time"/>
+                                    </span>
+                                    <br/>
+                                    <span style="border-top:1px solid black;font-weight: bold;">COO</span>
+                                    <br/>
+                                </div>
+                            </t>
+                            <t t-if="o.ceo_uid">
+                                <div class="col-2 text-center">
+                                    <span>
+                                        <span t-if="o.ceo_uid" t-field="o.ceo_uid"/>
+                                    </span>
+                                    <br/>
+                                    <span>
+                                        <span t-if="o.ceo_date_time" t-field="o.ceo_date_time"/>
+                                    </span>
+                                    <br/>
+                                    <span style="border-top:1px solid black;font-weight: bold;">CEO</span>
+                                    <br/>
+                                </div>
+                            </t>
+                            <t t-if="not o.ceo_uid">
+                                <div class="col-2 text-center" style="margin-top:25px;">
+                                    <span>
+                                        <span t-if="o.ceo_uid" t-field="o.ceo_uid"/>
+                                    </span>
+                                    <br/>
+                                    <span>
+                                        <span t-if="o.ceo_date_time" t-field="o.ceo_date_time"/>
+                                    </span>
+                                    <br/>
+                                    <span style="border-top:1px solid black;font-weight: bold;">CEO</span>
+                                    <br/>
+                                </div>
+                            </t>
                         </div>
                         <br/>
                         <br/>
