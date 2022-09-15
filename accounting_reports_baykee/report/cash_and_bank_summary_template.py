@@ -42,7 +42,7 @@ class CashAndBankSummaryTemplate(models.AbstractModel):
                 if post == '0':
                     move_lines = self.env['account.move.line'].search(
                         [('date', '>=', start_date), ('date', '<=', end_date),
-                             ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')], order='id')
+                         ('account_id', '=', chart.id), ('move_id.state', '=', 'posted')], order='id')
                 else:
                     move_lines = self.env['account.move.line'].search(
                         [('date', '>=', start_date), ('date', '<=', end_date),
