@@ -95,7 +95,7 @@
                                 <span t-field="o.purpose"/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:470px">
+                        <div class="row" style="margin-top:145px">
                             <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.create_uid" t-field="o.create_uid"/>
@@ -125,15 +125,15 @@
                             </div>
                             <div class="col-3 text-center">
                                 <span>
-                                    <span t-if="o.manager_uid" t-field="o.manager_uid"/>
+                                    <span t-if="o.accounts_uid" t-field="o.accounts_uid"/>
                                 </span>
                                 <br/>
                                 <span>
-                                    <span t-if="o.manager_date_time" t-field="o.manager_date_time"/>
+                                    <span t-if="o.accounts_date_time" t-field="o.accounts_date_time"/>
                                 </span>
                                 <br/>
                                 <br/>
-                                <span style="border-top:1px solid black;font-weight: bold;">Manager Approved
+                                <span style="border-top:1px solid black;font-weight: bold;">Accounts Approved
                                 </span>
                                 <br/>
                             </div>
@@ -162,7 +162,9 @@
                                 <br/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:5px">
+                        <br/>
+                        <br/>
+                        <div class="row" style="margin-top:30px">
                             <div class="col-2 text-center">
                                 <span>
                                     <!--                                    <span t-if="o.create_uid" t-field="o.create_uid"/>-->

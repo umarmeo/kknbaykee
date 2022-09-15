@@ -23,7 +23,7 @@ class update_payment_process(models.Model):
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
         ('hod', 'HOD Approval'),
-        ('manager', 'Manager Approval'),
+        ('accounts', 'Accounts Approval'),
         ('coo', 'COO Approval'),
         ('ceo', 'CEO Approval'),
         ('approved', 'Approved'),
@@ -33,8 +33,8 @@ class update_payment_process(models.Model):
         default='draft')
     hod_uid = fields.Many2one('res.users', string='HOD uid', tracking=True)
     hod_date_time = fields.Datetime('HOD Date and Time', tracking=True)
-    manager_uid = fields.Many2one('res.users', string='Manager uid', tracking=True)
-    manager_date_time = fields.Datetime('Manager Date and Time', tracking=True)
+    accounts_uid = fields.Many2one('res.users', string='accounts uid', tracking=True)
+    accounts_date_time = fields.Datetime('Accounts Date and Time', tracking=True)
     coo_uid = fields.Many2one('res.users', string='COO uid', tracking=True)
     coo_date_time = fields.Datetime('COO Date and Time', tracking=True)
     ceo_uid = fields.Many2one('res.users', string='CEO uid', tracking=True)
@@ -68,17 +68,17 @@ class update_payment_process(models.Model):
         else:
             self.state = 'hod'
 
-    def action_manager_approval(self):
+    def action_accounts_approval(self):
         self.hod_uid = self.env.user.id
         self.hod_date_time = datetime.now()
         if self.amount <= 0:
             raise ValidationError('Cannot move to next state because amount is zero')
         else:
-            self.state = 'manager'
+            self.state = 'accounts'
 
     def action_coo_approval(self):
-        self.manager_uid = self.env.user.id
-        self.manager_date_time = datetime.now()
+        self.accounts_uid = self.env.user.id
+        self.accounts_date_time = datetime.now()
         if self.amount <= 0:
             raise ValidationError('Cannot move to next state because amount is zero')
         else:
@@ -109,8 +109,8 @@ class update_payment_process(models.Model):
     def action_reset_to_hod(self):
         self.state = 'hod'
 
-    def action_reset_to_manager(self):
-        self.state = 'manager'
+    def action_reset_to_accounts(self):
+        self.state = 'accounts'
 
     def action_reset_to_coo(self):
         self.state = 'coo'
