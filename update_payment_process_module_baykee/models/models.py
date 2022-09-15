@@ -33,8 +33,8 @@ class update_payment_process(models.Model):
         default='draft')
     hod_uid = fields.Many2one('res.users', string='HOD uid', tracking=True)
     hod_date_time = fields.Datetime('HOD Date and Time', tracking=True)
-    accounts_uid = fields.Many2one('res.users', string='accounts uid', tracking=True)
-    accounts_date_time = fields.Datetime('Accounts Date and Time', tracking=True)
+    manager_uid = fields.Many2one('res.users', string='accounts uid', tracking=True)
+    manager_date_time = fields.Datetime('Accounts Date and Time', tracking=True)
     coo_uid = fields.Many2one('res.users', string='COO uid', tracking=True)
     coo_date_time = fields.Datetime('COO Date and Time', tracking=True)
     ceo_uid = fields.Many2one('res.users', string='CEO uid', tracking=True)
@@ -77,8 +77,8 @@ class update_payment_process(models.Model):
             self.state = 'accounts'
 
     def action_coo_approval(self):
-        self.accounts_uid = self.env.user.id
-        self.accounts_date_time = datetime.now()
+        self.manager_uid = self.env.user.id
+        self.manager_date_time = datetime.now()
         if self.amount <= 0:
             raise ValidationError('Cannot move to next state because amount is zero')
         else:

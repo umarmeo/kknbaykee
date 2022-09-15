@@ -87,8 +87,8 @@
                         <group>
                             <field name="purpose" attrs="{'readonly':[('state','!=','draft')]}"
                                    placeholder="Enter The Purpose"/>
-                            <field name="accounts_uid" invisible="1"/>
-                            <field name="accounts_date_time" invisible="1"/>
+                            <field name="manager_uid" invisible="1"/>
+                            <field name="manager_date_time" invisible="1"/>
                             <field name="coo_uid" invisible="1"/>
                             <field name="coo_date_time" invisible="1"/>
                             <field name="ceo_uid" invisible="1"/>

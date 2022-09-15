@@ -125,11 +125,11 @@
                             </div>
                             <div class="col-3 text-center">
                                 <span>
-                                    <span t-if="o.accounts_uid" t-field="o.accounts_uid"/>
+                                    <span t-if="o.manager_uid" t-field="o.manager_uid"/>
                                 </span>
                                 <br/>
                                 <span>
-                                    <span t-if="o.accounts_date_time" t-field="o.accounts_date_time"/>
+                                    <span t-if="o.manager_date_time" t-field="o.manager_date_time"/>
                                 </span>
                                 <br/>
                                 <br/>
