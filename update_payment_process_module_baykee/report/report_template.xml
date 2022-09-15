@@ -95,7 +95,7 @@
                                 <span t-field="o.purpose"/>
                             </div>
                         </div>
-                        <div class="row" style="margin-top:445px">
+                        <div class="row" style="margin-top:145px">
                             <div class="col-2 text-center">
                                 <span>
                                     <span t-if="o.create_uid" t-field="o.create_uid"/>
@@ -162,6 +162,8 @@
                                 <br/>
                             </div>
                         </div>
+                        <br/>
+                        <br/>
                         <div class="row" style="margin-top:30px">
                             <div class="col-2 text-center">
                                 <span>
