@@ -22,7 +22,7 @@
     'version': '15.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'stock'],
+    'depends': ['base', 'stock', 'product'],
 
     # always loaded
     'data': [
@@ -30,5 +30,6 @@
         'report/delivery_slip_report.xml',
         'report/picking_operation_report.xml',
         'views/views.xml',
+        'views/product_label_layout.xml',
     ],
 }
