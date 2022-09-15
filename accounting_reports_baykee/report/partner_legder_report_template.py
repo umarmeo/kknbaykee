@@ -18,7 +18,6 @@ class PartnerLedgerTemplate(models.AbstractModel):
         analytic_accounts = docs.analytical_account_id.ids if docs.analytical_account_id else []
         analytic_tags = docs.analytical_tag_id.ids if docs.analytical_tag_id else []
         data_temp = []
-        temp1 = []
         deb = []
         cre = []
         credit = 0
@@ -32,6 +31,7 @@ class PartnerLedgerTemplate(models.AbstractModel):
             part_domain += [('id', 'in', partner_list)]
         partner_search = self.env['res.partner'].search(part_domain)
         for partner in partner_search:
+            temp1 = []
             domain = [('date', '<', start_date),
                       ('partner_id', '=', partner.id),
                       ('account_id', '=', [partner.property_account_payable_id.id, partner.property_account_receivable_id.id]),
@@ -88,6 +88,7 @@ class PartnerLedgerTemplate(models.AbstractModel):
             temp2 = temp1 + temp
             data_temp.append(
                 [partner.name, temp2, debit, credit, balance])
+        print(data_temp)
         return {
             'doc_ids': self.ids,
             'doc_model': 'account.move.line',

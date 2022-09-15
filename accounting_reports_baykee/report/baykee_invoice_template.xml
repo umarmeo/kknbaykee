@@ -128,7 +128,7 @@
                                 <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
                                     <strong>NTN:</strong>
                                     <span>
-                                        <t t-esc="o.company_id.partner_id.vat"/>
+                                        <t t-esc="o.partner_id.vat"/>
                                     </span>
                                 </p>
                                 <p style="font-size:15px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:left;">
