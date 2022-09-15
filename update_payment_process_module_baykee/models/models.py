@@ -22,6 +22,7 @@ class update_payment_process(models.Model):
     purpose = fields.Text('Purpose', tracking=True, required=True)
     state = fields.Selection(selection=[
         ('draft', 'Draft'),
+        ('hod', 'HOD Approval'),
         ('manager', 'Manager Approval'),
         ('coo', 'COO Approval'),
         ('ceo', 'CEO Approval'),
@@ -30,6 +31,8 @@ class update_payment_process(models.Model):
         ('reject', 'Reject'),
     ], string='Status', tracking=True,
         default='draft')
+    hod_uid = fields.Many2one('res.users', string='HOD uid', tracking=True)
+    hod_date_time = fields.Datetime('HOD Date and Time', tracking=True)
     manager_uid = fields.Many2one('res.users', string='Manager uid', tracking=True)
     manager_date_time = fields.Datetime('Manager Date and Time', tracking=True)
     coo_uid = fields.Many2one('res.users', string='COO uid', tracking=True)
@@ -57,9 +60,17 @@ class update_payment_process(models.Model):
         number = super(update_payment_process, self).create(vals)
         return number
 
-    def action_manager_approval(self):
+    def action_hod_approval(self):
         self.submit_uid = self.env.user.id
         self.submit_date_time = datetime.now()
+        if self.amount <= 0:
+            raise ValidationError('Cannot move to next state because amount is zero')
+        else:
+            self.state = 'hod'
+
+    def action_manager_approval(self):
+        self.hod_uid = self.env.user.id
+        self.hod_date_time = datetime.now()
         if self.amount <= 0:
             raise ValidationError('Cannot move to next state because amount is zero')
         else:
@@ -94,6 +105,9 @@ class update_payment_process(models.Model):
 
     def action_reset_to_draft(self):
         self.state = 'draft'
+
+    def action_reset_to_hod(self):
+        self.state = 'hod'
 
     def action_reset_to_manager(self):
         self.state = 'manager'

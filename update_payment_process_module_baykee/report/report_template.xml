@@ -95,6 +95,88 @@
                                 <span t-field="o.purpose"/>
                             </div>
                         </div>
+                        <div class="row" style="margin-top:470px">
+                            <div class="col-2 text-center">
+                                <span>
+                                    <span t-if="o.create_uid" t-field="o.create_uid"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.create_date" t-field="o.create_date"/>
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Prepared By
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-3 text-center">
+                                <span>
+                                    <span t-if="o.hod_uid" t-field="o.hod_uid"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.hod_date_time" t-field="o.hod_date_time"/>
+                                </span>
+                                <br/>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">HOD Approved
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-3 text-center">
+                                <span>
+                                    <span t-if="o.manager_uid" t-field="o.manager_uid"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.manager_date_time" t-field="o.manager_date_time"/>
+                                </span>
+                                <br/>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Manager Approved
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-2 text-center">
+                                <span>
+                                    <span t-if="o.coo_uid" t-field="o.coo_uid"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.coo_date_time" t-field="o.coo_date_time"/>
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">COO</span>
+                                <br/>
+                            </div>
+                            <div class="col-2 text-center">
+                                <span>
+                                    <span t-if="o.ceo_uid" t-field="o.ceo_uid"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.ceo_date_time" t-field="o.ceo_date_time"/>
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">CEO</span>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:5px">
+                            <div class="col-2 text-center">
+                                <span>
+                                    <!--                                    <span t-if="o.create_uid" t-field="o.create_uid"/>-->
+                                </span>
+                                <br/>
+                                <span>
+                                    <!--                                    <span t-if="o.create_date" t-field="o.create_date"/>-->
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Received By
+                                </span>
+                                <br/>
+                            </div>
+                        </div>
                     </div>
                     <div class="footer" style="font-size:12px;border-top:1px solid black;font-family:Arial">
                         <div class="row">
