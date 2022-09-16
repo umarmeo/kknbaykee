@@ -9,5 +9,15 @@
             <field name="binding_model_id" ref="model_vendor_price_comparison_report"/>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_pending_bills_report" model="ir.actions.report">
+            <field name="name">Pending Bills Report</field>
+            <field name="model">pending.bills.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">purchase_reports_baykee.pending_bills_report_temp</field>
+            <field name="report_file">purchase_reports_baykee.pending_bills_report_temp</field>
+            <field name="binding_model_id" ref="model_pending_bills_report"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>
