@@ -20,6 +20,8 @@
         'security/ir.model.access.csv',
         'report/report.xml',
         'report/vendor_price_comparison_template.xml',
+        'report/pending_bills_report_template.xml',
         'wizard/vandor_price_comparison_report.xml',
+        'wizard/pending_bills_report.xml',
     ],
 }

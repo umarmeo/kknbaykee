@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="pending_bills_report_wizard">
+            <field name="name">pending_bills_report_wizard</field>
+            <field name="model">pending.bills.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_pending_bills_report)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="pending_bills_report_wizard_action_window">
+            <field name="name">Pending Bills Report</field>
+            <field name="res_model">pending.bills.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_pending_bills_report_wizard_report"
+                  name="Pending Bills Report"
+                  action="pending_bills_report_wizard_action_window"
+                  parent="purchase.purchase_report_main"
+                  sequence="120"/>
+
+    </data>
+</odoo>
