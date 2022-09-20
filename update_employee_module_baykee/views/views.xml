@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+        <record id="update_employee_form_new" model="ir.ui.view">
+            <field name="name">update.employee.form.new</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <field name="address_home_id" position="attributes">
+                  <attribute name="string">Partner</attribute>
+                </field>
+
+                <field name="address_home_id" position="after">
+                    <field name="emp_address"/>
+                </field>
+
+            </field>
+        </record>
+  </data>
+</odoo>
