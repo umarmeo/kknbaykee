@@ -44,6 +44,7 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
             temp2 = temp
             data_temp.append(
                 [product.name, temp2, start_date, end_date])
+            print(data_temp)
         return {
             'doc_ids': self.ids,
             'doc_model': 'general.ledger',
