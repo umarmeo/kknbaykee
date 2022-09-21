@@ -39,3 +39,4 @@ class SalePersonWiseSaleReport(models.TransientModel):
     end_date = fields.Date(string="End Date", default=_default_end_date)
     sale_person = fields.Many2many('res.users', string="Sale Person")
     analytic_account_id = fields.Many2many('account.analytic.account', string="Analytic Account")
+    analytic_tag_id = fields.Many2many('account.analytic.tag', string="Analytic Tags")
