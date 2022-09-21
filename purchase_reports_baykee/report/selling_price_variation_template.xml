@@ -57,13 +57,13 @@
                                 <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
                                        t-if="data_line[1]">
                                     <tr style="background-color:#f48531;color:white;">
-                                        <th style="text-align:center; width:3%; height: 3px">Sr#</th>
-                                        <th style="text-align:center; width:20%; height:10%">Product</th>
-                                        <th style="text-align:center; width:7%; height:10%">Landed Cost in PKR</th>
-                                        <th style="text-align:center; width:20%; height:10%">Landed Cost in USD</th>
-                                        <th style="text-align:center; width:20%; height:10%" t-esc="markup"/>
-                                        <th style="text-align:center; width:20%; height:10%">New Price in PKR</th>
-                                        <th style="text-align:center; width:20%; height:10%">Increase due to Fluctuation
+                                        <th style="text-align:center; width:5%;">Sr#</th>
+                                        <th style="text-align:center; width:10%;">Product</th>
+                                        <th style="text-align:center; width:15%;">Landed Cost in PKR</th>
+                                        <th style="text-align:center; width:15%;">Landed Cost in USD</th>
+                                        <th style="text-align:center; width:15%;" t-esc="markup"/>
+                                        <th style="text-align:center; width:15%;">New Price in PKR</th>
+                                        <th style="text-align:center; width:15%;">Increase due to Fluctuation
                                             (Dollar)
                                         </th>
                                     </tr>

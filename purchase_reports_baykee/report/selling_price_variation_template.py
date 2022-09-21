@@ -18,8 +18,12 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
         end_date = docs.end_date
         markup = docs.markup
         usd_rate = docs.usd_rate
+        product_id = docs.product_id.ids
         temp = []
-        products = self.env['product.product'].search([])
+        product_domain = []
+        if product_id:
+            product_domain += [('id', '=', product_id)]
+        products = self.env['product.product'].search(product_domain)
         for product in products:
             domain = [('order_id.date_order', '>=', start_date), ('order_id.date_order', '<=', end_date),
                       ('product_id', '=', product.id)]
