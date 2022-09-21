@@ -11,6 +11,7 @@
                         <group>
                             <field name="usd_rate"/>
                             <field name="markup"/>
+                            <field name="product_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
                         </group>
                         <group>
                             <field name="start_date"/>
