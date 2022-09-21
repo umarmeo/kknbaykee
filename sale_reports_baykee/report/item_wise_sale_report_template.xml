@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="sale_reports_baykee.sale_person_wise_sale_temp">
+        <template id="sale_reports_baykee.item_wise_sale_temp">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="header" style="border-bottom:1px solid black;font-size:11px;">
@@ -22,7 +22,7 @@
                          t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <h3>Sale Person Wise Sale Report</h3>
+                                <h3>Item Wise Sale Report</h3>
                                 <br/>
                             </div>
                         </div>
@@ -32,9 +32,10 @@
                                     <div class="col-6">
                                         <span class="text-left"
                                               style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            Sale Person:
+                                            Product Name:
                                             <t t-esc="data_line[0]"/>
                                         </span>
+                                        <br/>
                                     </div>
                                     <div class="col-6 text-right" style="align:right;">
                                         <span class="text-right"
@@ -52,54 +53,40 @@
                                 <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
                                        t-if="data_line[1]">
                                     <tr style="background-color:#f48531;color:white;">
-                                        <th style="text-align:center; width:5%; height: 3px">Sr#</th>
-                                        <th style="text-align:center; width:15%; height: 3px">Sale Order No.</th>
-                                        <th style="text-align:center; width:15%; height: 3px">Invoice No.</th>
-                                        <th style="text-align:center; width:20%; height:2%">Customer</th>
-                                        <th style="text-align:center; width:15%; height:2%">Amount Without GST</th>
-                                        <th style="text-align:center; width:15%; height:2%">GST</th>
-                                        <th style="text-align:center; width:15%; height:2%">Amount Including GST</th>
+                                        <th style="text-align:center; width:3%; height: 3px">Sr#</th>
+                                        <th style="text-align:center; width:20%; height:2%">Sale Person</th>
+                                        <th style="text-align:center; width:7%; height:2%">Quantity</th>
+                                        <th style="text-align:center; width:20%; height:2%">Unit Price</th>
+                                        <th style="text-align:center; width:20%; height:2%">Order Date</th>
                                     </tr>
                                     <t t-set="i" t-value="1"/>
                                     <t t-foreach="data_line[1]" t-as="m">
                                         <tr style="font-size:12px;">
-                                            <td style="text-align:center">
+                                            <td style="text-align:left">
                                                 <span t-esc="i"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['sale_order']"/>
+                                                <span t-esc="m['sale_person']"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['invoice']"/>
+                                                <span t-esc="m['quantity']"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['customer']"/>
+                                                <span t-esc="m['unit_price']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['amount_nogst']"/>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <span t-esc="m['gst']"/>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <span t-esc="m['amount_gst']"/>
+                                                <span t-esc="m['order_date']"/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
                                     </t>
                                     <tr style="background-color:#f48531;color:white;">
-                                        <td class="text-right">
-                                        </td>
-                                        <td class="text-left" colspan="1">
+                                        <td class="text-right" colspan="1">
                                             <b>Total</b>
                                         </td>
-                                        <t t-set="amount_nogst" t-value="0"/>
-                                        <t t-set="gst" t-value="0"/>
-                                        <t t-set="amount_gst" t-value="0"/>
+                                        <t t-set="total_amount" t-value="0"/>
                                         <t t-foreach="data_line[1]" t-as="s">
-                                            <t t-set="amount_nogst" t-value="amount_nogst+s['amount_nogst']"/>
-                                            <t t-set="gst" t-value="gst+s['gst']"/>
-                                            <t t-set="amount_gst" t-value="amount_gst+s['amount_gst']"/>
+                                            <t t-set="total_amount" t-value="total_amount+s['unit_price']"/>
                                         </t>
                                         <td class="text-right">
                                         </td>
@@ -107,18 +94,10 @@
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(amount_nogst)"/>
+                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
-                                            <strong>
-                                                <span t-esc="'{:,.2f}'.format(gst)"/>
-                                            </strong>
-                                        </td>
-                                        <td class="text-right">
-                                            <strong>
-                                                <span t-esc="'{:,.2f}'.format(amount_gst)"/>
-                                            </strong>
                                         </td>
                                     </tr>
                                 </table>

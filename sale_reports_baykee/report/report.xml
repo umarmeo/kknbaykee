@@ -1,5 +1,15 @@
 <odoo>
     <data>
+        <record id="action_item_wise_sale_template" model="ir.actions.report">
+            <field name="name">Item Wise Sale Report</field>
+            <field name="model">item.wise.sale.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sale_reports_baykee.item_wise_sale_temp</field>
+            <field name="report_file">sale_reports_baykee.item_wise_sale_temp</field>
+            <field name="binding_model_id" ref="model_item_wise_sale_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
         <record id="action_sale_person_wise_sale_template" model="ir.actions.report">
             <field name="name">Sale Person Wise Sale Report</field>
             <field name="model">sale.person.wise.sale.report</field>
