@@ -26,7 +26,7 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
             purchase_order_line = self.env['purchase.order.line'].search(domain, limit=1, order='create_date desc')
             for line in purchase_order_line:
                 landed_cost_in_usd = int(line.price_unit) / usd_rate
-                after_markup = landed_cost_in_usd + ((landed_cost_in_usd * markup)/100)
+                after_markup = landed_cost_in_usd + ((landed_cost_in_usd * markup) / 100)
                 new_price = after_markup * usd_rate
                 difference = new_price - line.price_unit
                 vals = {
@@ -47,5 +47,7 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
             'dat': data_temp,
             'docs': docs,
             'company_id': company_id,
+            'm': markup,
+            'markup': "After %s" % markup + "% Markup",
             'data': data,
         }
