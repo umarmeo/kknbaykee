@@ -24,9 +24,9 @@ except ImportError:
     _logger.debug('Cannot `import base64`.')
 
 
-class SalePersonWiseSaleReport(models.TransientModel):
-    _name = 'sale.person.wise.sale.report'
-    _description = "Sale Person Wise Sale Report"
+class ItemWiseSaleReport(models.TransientModel):
+    _name = 'item.wise.sale.report'
+    _description = "Item Wise Sale Report"
 
     start_date = fields.Date(string="Start Date", default=datetime.today().replace(day=1))
 
@@ -38,4 +38,4 @@ class SalePersonWiseSaleReport(models.TransientModel):
 
     end_date = fields.Date(string="End Date", default=_default_end_date)
     sale_person = fields.Many2many('res.users', string="Sale Person")
-    analytic_account_id = fields.Many2many('account.analytic.account', string="Analytic Account")
+    product_id = fields.Many2many('product.product', string="Products")
