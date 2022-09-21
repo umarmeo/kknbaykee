@@ -21,7 +21,9 @@
         'report/report.xml',
         'report/vendor_price_comparison_template.xml',
         'report/pending_bills_report_template.xml',
+        'report/selling_price_variation_template.xml',
         'wizard/vandor_price_comparison_report.xml',
         'wizard/pending_bills_report.xml',
+        'wizard/selling_price_variation_report.xml',
     ],
 }

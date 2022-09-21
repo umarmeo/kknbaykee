@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="selling_price_variation_wizard">
+            <field name="name">selling_price_variation_wizard</field>
+            <field name="model">selling.price.variation.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="usd_rate"/>
+                            <field name="markup"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_selling_price_variation_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="selling_price_variation_wizard_action_window">
+            <field name="name">Selling Price Report</field>
+            <field name="res_model">selling.price.variation.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_selling_price_variation_wizard_report"
+                  name="Selling Price Variation Report"
+                  action="selling_price_variation_wizard_action_window"
+                  parent="purchase.purchase_report_main"
+                  sequence="111"/>
+
+    </data>
+</odoo>

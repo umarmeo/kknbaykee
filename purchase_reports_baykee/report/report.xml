@@ -19,5 +19,15 @@
             <field name="binding_model_id" ref="model_pending_bills_report"/>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_selling_price_variation_template" model="ir.actions.report">
+            <field name="name">Selling Price Variation Report</field>
+            <field name="model">selling.price.variation.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">purchase_reports_baykee.selling_price_variation_temp</field>
+            <field name="report_file">purchase_reports_baykee.selling_price_variation_temp</field>
+            <field name="binding_model_id" ref="model_selling_price_variation_report"/>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>
