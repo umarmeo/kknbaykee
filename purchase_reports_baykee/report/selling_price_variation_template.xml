@@ -22,7 +22,7 @@
                          t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <h3>Selling Price Report</h3>
+                                <h3>Selling Price Variation Report</h3>
                                 <br/>
                             </div>
                         </div>
@@ -35,7 +35,11 @@
                                             USD Rate:
                                             <t t-esc="data_line[0]"/>
                                         </span>
-                                        <br/>
+                                        <p class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Markup:
+                                            <t t-esc="m"/>
+                                        </p>
                                     </div>
                                     <div class="col-6 text-right" style="align:right;">
                                         <span class="text-right"
@@ -57,7 +61,7 @@
                                         <th style="text-align:center; width:20%; height:10%">Product</th>
                                         <th style="text-align:center; width:7%; height:10%">Landed Cost in PKR</th>
                                         <th style="text-align:center; width:20%; height:10%">Landed Cost in USD</th>
-                                        <th style="text-align:center; width:20%; height:10%">After 25% Markup</th>
+                                        <th style="text-align:center; width:20%; height:10%" t-esc="markup"/>
                                         <th style="text-align:center; width:20%; height:10%">New Price in PKR</th>
                                         <th style="text-align:center; width:20%; height:10%">Increase due to Fluctuation
                                             (Dollar)
