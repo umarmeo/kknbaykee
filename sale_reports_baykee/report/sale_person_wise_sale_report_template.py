@@ -18,21 +18,24 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
         start_date = docs.start_date
         end_date = docs.end_date
         sale_person = docs.sale_person
-        analytic_account = docs.analytic_account_id if docs.analytic_account_id else []
+        analytic_account = docs.analytic_account_id.ids
+        analytic_tags = docs.analytic_tag_id.ids
         sp_domain = []
         sale_person_list = []
+        print("Hiiii")
         for sp in sale_person:
             sale_person_list.append(sp.id)
         if sale_person_list:
             sp_domain += [('id', 'in', sale_person_list)]
         sale_person_search = self.env['res.users'].search(sp_domain)
-        print(sale_person_search, 'sale_person_search')
         for person in sale_person_search:
             temp = []
             domain = [('date_order', '>=', start_date), ('date_order', '<=', end_date),
                       ('user_id', '=', person.id)]
             if analytic_account:
                 domain.append(('analytic_account_id', '=', analytic_account))
+            if analytic_tags:
+                domain.append(('order_line.analytic_tag_ids', '=', analytic_tags))
             sale_order = self.env['sale.order'].search(domain).sorted(key=lambda r: r.user_id)
             for order in sale_order:
                 invoices = self.env['account.move'].search([('invoice_origin', '=', order.name)])
