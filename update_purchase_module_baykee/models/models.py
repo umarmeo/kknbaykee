@@ -20,10 +20,11 @@ class update_purchase_order(models.Model):
         duplicate_list = [self.account_analytic_id, self.analytic_tag_ids]
         return duplicate_list
 
+
 class update_purchase_order_line(models.Model):
     _inherit = 'purchase.order.line'
 
-    analytic_tag_ids = fields.Many2one('account.analytic.tag', string='Analytic Tags')
+    analytic_tag_ids = fields.Many2one('account.analytic.tag', string='Analytic Tags', store=True)
 
     @api.onchange('account_analytic_id', 'analytic_tag_ids', 'order_id')
     def _onchange_purchase_order_line(self):
