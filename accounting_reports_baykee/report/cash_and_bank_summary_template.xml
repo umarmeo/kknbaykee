@@ -73,7 +73,7 @@
                                         <span t-if="m['receipt'] != 0" t-esc="'{:,.2f}'.format(m['receipt'])"/>
                                     </td>
                                     <td style="text-align:right">
-                                        <span t-if="m['payment'] != 0"  t-esc="'{:,.2f}'.format(m['payment'])"/>
+                                        <span t-if="m['payment'] != 0" t-esc="'{:,.2f}'.format(m['payment'])"/>
                                     </td>
 
                                     <td style="text-align:right">
@@ -125,11 +125,11 @@
                             <div class="col-5 text-left">
                                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
                             </div>
-                            <!--                            <div class="col-7 text-right">-->
-                            <!--                                <span>Page</span>-->
-                            <!--                                <span class="page"/>/-->
-                            <!--                                <span class="topage"/>-->
-                            <!--                            </div>-->
+<!--                            <div class="col-7 text-right">-->
+<!--                                <span>Page</span>-->
+<!--                                <span class="page"/>/-->
+<!--                                <span class="topage"/>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </t>

@@ -79,7 +79,7 @@ class CashAndBankSummaryTemplate(models.AbstractModel):
                     'narration': False,
                     'receipt': debit,
                     'payment': credit,
-                    'close_bal': close_bal,
+                    'close_bal': close_bal if debit and credit > 0 else open_bal,
                 })
 
         report = self.env['ir.actions.report']._get_report_from_name(
