@@ -36,7 +36,7 @@
                                             <t t-esc="data_line[0]"/>
                                         </span>
                                         <p class="text-left"
-                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                           style="align:left; font-size:14px; font-family:Tahoma; color:black;">
                                             Markup:
                                             <t t-esc="m"/>
                                         </p>
@@ -51,6 +51,17 @@
                                             <t t-esc="data_line[3]"
                                                t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
                                         </span>
+                                        <t>
+                                            <strong>Products :</strong>
+                                            <t t-if="products">
+                                                <t t-foreach="products" t-as="p">
+                                                    <span t-esc="p.name"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="not products">
+                                                <span t-esc="products_all"/>
+                                            </t>
+                                        </t>
                                     </div>
                                 </div>
                                 <br/>
