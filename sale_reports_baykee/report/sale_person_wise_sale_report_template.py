@@ -38,7 +38,7 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
                 domain.append(('analytic_tag_ids', '=', analytic_tags))
             sale_order = self.env['sale.order'].search(domain).sorted(key=lambda r: r.user_id)
             for order in sale_order:
-                invoices = self.env['account.move'].search([('invoice_origin', '=', order.name)])
+                invoices = self.env['account.move'].search([('invoice_origin', '=', order.name), ('state', '=', 'posted')])
                 if len(invoices) > 0:
                     for inv in invoices:
                         vals = {
