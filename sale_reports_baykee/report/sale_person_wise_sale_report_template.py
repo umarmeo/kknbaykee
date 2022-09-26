@@ -31,7 +31,7 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
         for person in sale_person_search:
             temp = []
             domain = [('date_order', '>=', start_date), ('date_order', '<=', end_date),
-                      ('user_id', '=', person.id)]
+                      ('user_id', '=', person.id), ('state', '=', 'sale')]
             if analytic_account:
                 domain.append(('analytic_account_id', '=', analytic_account))
             if analytic_tags:
@@ -68,6 +68,10 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
             'doc_model': 'sale.order',
             'dat': data_temp,
             'docs': docs,
+            'analytic_account': docs.analytic_account_id,
+            'analytic_account_all': "All",
+            'analytic_tag': docs.analytic_tag_id,
+            'analytic_tag_all': "All",
             'company_id': company_id,
             'data': data,
         }

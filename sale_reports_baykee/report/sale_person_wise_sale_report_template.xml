@@ -48,6 +48,36 @@
                                         </span>
                                     </div>
                                 </div>
+                                <div class="row" t-if="data_line[1]">
+                                    <div class="col-6">
+                                        <span class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            <strong>Analytic Account:</strong>
+                                            <t t-if="analytic_account">
+                                                <t t-foreach="analytic_account" t-as="aa">
+                                                    <span t-esc="aa.name"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="not analytic_account">
+                                                <span t-esc="analytic_account_all"/>
+                                            </t>
+                                        </span>
+                                    </div>
+                                    <div class="col-6 text-right" style="align:right;">
+                                        <span class="text-right"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            <strong>Analytic Tag:</strong>
+                                            <t t-if="analytic_tag">
+                                                <t t-foreach="analytic_tag" t-as="at">
+                                                    <span t-esc="at.name"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="not analytic_tag">
+                                                <span t-esc="analytic_tag_all"/>
+                                            </t>
+                                        </span>
+                                    </div>
+                                </div>
                                 <br/>
                                 <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
                                        t-if="data_line[1]">
