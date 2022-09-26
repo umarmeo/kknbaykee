@@ -95,6 +95,9 @@
                             <field name="ceo_date_time" invisible="1"/>
                             <field name="submit_uid" invisible="1"/>
                             <field name="submit_date_time" invisible="1"/>
+                            <field name="employee_id" invisible="1"/>
+                            <field name="department_id" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
