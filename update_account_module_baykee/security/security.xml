@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="accounting_rights_category" model="ir.module.category">
+        <field name="name">Accounting Rights</field>
+        <field name="description">Accounting Rights</field>
+        <field name="sequence">9</field>
+    </record>
+
+    <record id="group_accounting_checked" model="res.groups">
+        <field name="name">Checked Rights</field>
+        <field name="category_id" ref="accounting_rights_category"/>
+    </record>
+
+    <record id="group_accounting_coo_approval" model="res.groups">
+        <field name="name">COO Rights</field>
+        <field name="category_id" ref="accounting_rights_category"/>
+    </record>
+
+    <record id="group_accounting_ceo_approval" model="res.groups">
+        <field name="name">CEO Rights</field>
+        <field name="category_id" ref="accounting_rights_category"/>
+    </record>
+    <record id="group_accounting_post_rights" model="res.groups">
+        <field name="name">Posting Rights</field>
+        <field name="category_id" ref="accounting_rights_category"/>
+    </record>
+    <record id="group_accounting_cancel_rights" model="res.groups">
+        <field name="name">Cancel Rights</field>
+        <field name="category_id" ref="accounting_rights_category"/>
+    </record>
+    <record id="group_accounting_reset_rights" model="res.groups">
+        <field name="name">Reset To Draft</field>
+        <field name="category_id" ref="accounting_rights_category"/>
+    </record>
+</odoo>

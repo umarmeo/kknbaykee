@@ -1,0 +1,281 @@
+<odoo>
+    <data>
+        <template id="journal_entry_voucher">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <br/>
+                                <h3 t-if="o.company_id"><t t-esc="o.company_id.name"/></h3>
+<!--                                <h4><span t-esc="vals"/></h4>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h4 t-if="o.name">Voucher</h4>
+                                <h5 t-if="o.name"><t t-esc="o.name"/></h5><br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>Status</span>
+                                <br/>
+<!--                                <span>Voucher No</span>-->
+<!--                                <br/>-->
+                                <span>Voucher Date</span>
+                                <br/>
+                                <span>Created on</span>
+                                <br/>
+<!--                                <span>Transaction Amount</span>-->
+<!--                                <br/>-->
+                            </div>
+                            <div class="col-3 text-right">
+                                <span t-field="o.state"/>
+                                <br/>
+<!--                                <br/>-->
+                                <span>
+                                    <t t-esc="o.date.strftime('%d-%B-%Y')"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <t t-esc="o.create_date.strftime('%d-%B-%Y')"/>
+                                </span>
+                                <br/>
+<!--                                <span>-->
+<!--                                   <span t-field="o.currency_id.symbol" /><t t-esc="'{:,.2f}'.format(o.amount_total_signed)"/>-->
+<!--                                </span>-->
+                            </div>
+                        </div>
+                        <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
+                            <tr style="background-color:#f48531;color:white;">
+                                <td style="width:4%;" class="text-right">
+                                    <b>Sr.</b>
+                                </td>
+                                <td style="width:14%;">
+                                    <b>Account</b>
+                                </td>
+                                <td style="width:12%;" class="text-left">
+                                    <b>Partner</b>
+                                </td>
+                                <td style="width:30%;" class="text-left">
+                                    <b>Description</b>
+                                </td>
+                                <td style="width:14%;" class="text-left">
+                                    <b>Analytic Account</b>
+                                </td>
+                                <td style="width:12%;" class="text-left">
+                                    <b>Analytic Tags</b>
+                                </td>
+                                <td style="width:7%;" class="text-right">
+                                    <b>Debit</b>
+                                </td>
+                                <td style="width:7%;" class="text-right">
+                                    <b>Credit</b>
+                                </td>
+                            </tr>
+                            <t t-set="serial" t-value="0"/>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <t t-set="serial" t-value="serial + 1"/>
+                                <tr>
+                                    <td style="text-align:right;width:4%;">
+                                        <span t-esc="serial"/>
+                                    </td>
+                                    <td style="width:14%;">
+                                        <span t-field="line.account_id"/>
+                                    </td>
+                                    <td style="width:12%;" class="text-left">
+                                        <span t-field="line.partner_id"/>
+                                    </td>
+                                    <td style="width:30%;">
+                                        <span t-field="line.name" class="text-left"/>
+                                    </td>
+                                    <td style="width:14%;">
+                                        <span t-if="line.analytic_account_id" t-field="line.analytic_account_id" class="text-left"/>
+                                    </td>
+                                    <td style="width:12%;">
+                                        <span t-if="line.analytic_tag_ids" t-field="line.analytic_tag_ids" class="text-left"/>
+                                    </td>
+                                    <td style="text-align:right;width:7%;">
+                                        <t t-esc="'{:,.2f}'.format(line['debit'])"/>
+                                    </td>
+                                    <td style="text-align:right;width:7%;">
+                                       <t t-esc="'{:,.2f}'.format(line['credit'])"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr style="background-color:#f48531;color:white;">
+                                <td class="text-right" colspan="6">
+                                    <b>Total</b>
+                                </td>
+                                <t t-set="total_debit" t-value="0"/>
+                                <t t-set="total_credit" t-value="0"/>
+                                <t t-foreach="o.line_ids" t-as="s">
+                                    <t t-set="total_debit" t-value="total_debit+s.debit"/>
+                                    <t t-set="total_credit" t-value="total_credit+s.credit"/>
+                                </t>
+                                <td class="text-right">
+                                    <strong>
+                                      <t t-esc="'{:,.2f}'.format(total_debit)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                       <span t-esc="'{:,.2f}'.format(total_credit)"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="row">
+                            <div class="col-12">
+                                <b>In Words:</b>
+                                <br/>
+                                <span>
+                                    <span t-if="o.currency_id" t-esc="o.currency_id.amount_to_text(total_credit)"/>
+                                    Only.
+                                    <br/>
+                                </span>
+                                <span t-if="o.ref">
+                                    <b>Reference:</b>
+                                    <br/>
+                                    <span t-field="o.ref"/>
+                                    <br/>
+                                </span>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px" t-if="o.journal_id.code in ('BPV','CPV','CRV','BRV')">
+                            <div class="col-2 text-center">
+                                <span>
+                                    <span t-if="o.create_uid"  t-field="o.create_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.create_date"  t-field="o.create_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Created By
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-3 text-center" >
+                                <span>
+                                    <span t-if="o.coo_uid"  t-field="o.coo_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.coo_date"  t-field="o.coo_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Approved By COO</span>
+                                <br/>
+                            </div>
+                            <div class="col-3 text-center">
+                                <span>
+                                    <span t-if="o.ceo_uid"  t-field="o.ceo_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.ceo_date"  t-field="o.ceo_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Approved By CEO</span>
+                                <br/>
+                            </div>
+                            <div class="col-2 text-center">
+                                <span>
+                                    <span t-if="o.post_uid"  t-field="o.post_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.post_date"  t-field="o.post_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Posted By</span>
+                                <br/>
+                            </div>
+                            <div class="col-2 text-center">
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_uid"  t-field="o.post_uid" />-->
+<!--                                </span>-->
+                                <br/>
+                                <br/>
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Received By</span>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:20px" t-if="not o.journal_id.code in ('BPV','CPV','CRV','BRV')">
+                            <div class="col-4 text-center">
+                                <span>
+                                    <span t-if="o.create_uid"  t-field="o.create_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.create_date"  t-field="o.create_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Created By
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-4 text-center">
+                                <span>
+                                    <span t-if="o.post_uid"  t-field="o.post_uid" />
+                                </span>
+                                <br/>
+                                <span>
+                                    <span t-if="o.post_date"  t-field="o.post_date" t-options='{"widget": "date", "format": "dd MMM Y"}' />
+                                </span>
+                                <br/>
+                                <span style="border-top:1px solid black;font-weight: bold;">Posted By</span>
+                                <br/>
+                            </div>
+                            <div class="col-4 text-center">
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_uid"  t-field="o.post_uid" />-->
+<!--                                </span>-->
+                                <br/>
+                                <br/>
+<!--                                <span>-->
+<!--                                    <span t-if="o.post_date"  t-field="o.post_date" />-->
+<!--                                </span>-->
+<!--                                <br/>-->
+                                <span style="border-top:1px solid black;font-weight: bold;">Received By</span>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

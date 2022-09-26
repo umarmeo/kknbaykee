@@ -1,0 +1,101 @@
+<odoo>
+    <data>
+        <record id="action_journal_entry_voucher" model="ir.actions.report">
+            <field name="name">Journal Entry Voucher</field>
+            <field name="model">account.move</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">accounting_reports_baykee.journal_entry_voucher</field>
+            <field name="report_file">accounting_reports_baykee.journal_entry_voucher</field>
+            <field name="attachment">'Journal Entry Voucher'</field>
+        </record>
+        <record id="action_cash_bank_summary_report_template" model="ir.actions.report">
+            <field name="name">Cash and Bank Summary Report</field>
+            <field name="model">cash.bank.summary.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">accounting_reports_baykee.cash_bank_summary_temp</field>
+            <field name="report_file">accounting_reports_baykee.cash_bank_summary_temp</field>
+            <field name="binding_model_id" ref="model_cash_bank_summary_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_cash_bank_summary_report_xlsx" model="ir.actions.report">
+            <field name="name">Cash and Bank Summary Report</field>
+            <field name="model">cash.bank.summary.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">accounting_reports_baykee.cash_bank_summary_xlsx</field>
+            <field name="report_file">accounting_reports_baykee.cash_bank_summary_xlsx</field>
+            <field name="binding_model_id" ref="model_cash_bank_summary_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="paperformat_ledgers" model="report.paperformat">
+            <field name="name">Ledger Paperformat</field>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_partner_ledger_template" model="ir.actions.report">
+            <field name="name">Partner Ledger Report</field>
+            <field name="model">partner.ledger.report</field>
+            <field name="print_report_name">'Partner Ledger'</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">accounting_reports_baykee.partner_ledger_temp</field>
+            <field name="report_file">accounting_reports_baykee.partner_ledger_temp</field>
+            <field name="binding_model_id" ref="model_partner_ledger_report"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_ledgers"/>
+        </record>
+
+        <record id="action_partner_ledger_report_xlsx" model="ir.actions.report">
+            <field name="name">Partner Ledger Report XLSX</field>
+            <field name="model">partner.ledger.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">accounting_reports_baykee.partner_ledger_xlsx</field>
+            <field name="report_file">accounting_reports_baykee.partner_ledger_xlsx</field>
+            <field name="binding_model_id" ref="model_partner_ledger_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_general_ledger_template" model="ir.actions.report">
+            <field name="name">General Ledger Report</field>
+            <field name="model">general.ledger.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">accounting_reports_baykee.general_ledger_temp</field>
+            <field name="report_file">accounting_reports_baykee.general_ledger_temp</field>
+            <field name="binding_model_id" ref="model_general_ledger_report"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_ledgers"/>
+        </record>
+
+        <record id="action_general_ledger_report_xlsx" model="ir.actions.report">
+            <field name="name">General Ledger Report XLSX</field>
+            <field name="model">general.ledger.report</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">accounting_reports_baykee.general_ledger_xlsx</field>
+            <field name="report_file">accounting_reports_baykee.general_ledger_xlsx</field>
+            <field name="binding_model_id" ref="model_general_ledger_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="account_baykee_invoices" model="ir.actions.report">
+            <field name="name">Baykee Invoices</field>
+            <field name="model">account.move</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">accounting_reports_baykee.report_baykee_invoices</field>
+            <field name="report_file">accounting_reports_baykee.report_baykee_invoices</field>
+            <field name="binding_model_id" ref="account.model_account_move"/>
+            <field name="binding_type">report</field>
+
+        </record>
+    </data>
+</odoo>

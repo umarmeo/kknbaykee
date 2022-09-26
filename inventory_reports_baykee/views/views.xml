@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="add_new_date" model="ir.ui.view">
+        <field name="name">add.new.date</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+        <field name="arch" type="xml">
+        <xpath expr="//field[@name='package_id']" position="after">
+          <field name="new_date" invisible="1"/>
+        </xpath>
+        </field>
+        </record>
+    </data>
+</odoo>

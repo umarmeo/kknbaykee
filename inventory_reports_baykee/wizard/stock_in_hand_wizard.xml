@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="create_wizard_stock_in_hand">
+            <field name="name">Stock In Hand Wizard</field>
+            <field name="model">stock.in.hand.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="location_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="product_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                                   widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" class="btn-primary"
+                                name="%(inventory_reports_baykee.action_stock_in_hand_report)d" type="action"/>
+                        <button string="Cancel" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_create_wizard_stock_in_hand">
+            <field name="name">Stock In Hand Report Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.in.hand.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="create_wizard_stock_in_hand"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="menu_analytic_accounting" name="Stock In Hand" parent="stock.menu_warehouse_report"
+                  action="action_create_wizard_stock_in_hand" sequence="10"/>
+    </data>
+</odoo>

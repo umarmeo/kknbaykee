@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="purchase_report_inh_form" model="ir.ui.view">
+            <field name="name">purchase.report.inh.form</field>
+            <field name="model">purchase.report</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_pivot"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_id']" position="after">
+                    <field name="analytic_tag_ids" widget="Many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="item_wise_sale_wizard">
+            <field name="name">item_wise_sale_wizard</field>
+            <field name="model">item.wise.sale.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="sale_person" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="product_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_item_wise_sale_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="item_wise_sale_wizard_action_window">
+            <field name="name">Item Wise Sale Report</field>
+            <field name="res_model">item.wise.sale.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_item_wise_sale_wizard_report"
+                  name="Item Wise Sale Report"
+                  action="item_wise_sale_wizard_action_window"
+                  parent="sale.menu_sale_report"
+                  sequence="3"/>
+
+    </data>
+</odoo>

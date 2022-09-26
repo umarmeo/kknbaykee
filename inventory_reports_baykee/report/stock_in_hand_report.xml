@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="inventory_reports_baykee.stock_in_hand_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="o.company_id.partner_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Stock In Hand Report</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <t t-foreach="dat" t-as="data_line">
+                            <div style="page-break-after: always;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Loaction Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br/>
+                                <table class="table table-bordered mb64" style="width:100%;">
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <th style="text-align:right; width:3%; height: 3px">Sr#</th>
+                                        <th style="text-align:left; width:20%; height:2%">Product</th>
+                                        <th style="text-align:left; width:20%; height:2%">Product Category</th>
+                                        <th style="text-align:right; width:15%; height:2%">Lot/Serial Number</th>
+                                        <th style="text-align:right; width:15%; height:2%">On Hand Quantity</th>
+                                        <th style="text-align:right; width:15%; height:2%">Available Quantity</th>
+                                        <th style="text-align:left; width:15%; height:2%">UOM</th>
+                                        <th style="text-align:right; width:15%; height:2%">Value</th>
+                                    </tr>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="data_line[1]" t-as="m">
+                                        <tr style="font-size:12px;">
+                                            <td style="text-align:right">
+                                                <span t-esc="i"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['pro']"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['categ']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="m['lot']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="m['inv_qty_auto']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="m['ava_qty']"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['pro_uom']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <t t-esc="'{:,.2f}'.format(m['value'])"/>
+                                            </td>
+                                            <t t-set="i" t-value="i+1"/>
+                                        </tr>
+                                    </t>
+                                    <!--                                    <tr style="background-color:#f48531;color:white;">-->
+                                    <!--                                        <td class="text-right" colspan="1">-->
+                                    <!--                                            <b>Total</b>-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <t t-set="total_amount" t-value="0"/>-->
+                                    <!--                                        <t t-foreach="data_line[1]" t-as="s">-->
+                                    <!--                                            <t t-set="total_amount" t-value="total_amount+s['unit_price']"/>-->
+                                    <!--                                        </t>-->
+                                    <!--                                        <td class="text-right">-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <td class="text-right">-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <td class="text-right">-->
+                                    <!--                                            <strong>-->
+                                    <!--                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>-->
+                                    <!--                                            </strong>-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <td class="text-right">-->
+                                    <!--                                        </td>-->
+                                    <!--                                    </tr>-->
+                                </table>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-center" style="margin-left:25px">
+                                    <strong>Address:</strong>
+                                    <t t-if="o.company_id.street" t-esc="o.company_id.street"/>
+                                    <span t-if="o.company_id.city">
+                                        ,
+                                        <t t-esc="o.company_id.city"/>
+                                    </span>
+                                    <span t-if="o.company_id.country_id">
+                                        -
+                                        <t t-esc="o.company_id.country_id.name"/>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left:200px">
+                            <div class="col-12">
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Mobile:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.mobile"/>
+                                    </span>
+                                </span>
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Tel:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.phone"/>
+                                    </span>
+                                </span>
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Web:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.website"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

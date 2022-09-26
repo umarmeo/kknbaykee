@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="purchase_reports_baykee.selling_price_variation_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <br/>
+                                <h3 t-if="company_id">
+                                    <t t-esc="company_id.name"/>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Selling Price Variation Report</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <t t-foreach="dat" t-as="data_line">
+                            <div style="page-break-after: always;" t-if="data_line[1]">
+                                <div class="row" t-if="data_line[1]">
+                                    <div class="col-6">
+                                        <span class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            USD Rate:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <p class="text-left"
+                                           style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Markup:
+                                            <t t-esc="m"/>
+                                        </p>
+                                    </div>
+                                    <div class="col-6 text-right" style="align:right;">
+                                        <span class="text-right"
+                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                            Period:
+                                            <t t-esc="data_line[2]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                            To:
+                                            <t t-esc="data_line[3]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                        </span>
+                                        <t>
+                                            <strong>Products :</strong>
+                                            <t t-if="products">
+                                                <t t-foreach="products" t-as="p">
+                                                    <span t-esc="p.name"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="not products">
+                                                <span t-esc="products_all"/>
+                                            </t>
+                                        </t>
+                                    </div>
+                                </div>
+                                <br/>
+                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
+                                       t-if="data_line[1]">
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <th style="text-align:center; width:5%;">Sr#</th>
+                                        <th style="text-align:center; width:10%;">Product</th>
+                                        <th style="text-align:center; width:15%;">Landed Cost in PKR</th>
+                                        <th style="text-align:center; width:15%;">Landed Cost in USD</th>
+                                        <th style="text-align:center; width:15%;" t-esc="markup"/>
+                                        <th style="text-align:center; width:15%;">New Price in PKR</th>
+                                        <th style="text-align:center; width:15%;">Increase due to Fluctuation
+                                            (Dollar)
+                                        </th>
+                                    </tr>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="data_line[1]" t-as="m">
+                                        <tr style="font-size:12px;">
+                                            <td style="text-align:center">
+                                                <span t-esc="i"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['product']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="round(m['unit_price'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="round(m['landed_cost_in_usd'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="round(m['after_markup'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="round(m['new_price'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="round(m['difference'])"/>
+                                            </td>
+                                            <t t-set="i" t-value="i+1"/>
+                                        </tr>
+                                    </t>
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-left" colspan="1">
+                                            <b>Total</b>
+                                        </td>
+                                        <t t-set="unit_price" t-value="0"/>
+                                        <t t-set="landed_cost_in_usd" t-value="0"/>
+                                        <t t-set="after_markup" t-value="0"/>
+                                        <t t-set="new_price" t-value="0"/>
+                                        <t t-set="difference" t-value="0"/>
+                                        <t t-foreach="data_line[1]" t-as="s">
+                                            <t t-set="unit_price" t-value="unit_price+round(s['unit_price'])"/>
+                                            <t t-set="landed_cost_in_usd"
+                                               t-value="landed_cost_in_usd+round(s['landed_cost_in_usd'])"/>
+                                            <t t-set="after_markup" t-value="after_markup+round(s['after_markup'])"/>
+                                            <t t-set="new_price" t-value="new_price+round(s['new_price'])"/>
+                                            <t t-set="difference" t-value="difference+round(s['difference'])"/>
+                                        </t>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(unit_price)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(landed_cost_in_usd)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(after_markup)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(new_price)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(difference)"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
