@@ -92,7 +92,7 @@
                                     </tr>
                                     <t t-set="i" t-value="1"/>
                                     <t t-foreach="data_line[1]" t-as="m">
-                                        <tr style="font-size:12px;">
+                                        <tr style="font-size:12px;" t-if="m['invoice']">
                                             <td style="text-align:center">
                                                 <span t-esc="i"/>
                                             </td>
