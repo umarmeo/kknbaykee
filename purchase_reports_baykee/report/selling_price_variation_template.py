@@ -51,6 +51,8 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
             'dat': data_temp,
             'docs': docs,
             'company_id': company_id,
+            'products': docs.product_id,
+            'products_all': "All",
             'm': markup,
             'markup': "After %s" % markup + "% Markup",
             'data': data,
