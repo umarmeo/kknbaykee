@@ -12,22 +12,15 @@
                 <field name="partner_invoice_id" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </field>
-                <field name="partner_shipping_id" position="attributes">
+                 <field name="partner_shipping_id" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </field>
                 <field name="partner_id" position="after">
                     <field name="company_id" invisible="1"/>
                 </field>
-                <field name="analytic_account_id" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
                 <field name="payment_term_id" position="after">
-                    <field name="analytic_account_id"
-                           context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
-                           attrs="{'readonly': [('invoice_count','!=',0),('state','=','sale')]}"
-                           groups="analytic.group_analytic_accounting" force_save="1"/>
-                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                           attrs="{'readonly': [('state', '=', 'sale')]}"/>
+                    <field name="account_analytic_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"  attrs="{'readonly': [('state', '=', 'sale')]}"/>
+                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}" attrs="{'readonly': [('state', '=', 'sale')]}"/>
                 </field>
                 <field name="company_id" position="after">
                     <field name="invoice_status" invisible="1"/>
@@ -40,7 +33,7 @@
                 </field>
                 <field name="payment_term_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
-                    <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
+                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </field>
                 <field name="user_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
@@ -48,9 +41,9 @@
                 <field name="team_id" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                 </field>
-                <!--                <field name="analytic_account_id" position="attributes">-->
-                <!--                    <attribute name="invisible">1</attribute>-->
-                <!--                </field>-->
+                <field name="analytic_account_id" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <!--                <field name="analytic_account_id" position="after">-->
                 <!--                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>-->
                 <!--                </field>-->
@@ -66,21 +59,21 @@
                 <xpath expr="//field[@name='team_id']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='fiscal_position_id']" position="attributes">
+                  <xpath expr="//field[@name='fiscal_position_id']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='invoice_status']" position="attributes">
+                  <xpath expr="//field[@name='invoice_status']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </xpath>
-                <xpath expr="//field[@name='client_order_ref']" position="attributes">
+                 <xpath expr="//field[@name='client_order_ref']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='tag_ids']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </xpath>
-                <!--                <xpath expr="//field[@name='opportunity_id']" position="attributes">-->
-                <!--                    <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>-->
-                <!--                </xpath>-->
+<!--                <xpath expr="//field[@name='opportunity_id']" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>-->
+<!--                </xpath>-->
                 <xpath expr="//field[@name='campaign_id']" position="attributes">
                     <attribute name="attrs">{'readonly': [('state', '=', 'sale')]}</attribute>
                 </xpath>
@@ -106,43 +99,19 @@
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="replace">
-                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                           force_save="1" readonly="1"/>
+                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='name']" position="after">
-                    <field name="analytic_account_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                           force_save="1" readonly="1"/>
+                    <field name="account_analytic_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
                 </xpath>
-                <!--                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">-->
-                <!--                    <attribute name="readonly">1</attribute>-->
-                <!--                    <attribute name="force_save">1</attribute>-->
-                <!--                </xpath>-->
-                <!--                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_account_id']"-->
-                <!--                       position="attributes">-->
-                <!--                    <attribute name="readonly">1</attribute>-->
-                <!--                    <attribute name="force_save">1</attribute>-->
-                <!--                </xpath>-->
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='name']" position="after">
-                    <field name="state" invisible="1"/>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='state']" position="after">
-                    <field name="price_total" invisible="1"/>
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='price_total']" position="after">
-                    <field name="price_subtotal" invisible="1"/>
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='price_subtotal']" position="after">
-                    <field name="order_id" invisible="1"/>
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='order_id']" position="after">
-                    <field name="team_id" invisible="1"/>
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='team_id']" position="after">
-                    <field name="user_id" invisible="1"/>
-                </xpath>
-                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='price_unit']" position="after">
-                    <field name="min_sale_price" class="oe_inline" widget="monetary"
-                           options="{'currency_field': 'currency_id', 'field_digits': True}" invisible="1"/>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='account_analytic_id']"
+                       position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
             </field>
         </record>
