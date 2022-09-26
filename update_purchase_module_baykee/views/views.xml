@@ -1,0 +1,84 @@
+<odoo>
+    <data>
+        <record id="purchase_order_form_new" model="ir.ui.view">
+            <field name="name">purchase.order.form.new</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="partner_ref" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="date_planned" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="order_line" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="origin" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="incoterm_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="payment_term_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="fiscal_position_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="invoice_status" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <field name="picking_type_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                </field>
+                <field name="user_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                    <attribute name="attrs">{'readonly': [('state', '=', 'purchase')]}</attribute>
+                </field>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='product_uom']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='taxes_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='account_analytic_id']"
+                       position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                    <attribute name="readonly">1</attribute>
+                     <attribute name="force_save">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                        <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="account_analytic_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                           attrs="{'readonly': [('state', '=', 'purchase')]}"/>
+                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                           attrs="{'readonly': [('state', '=', 'purchase')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="replace">
+                    <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                           readonly="1" force_save="1"/>
+                </xpath>
+                <!--                <xpath expr="//form[1]/header[1]/button[@name='button_cancel']" position="attributes">-->
+                <!--                    <attribute name="groups">update_purchase_module_baykee.purchase_order_baykee_cancel_button-->
+                <!--                    </attribute>-->
+                <!--                </xpath>-->
+                <!--                <xpath expr="//form[1]/header[1]/button[@name='button_confirm']" position="attributes">-->
+                <!--                    <attribute name="groups">update_purchase_module_baykee.purchase_order_baykee_confirm-->
+                <!--                    </attribute>-->
+                <!--                </xpath>-->
+            </field>
+        </record>
+    </data>
+</odoo>

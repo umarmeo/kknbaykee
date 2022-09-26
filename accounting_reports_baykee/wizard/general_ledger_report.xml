@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="general_ledger_report">
+            <field name="name">general_ledger_report</field>
+            <field name="model">general.ledger.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="account_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="analytical_account_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                            <field name="analytical_tag_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_general_ledger_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button name="export_excel" string="Export Excel" type="object"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="general_ledger_report_action_window">
+            <field name="name">General Ledger Report</field>
+            <field name="res_model">general.ledger.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+<!--        <menuitem id="menu_general_ledger_report"-->
+<!--                  name="General Ledger"-->
+<!--                  action="general_ledger_report_action_window"-->
+<!--                  parent="account.account_reports_management_menu"-->
+<!--                  sequence="17"/>-->
+
+    </data>
+</odoo>

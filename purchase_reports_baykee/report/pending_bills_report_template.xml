@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="purchase_reports_baykee.pending_bills_report_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <br/>
+                                <h3 t-if="company_id">
+                                    <t t-esc="company_id.name"/>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Pending Bills Report</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <t t-foreach="dat" t-as="data_line">
+
+                            <div class="row">
+                                <div class="col-6"
+                                     style="margin: 5px; padding: 5px;">
+                                    <span class="text-left"
+                                          style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                        Period:
+                                        <t t-esc="data_line[1]"
+                                           t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                        To:
+                                        <t t-esc="data_line[2]"
+                                           t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                    </span>
+                                </div>
+                            </div>
+                            <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
+                                <tr style="background-color:#f48531;color:white;">
+                                    <th style="text-align:center; width:3%; height: 3px">Sr#</th>
+                                    <th style="text-align:center; width:20%; height:2%">Reference</th>
+                                    <th style="text-align:center; width:7%; height:2%">Confirmation Date</th>
+                                    <th style="text-align:center; width:20%; height:2%">Vendor</th>
+                                    <th style="text-align:center; width:20%; height:2%">Receipt Date</th>
+                                    <th style="text-align:center; width:20%; height:2%">Purchase Representative</th>
+                                    <th style="text-align:center; width:20%; height:2%">Total</th>
+                                    <th style="text-align:center; width:20%; height:2%">Billing Status</th>
+                                </tr>
+                                <t t-set="i" t-value="1"/>
+                                <t t-foreach="data_line[0]" t-as="m">
+                                    <tr style="font-size:12px;">
+                                        <td style="text-align:left">
+                                            <span t-esc="i"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['ref']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['confirm_date']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['vendor']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="m['receipt_date']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="m['represent']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="m['total']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span>
+                                                Waiting Bills
+                                            </span>
+                                        </td>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </tr>
+                                </t>
+                                <tr style="background-color:#f48531;color:white;">
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right" colspan="1">
+                                        <b>Total</b>
+                                    </td>
+                                    <t t-set="total_amount" t-value="0"/>
+                                    <t t-foreach="data_line[0]" t-as="s">
+                                        <t t-set="total_amount" t-value="total_amount+s['total']"/>
+                                    </t>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                        <strong>
+                                            <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                        </strong>
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                    </div>
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

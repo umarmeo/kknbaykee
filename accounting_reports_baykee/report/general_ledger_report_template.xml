@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="accounting_reports_baykee.general_ledger_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <br/>
+                                <h3 t-if="company_id">
+                                    <t t-esc="company_id.name"/>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>General Ledger</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                            </div>
+                            <div class="col-6 text-right">
+                                <span>Start Date</span>
+                                <br/>
+                                <span>End Date</span>
+                                <br/>
+                            </div>
+                            <div class="col-3 text-right">
+                                <span>
+                                    <t t-esc="start_date"/>
+                                </span>
+                                <br/>
+                                <span>
+                                    <t t-esc="end_date"/>
+                                </span>
+                                <br/>
+                            </div>
+                        </div>
+                        <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
+                            <tr style="background-color:#f48531;color:white;">
+                                <th style="width:14%">Nature of Account</th>
+                                <th style="width:14%">Analytic Account</th>
+                                <th style="width:14%">Analytic Tag</th>
+                                <th style="width:14%">Partner</th>
+                                <th style="text-align:right; width:14%">Opening Balance</th>
+                                <th style="text-align:left; width:30%">Narration</th>
+                                <th style="text-align:right; width:14%">Receipts</th>
+                                <th style="text-align:right; width:14%">Payments</th>
+                                <th style="text-align:right; width:14%">Closing Balance</th>
+                            </tr>
+                            <t t-foreach="main" t-as="m">
+                                <tr style="font-size:12px;">
+                                    <td>
+                                        <span t-esc="m['account']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="m['analytic_account']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="m['analytic_tag']"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="m['partner']"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-if="m['open_bal'] != 0" t-esc="'{:,.2f}'.format(m['open_bal'])"/>
+                                    </td>
+                                    <td style="text-align:left">
+                                        <span t-esc="m['narration']"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-if="m['receipt'] != 0" t-esc="'{:,.2f}'.format(m['receipt'])"/>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <span t-if="m['payment'] != 0" t-esc="'{:,.2f}'.format(m['payment'])"/>
+                                    </td>
+
+                                    <td style="text-align:right">
+                                        <span t-esc="'{:,.2f}'.format(m['close_bal'])"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr style="background-color:#f48531;color:white;">
+                                <td class="text-right" colspan="1">
+                                    <b>Total</b>
+                                </td>
+                                <t t-set="total_receipt" t-value="0"/>
+                                <t t-set="total_payment" t-value="0"/>
+                                <t t-set="total_open_bal" t-value="0"/>
+                                <t t-set="total_close_bal" t-value="0"/>
+                                <t t-foreach="main" t-as="s">
+                                    <t t-set="total_receipt" t-value="total_receipt+s['receipt']"/>
+                                    <t t-set="total_payment" t-value="total_payment+s['payment']"/>
+                                    <t t-set="total_open_bal" t-value="total_open_bal+s['open_bal']"/>
+                                    <t t-set="total_close_bal" t-value="total_receipt-total_payment"/>
+                                </t>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <t t-esc="'{:,.2f}'.format(total_open_bal)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <t t-esc="'{:,.2f}'.format(total_receipt)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_payment)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_close_bal)"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

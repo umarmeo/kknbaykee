@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vendor_price_comparison_report,vendor.price.comparison.report,model_vendor_price_comparison_report,,1,1,1,1
+access_pending_bills_report,pending.bills.report,model_pending_bills_report,,1,1,1,1
+access_selling-price_variation_report,selling.price.variation.report,model_selling_price_variation_report,,1,1,1,1
