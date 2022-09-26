@@ -53,9 +53,12 @@
                        position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                     <attribute name="readonly">1</attribute>
+                     <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
+                        <attribute name="readonly">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='partner_ref']" position="after">
                     <field name="account_analytic_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
@@ -65,7 +68,7 @@
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="replace">
                     <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                           readonly="1"/>
+                           readonly="1" force_save="1"/>
                 </xpath>
                 <!--                <xpath expr="//form[1]/header[1]/button[@name='button_cancel']" position="attributes">-->
                 <!--                    <attribute name="groups">update_purchase_module_baykee.purchase_order_baykee_cancel_button-->
