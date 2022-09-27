@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api
 
 
 # class update_inventory_module_baykee(models.Model):
@@ -16,3 +16,16 @@
 #     def _value_pc(self):
 #         for record in self:
 #             record.value2 = float(record.value) / 100
+
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    min_sale_price = fields.Float(string="Minimum Sale Price")
+
+
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
+
+    min_sale_price = fields.Float(string="Minimum Sale Price")
+

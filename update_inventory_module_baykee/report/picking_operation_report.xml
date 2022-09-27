@@ -4,7 +4,7 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
 <!--                <t t-call="web.external_layout">-->
-                    <div class="header" style="font-size:13px;">
+                    <div class="header">
                         <div class="row">
                             <div class="col-4 text-left">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
@@ -21,7 +21,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="article" style="font-size:13px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="article" style="font-size:15px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row justify-content-end mb16">
                             <div class="col-4" name="right_box">
                                 <div t-field="o.name" t-options="{'widget': 'barcode', 'width': 600, 'height': 100, 'img_style': 'width:300px;height:50px;'}"/>
@@ -175,25 +175,25 @@
                         <div class="row">
                             <div class="col-3 text-center">
                                 <br/>
-                                <span style="font-size:13px;border-top:1px solid black;font-weight: bold;">Prepared By
+                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Prepared By
                                 </span>
                                 <br/>
                             </div>
                             <div class="col-3 text-center">
                                 <br/>
-                                <span style="font-size:13px;border-top:1px solid black;font-weight: bold;">Inspected By
+                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Inspected By
                                 </span>
                                 <br/>
                             </div>
                             <div class="col-3 text-center">
                                 <br/>
-                                <span style="font-size:13px;border-top:1px solid black;font-weight: bold;">Approved By
+                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Approved By
                                 </span>
                                 <br/>
                             </div>
                             <div class="col-3 text-center">
                                 <br/>
-                                <span style="font-size:13px;border-top:1px solid black;font-weight: bold;">Received By
+                                <span style="font-size:15px;border-top:1px solid black;font-weight: bold;">Received By
                                 </span>
                                 <br/>
                             </div>
