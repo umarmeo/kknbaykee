@@ -15,7 +15,7 @@ class update_sale_module_baykee(models.Model):
         ('invoiced', 'Fully Invoiced'),
         ('to invoice', 'To Invoice'),
         ('no', 'Nothing to Invoice')
-    ], string='Invoice Status', compute='_compute_invoice_status', store=True, default='no')
+        ], string='Invoice Status', compute='_get_invoice_status', store=True)
 
     @api.depends('state', 'order_line.invoice_status')
     def _get_invoice_status(self):
