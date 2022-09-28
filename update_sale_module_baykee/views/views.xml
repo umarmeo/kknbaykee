@@ -28,6 +28,7 @@
                            groups="analytic.group_analytic_accounting" force_save="1"/>
                     <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
                            attrs="{'readonly': [('state', '=', 'sale')]}"/>
+                    <button name="call_call_sale_order_new" string="Developer Function" type="object" />
                 </field>
                 <field name="company_id" position="after">
                     <field name="invoice_status" invisible="1"/>
