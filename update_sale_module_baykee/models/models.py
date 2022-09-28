@@ -59,11 +59,6 @@ class update_sale_module_baykee(models.Model):
         return {
             'state': 'sale'
         }
-    def call_call_sale_order_new(self):
-        sale_orders = self.env['sale.order'].search([])
-        for sale in sale_orders:
-            sale._get_invoice_status()
-    
     @api.onchange('analytic_account_id', 'analytic_tag_ids')
     def _onchange_sale_order_analytic(self):
         for line in self.order_line:
