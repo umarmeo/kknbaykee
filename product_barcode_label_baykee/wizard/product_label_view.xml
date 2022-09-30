@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="product_barcode_label_view">
+            <field name="name">product_barcode_label_view</field>
+            <field name="model">product.label.baykee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="quantity"/>
+                            <field name="is_lot_serial" widget="radio" options="{'horizontal': true}"/>
+                        </group>
+                        <group>
+                            <field name="extra_content"/>
+                            <field name="product_tmpl_ids" invisible="1"/>
+                            <field name="product_variant"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                                   widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_print_product_label)d" string="Print Label" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="product_barcode_label_view_action_window">
+            <field name="name">Print Barcode Label</field>
+            <field name="res_model">product.label.baykee</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

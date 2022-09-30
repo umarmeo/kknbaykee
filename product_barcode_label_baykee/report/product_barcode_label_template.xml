@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="product_barcode_label_baykee.product_label_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="article" style="font-size:8px; padding:0; margin:0;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <t t-foreach="dat" t-as="data_line">
+                            <t t-set="barcode_size" t-value="'width:33mm;height:4mm'"/>
+                            <table class="table" style="width:100%; ">
+                                <t t-foreach="data_line[0]" t-as="m">
+                                    <tr>
+                                        <t t-foreach="m" t-as="data">
+                                            <td style="text-align:center; width:25%; max-width:25%; height:65pt; max-height:65pt; padding:1px; margin:1px;" if="data['product'] != False">
+                                                <div class="o_label_full o_label_small_text" style="margin: 0 auto;">
+                                                    <div class="o_label_name">
+                                                        <strong t-esc="data['product']" class="text-center" style="font-size:12px;"/>
+                                                    </div>
+                                                    <div class="text-center o_label_small_barcode">
+                                                        <t t-if="data['barcode']">
+                                                            <div t-out="data['barcode']" style="padding:0;"
+                                                                 t-options="{'widget': 'barcode', 'symbology': 'auto', 'img_style': barcode_size}"/>
+                                                            <span class="text-center" t-out="data['barcode']"/>
+                                                        </t>
+                                                    </div>
+                                                    <div class="o_label_name" style="margin-bottom:5px;">
+                                                        <span t-if="is_lot_serial == '1'" t-esc="data['serial']" class="text-center"/>
+                                                        <br/>
+                                                        <span t-esc="data['content']" class="text-center"/>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_label_baykee,product.label.baykee,model_product_label_baykee,,1,1,1,1

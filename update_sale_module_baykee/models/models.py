@@ -80,6 +80,11 @@ class update_sale_module_baykee(models.Model):
             order.message_subscribe([order.partner_id.id])
         self.write(self._prepare_confirmation_values())
 
+        if self.order_line:
+            for rec in self.order_line:
+                if rec.price_unit >= rec.min_sale_price:
+                    raise UserError(_('Unit price %s of %s must be less than or equal to Minimum Sale Price %s'
+                                      % (rec.price_unit, rec.product_id.name, rec.min_sale_price)))
 
         # Context key 'default_name' is sometimes propagated up to here.
         # We don't need it and it creates issues in the creation of linked records.
@@ -108,7 +113,7 @@ class update_sale_order_line(models.Model):
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]")
     user_id = fields.Many2one(
         'res.users', string='Salesperson', default=lambda self: self.env.user)
-    min_sale_price = fields.Float(string="Minimum Sale Price", related='product_id.min_sale_price')
+    min_sale_price = fields.Float(string="Minimum Sale Price", related='product_id.product_tmpl_id.min_sale_price')
 
     @api.onchange('analytic_account_id', 'analytic_tag_ids', 'order_id')
     def _onchange_sale_order_line(self):
