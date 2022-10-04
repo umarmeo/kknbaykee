@@ -93,7 +93,7 @@
                                     <t t-set="total_receipt" t-value="total_receipt+s['receipt']"/>
                                     <t t-set="total_payment" t-value="total_payment+s['payment']"/>
                                     <t t-set="total_open_bal" t-value="total_open_bal+s['open_bal']"/>
-                                    <t t-set="total_close_bal" t-value="total_receipt-total_payment"/>
+                                    <t t-set="total_close_bal" t-value="total_open_bal+total_receipt-total_payment"/>
                                 </t>
                                 <td class="text-right">
                                     <strong>
