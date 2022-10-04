@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo>+
     <data>
         <template id="product_barcode_label_baykee.product_label_temp">
             <t t-call="web.html_container">
@@ -8,24 +8,35 @@
                          t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <t t-foreach="dat" t-as="data_line">
                             <t t-set="barcode_size" t-value="'width:33mm;height:4mm'"/>
-                            <table class="table" style="width:100%; ">
+                            <table class="table table-bordered" style="width:100%;">
                                 <t t-foreach="data_line[0]" t-as="m">
                                     <tr>
                                         <t t-foreach="m" t-as="data">
-                                            <td style="text-align:center; width:25%; max-width:25%; height:65pt; max-height:65pt; padding:1px; margin:1px;" if="data['product'] != False">
-                                                <div class="o_label_full o_label_small_text" style="margin: 0 auto;">
-                                                    <div class="o_label_name">
-                                                        <strong t-esc="data['product']" class="text-center" style="font-size:12px;"/>
+                                            <td style="text-align:center; width:168.18px; max-width:168.18px; height:71.81px; max-height:71.81px; padding:0px; margin:0px;"
+                                                if="data['product'] != False">
+                                                <div style="margin: 0 auto;">
+                                                    <div class="row" style="margin-top:1px">
+                                                        <div class="col-4 text-left">
+                                                            <strong t-esc="data['company']" style="font-size:10px;"/>
+                                                        </div>
+                                                        <div class="col-8 text-right">
+                                                            <strong t-esc="data['product']" style="font-size:10px;"/>
+                                                        </div>
                                                     </div>
-                                                    <div class="text-center o_label_small_barcode">
+                                                    <div>
+                                                        <strong t-if="product_variant != false" t-esc="data['variant']"
+                                                                class="text-center"
+                                                                style="font-size:10px;"/>
+                                                    </div>
+                                                    <div>
                                                         <t t-if="data['barcode']">
-                                                            <div t-out="data['barcode']" style="padding:0;"
+                                                            <div t-out="data['barcode']"
                                                                  t-options="{'widget': 'barcode', 'symbology': 'auto', 'img_style': barcode_size}"/>
-                                                            <span class="text-center" t-out="data['barcode']"/>
                                                         </t>
                                                     </div>
-                                                    <div class="o_label_name" style="margin-bottom:5px;">
-                                                        <span t-if="is_lot_serial == '1'" t-esc="data['serial']" class="text-center"/>
+                                                    <div>
+                                                        <span t-if="is_lot_serial == '1'" t-esc="data['serial']"
+                                                              class="text-center"/>
                                                         <br/>
                                                         <span t-esc="data['content']" class="text-center"/>
                                                     </div>

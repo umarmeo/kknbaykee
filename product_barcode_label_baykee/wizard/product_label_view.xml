@@ -15,9 +15,14 @@
                         <group>
                             <field name="extra_content"/>
                             <field name="product_tmpl_ids" invisible="1"/>
+                            <field name="check_variant" invisible="1"/>
+                            <field name="product_variant_dummy"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                                   widget="many2many_tags" invisible="1"/>
                             <field name="product_variant"
                                    options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                                   widget="many2many_tags"/>
+                                   widget="many2many_tags"
+                                   attrs="{'invisible': [('check_variant', '=', False)], 'required': [('check_variant', '!=', False)]}"/>
                         </group>
                     </group>
                     <footer>

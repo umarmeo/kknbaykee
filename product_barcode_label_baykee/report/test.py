@@ -10,7 +10,6 @@ class ProductLabelTemplate(models.AbstractModel):
     def _get_report_values(self, docids, data):
         data_temp = []
         docs = self.env['product.label.baykee'].browse(docids[0])
-        company_id = self.env.company
         quantity = docs.quantity
         extra_content = docs.extra_content
         is_lot_serial = docs.is_lot_serial
@@ -38,7 +37,6 @@ class ProductLabelTemplate(models.AbstractModel):
                             'barcode': var.barcode,
                             'variant': new_lst,
                             'content': extra_content,
-                            'company': self.env.company.name,
                         }
                         for loop in range(quantity):
                             if i % 4 == 0:
@@ -46,16 +44,26 @@ class ProductLabelTemplate(models.AbstractModel):
                                 simple = []
                             simple.append(vals)
                             i += 1
+                if len(simple) > 0:
+                    for j in range(len(simple), 4):
+                        simple.append({
+                            'product': False,
+                            'barcode': False,
+                            'variant': False,
+                            'content': False,
+                        })
+                    temp.append(simple)
+                    simple = []
                     if is_lot_serial == '1':
-                        lot_id = var.stock_quant_ids.lot_id
+                        lot_id = product.product_variant_id.stock_quant_ids.lot_id
+                        i = 0
+                        simple = []
                         for rec in lot_id:
                             vals = {
                                 'product': product.name,
-                                'barcode': var.barcode,
+                                'barcode': product.barcode,
                                 'serial': rec.name,
-                                'variant': new_lst,
                                 'content': extra_content,
-                                'company': self.env.company.name,
                             }
                             for loop in range(quantity):
                                 if i % 4 == 0:
@@ -63,27 +71,23 @@ class ProductLabelTemplate(models.AbstractModel):
                                     simple = []
                                 simple.append(vals)
                                 i += 1
-                if len(simple) > 0:
-                    for j in range(len(simple), 4):
-                        simple.append({
-                            'product': False,
-                            'barcode': False,
-                            'variant': False,
-                            'serial': False,
-                            'content': False,
-                            'company': False,
-                        })
-                    temp.append(simple)
-                    simple = []
+                        if len(simple) > 0:
+                            for j in range(len(simple), 4):
+                                simple.append({
+                                    'product': False,
+                                    'barcode': False,
+                                    'serial': False,
+                                    'content': False,
+                                })
+                                temp.append(simple)
+                                simple = []
             else:
                 if is_lot_serial == '0':
                     simple = []
                     vals = {
                         'product': product.name,
                         'barcode': product.barcode,
-                        'variant': False,
                         'content': extra_content,
-                        'company': self.env.company.name,
                     }
                     i = 0
                     for loop in range(quantity):
@@ -97,9 +101,7 @@ class ProductLabelTemplate(models.AbstractModel):
                             simple.append({
                                 'product': False,
                                 'barcode': False,
-                                'variant': False,
                                 'content': False,
-                                'company': False,
                             })
                         temp.append(simple)
                 if is_lot_serial == '1':
@@ -111,9 +113,7 @@ class ProductLabelTemplate(models.AbstractModel):
                             'product': product.name,
                             'barcode': product.barcode,
                             'serial': rec.name,
-                            'variant': False,
                             'content': extra_content,
-                            'company': self.env.company.name,
                         }
                         for loop in range(quantity):
                             if i % 4 == 0:
@@ -127,13 +127,12 @@ class ProductLabelTemplate(models.AbstractModel):
                                 'product': False,
                                 'barcode': False,
                                 'serial': False,
-                                'variant': False,
                                 'content': False,
-                                'company': False,
                             })
                             temp.append(simple)
                             simple = []
             temp2 = temp
+            print(temp2)
             data_temp.append(
                 [temp2])
         return {
@@ -143,8 +142,6 @@ class ProductLabelTemplate(models.AbstractModel):
             'active_model': active_model,
             'quantity': quantity,
             'is_lot_serial': is_lot_serial,
-            'product_variant': product_variant,
-            'company': company_id,
             'docs': docs,
             'data': data,
         }
