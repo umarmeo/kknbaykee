@@ -136,7 +136,6 @@ class CashAndBankSummary(models.TransientModel):
                     'payment': credit,
                     'close_bal': close_bal,
                 })
-        print(main)
         datas = {
             'ids': [],
             'model': 'cash.bank.summary.report',

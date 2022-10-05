@@ -20,7 +20,6 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
         col = 0
         # data = {'partner_id': partner_id.ids, 'start_date': docs.start_date, 'end_date': docs.end_date}
         fold = data['form']['fold']
-        print(fold)
 
         sheet.set_column(row, col, 20)
         sheet.set_column(row, col + 1, 20)
@@ -30,7 +29,6 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
         sheet.set_column(row, col + 5, 20)
         sheet.merge_range('C1:D2', 'Cash and Bank Summary', title_format1)
         sheet.merge_range('B3:E4', 'Aerospace Baykee Pakistan Private Limited', title_format2)
-
         # sheet.write(0, 2, 'Cash and Bank Summary', title_format)
         if fold == '0':
             sheet.write(row, col, "Nature of Account", header_format)
@@ -38,8 +36,15 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
             sheet.write(row, col + 2, "Receipts ", header_format)
             sheet.write(row, col + 3, "Payments", header_format)
             sheet.write(row, col + 4, "Closing Balance", header_format)
-
+            receipt = 0
+            payment = 0
+            open_bal = 0
+            close_bal = 0
             for m in data['main']:
+                open_bal += m['open_bal']
+                receipt += m['receipt']
+                payment += m['payment']
+                close_bal = open_bal + receipt - payment
                 row += 1
                 if not m['account']:
                     sheet.write(row, col, "", )
@@ -65,6 +70,11 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
                     sheet.write(row, col + 4, "", )
                 else:
                     sheet.write(row, col + 4, m['close_bal'], )
+            sheet.write(row + 1, col, "Total", header_format)
+            sheet.write(row + 1, col + 1, open_bal, header_format)
+            sheet.write(row + 1, col + 2, receipt, header_format)
+            sheet.write(row + 1, col + 3, payment, header_format)
+            sheet.write(row + 1, col + 4, close_bal, header_format)
 
         if fold == '1':
             sheet.write(row, col, "Nature of Account", header_format)
@@ -73,8 +83,15 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
             sheet.write(row, col + 3, "Receipts ", header_format)
             sheet.write(row, col + 4, "Payments", header_format)
             sheet.write(row, col + 5, "Closing Balance", header_format)
-
+            receipt = 0
+            payment = 0
+            open_bal = 0
+            close_bal = 0
             for m in data['main']:
+                open_bal += m['open_bal']
+                receipt += m['receipt']
+                payment += m['payment']
+                close_bal = open_bal + receipt - payment
                 row += 1
                 if not m['account']:
                     sheet.write(row, col, "", )
@@ -89,7 +106,7 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
                 if not m['narration']:
                     sheet.write(row, col + 2, "", )
                 else:
-                    sheet.write(row, col + 2, m['narration'], )
+                    sheet.write(row, col + 2, m['narration'],)
 
                 if not m['receipt']:
                     sheet.write(row, col + 3, "", )
@@ -105,3 +122,10 @@ class CashAndBankSummaryXlsx(models.AbstractModel):
                     sheet.write(row, col + 5, "", )
                 else:
                     sheet.write(row, col + 5, m['close_bal'], )
+
+            sheet.write(row + 1, col, "Total", header_format)
+            sheet.write(row + 1, col + 1, open_bal, header_format)
+            sheet.write(row + 1, col + 2, "", header_format)
+            sheet.write(row + 1, col + 3, receipt, header_format)
+            sheet.write(row + 1, col + 4, payment, header_format)
+            sheet.write(row + 1, col + 5, close_bal, header_format)

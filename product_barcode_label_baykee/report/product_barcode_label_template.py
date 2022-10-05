@@ -38,7 +38,7 @@ class ProductLabelTemplate(models.AbstractModel):
                             'barcode': var.barcode,
                             'variant': new_lst,
                             'content': extra_content,
-                            'company': self.env.company.name,
+                            'company': 'Baykee',
                         }
                         for loop in range(quantity):
                             if i % 4 == 0:
@@ -55,7 +55,7 @@ class ProductLabelTemplate(models.AbstractModel):
                                 'serial': rec.name,
                                 'variant': new_lst,
                                 'content': extra_content,
-                                'company': self.env.company.name,
+                                'company': 'Baykee',
                             }
                             for loop in range(quantity):
                                 if i % 4 == 0:
@@ -83,7 +83,7 @@ class ProductLabelTemplate(models.AbstractModel):
                         'barcode': product.barcode,
                         'variant': False,
                         'content': extra_content,
-                        'company': self.env.company.name,
+                        'company': 'Baykee',
                     }
                     i = 0
                     for loop in range(quantity):
@@ -113,7 +113,7 @@ class ProductLabelTemplate(models.AbstractModel):
                             'serial': rec.name,
                             'variant': False,
                             'content': extra_content,
-                            'company': self.env.company.name,
+                            'company': 'Baykee',
                         }
                         for loop in range(quantity):
                             if i % 4 == 0:
