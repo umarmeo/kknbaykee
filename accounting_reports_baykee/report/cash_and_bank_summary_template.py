@@ -73,7 +73,6 @@ class CashAndBankSummaryTemplate(models.AbstractModel):
                     debit += line.debit
                     credit += line.credit
                     close_bal = open_bal + debit - credit
-                    print(close_bal)
                 main.append({
                     'account': chart.code + ' ' + chart.name,
                     'open_bal': open_bal,
