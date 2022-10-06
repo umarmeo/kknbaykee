@@ -25,6 +25,12 @@ class ProductLabel(models.TransientModel):
     ], string="Lot/Serial", default="0")
     product_tmpl_ids = fields.Many2many('product.template', default=_get_product_tmpl_ids)
     check_variant = fields.Boolean(string="Check Variant", default=False)
+    variant_specific = fields.Selection([
+        ('0', "No"),
+        ('1', "Yes"),
+    ], string="Lot Specific", default="0")
+    lot_serial_no = fields.Many2many('stock.production.lot', string="Lot/Serial Number")
+
 
     @api.model
     def default_get(self, fields):
@@ -42,7 +48,15 @@ class ProductLabel(models.TransientModel):
 
     @api.onchange('product_variant_dummy')
     def onchange_product_tmpl_ids(self):
-        # res_id = self.env.context.get('active_id')
-        # variants = self.env['product.product'].search(
-        #     [('product_tmpl_id', '=', res_id), ('product_template_variant_value_ids', '!=', False)])
         return {'domain': {'product_variant': [('id', '=', self.product_variant_dummy.ids)]}}
+
+    @api.onchange('variant_specific', 'lot_serial_no')
+    def onchange_variant_specific(self):
+        lots = []
+        res_id = self._context.get('active_id')
+        products = self.env['product.product'].search([('product_tmpl_id', '=', res_id)])
+        for product in products:
+            lot_serial_no = self.env['stock.production.lot'].search([('product_id', '=', product.id)])
+            for lot in lot_serial_no:
+                lots.append(lot.id)
+        return {'domain': {'lot_serial_no': [('id', 'in', lots)]}}

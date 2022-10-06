@@ -15,6 +15,8 @@ class ProductLabelTemplate(models.AbstractModel):
         extra_content = docs.extra_content
         is_lot_serial = docs.is_lot_serial
         product_variant = docs.product_variant.ids
+        lot_serial = docs.lot_serial_no.ids
+        is_lot_specific = docs.variant_specific
         active_model = ''
         if docs.product_tmpl_ids:
             products = docs.product_tmpl_ids.ids
@@ -47,7 +49,10 @@ class ProductLabelTemplate(models.AbstractModel):
                             simple.append(vals)
                             i += 1
                     if is_lot_serial == '1':
-                        lot_id = var.stock_quant_ids.lot_id
+                        if is_lot_specific == '1':
+                            lot_id = self.env['stock.production.lot'].search([('id', '=', lot_serial)])
+                        else:
+                            lot_id = self.env['stock.production.lot'].search([('product_id', '=', var.id)])
                         for rec in lot_id:
                             vals = {
                                 'product': product.name,
@@ -103,7 +108,10 @@ class ProductLabelTemplate(models.AbstractModel):
                             })
                         temp.append(simple)
                 if is_lot_serial == '1':
-                    lot_id = product.product_variant_id.stock_quant_ids.lot_id
+                    if is_lot_specific == '1':
+                        lot_id = self.env['stock.production.lot'].search([('id', '=', lot_serial)])
+                    else:
+                        lot_id = self.env['stock.production.lot'].search([('product_id', '=', product.product_variant_id.id)])
                     i = 0
                     simple = []
                     for rec in lot_id:

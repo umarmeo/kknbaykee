@@ -6,7 +6,7 @@
     'category': 'Product',
     'author': 'Danish Khalid',
     'website': 'http://www.kknetworks.com.pk',
-    'depends': ['product'],
+    'depends': ['product', 'stock'],
     'data': [
         'security/ir.model.access.csv',
         'report/report.xml',
