@@ -72,14 +72,17 @@ class CashAndBankSummaryTemplate(models.AbstractModel):
                 for line in move_lines:
                     debit += line.debit
                     credit += line.credit
-                    close_bal = open_bal + debit - credit
+                    if debit or credit > 0:
+                        close_bal = open_bal + debit - credit
+                    else:
+                        close_bal = open_bal
                 main.append({
                     'account': chart.code + ' ' + chart.name,
                     'open_bal': open_bal,
                     'narration': False,
                     'receipt': debit,
                     'payment': credit,
-                    'close_bal': close_bal if debit and credit > 0 else open_bal,
+                    'close_bal': close_bal,
                 })
 
         report = self.env['ir.actions.report']._get_report_from_name(
