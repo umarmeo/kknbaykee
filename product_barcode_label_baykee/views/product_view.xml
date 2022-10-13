@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_template_only_form_view_inherit" model="ir.ui.view">
+            <field name="name">product_template_only_form_view_inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Print Label" type="action"
+                            name="%(product_barcode_label_baykee.product_barcode_label_view_action_window)d"/>
+                </xpath>
+                <xpath expr="//header/button[@name='action_open_label_layout']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
