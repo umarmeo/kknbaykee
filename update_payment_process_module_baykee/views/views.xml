@@ -95,9 +95,6 @@
                             <field name="ceo_date_time" invisible="1"/>
                             <field name="submit_uid" invisible="1"/>
                             <field name="submit_date_time" invisible="1"/>
-                            <field name="employee_id" invisible="1"/>
-                            <field name="department_id" invisible="1"/>
-                            <field name="user_id" invisible="1"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -131,10 +128,92 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="payment_process_module_baykee_kanban_view">
+            <field name="name">payment_process_module_baykee_kanban_view</field>
+            <field name="model">payment.process</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" class="o_kanban_small_column o_opportunity_kanban"
+                        archivable="false">
+                    <field name="state" options='{"group_by_tooltip": {"requirements": "Description"}}'/>
+                    <field name="name"/>
+                    <field name="division"/>
+                    <field name="state"/>
+                    <field name="payment_mode"/>
+                    <field name="term"/>
+                    <field name="analytic_account_id"/>
+                    <field name="payment_status"/>
+                    <field name="activity_ids"/>
+                    <field name="activity_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <strong>
+                                            Amount:
+                                        </strong>
+                                        <span>
+                                            <field name="amount"/>
+                                        </span>
+                                        <br/>
+                                        <strong>
+                                            Payment Status:
+                                        </strong>
+                                        <span style="color: red;">
+                                            <field name="payment_status"/>
+                                        </span>
+                                        <br/>
+                                        <strong>
+                                            Term:
+                                        </strong>
+                                        <span style="color: red;">
+                                            <field name="term"/>
+                                        </span>
+                                    </div>
+                                    <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                        <div class="oe_kanban_bottom_left">
+                                            <!--                                            <field name="priority" widget="priority"/>-->
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"></div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="payment_process_module_baykee_view_search" model="ir.ui.view">
+            <field name="name">payment_process_module_baykee_view_search</field>
+            <field name="model">payment.process</field>
+            <field name="arch" type="xml">
+                <search string="Activities Analysis">
+                    <group expand="1" string="Group By">
+                        <filter string="Period" name="group_by_period"
+                                context="{'group_by': 'create_date'}"/>
+                        <filter string="Status" name="group_by_status"
+                                domain="[('state', '=', ['approved', 'cancel', 'reject'])]"
+                                context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="payment_process_module_action">
             <field name="name">Payment Process</field>
             <field name="res_model">payment.process</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="payment_process_module_baykee_view_search"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Payment Process

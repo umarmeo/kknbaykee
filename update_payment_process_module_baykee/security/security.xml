@@ -3,7 +3,7 @@
         <field name="name">Payment Process</field>
         <field name="description">Helps you manage Payment Process Rights.</field>
     </record>
-    <record id="payment_process_hod_Approval" model="res.groups">
+     <record id="payment_process_hod_Approval" model="res.groups">
         <field name="name">HOD Approval</field>
         <field name="category_id" ref="category_payment_process"/>
     </record>
@@ -41,21 +41,6 @@
         <field name="domain_force">[('create_uid','=', user.id)]</field>
         <field name="groups"
                eval="[(4,ref('update_payment_process_module_baykee.payment_process_own'))]"/>
-        <field name="perm_read" eval="True"/>
-        <field name="perm_write" eval="True"/>
-        <field name="perm_create" eval="True"/>
-        <field name="perm_unlink" eval="False"/>
-    </record>
-    <record id="payment_process_manager_rights" model="res.groups">
-        <field name="name">Manager Rights</field>
-        <field name="category_id" ref="category_payment_process"/>
-    </record>
-    <record id="payment_process_manager_rule" model="ir.rule">
-        <field name="name">Payment Process Manager Rule</field>
-        <field name="model_id" ref="model_payment_process"/>
-        <field name="domain_force">['|', '|', ('create_uid', '=', user.id), ('employee_id.department_id.manager_id.user_id', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id)]</field>
-        <field name="groups"
-               eval="[(4,ref('update_payment_process_module_baykee.payment_process_manager_rights'))]"/>
         <field name="perm_read" eval="True"/>
         <field name="perm_write" eval="True"/>
         <field name="perm_create" eval="True"/>
