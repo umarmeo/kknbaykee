@@ -29,7 +29,7 @@ class update_payment_process(models.Model):
         ('approved', 'Approved'),
         ('cancel', 'Cancelled'),
         ('reject', 'Reject'),
-    ], string='Status', tracking=True,
+    ], string='Status', tracking=True, group_expand='_expand_states',
         default='draft')
     hod_uid = fields.Many2one('res.users', string='HOD uid', tracking=True)
     hod_date_time = fields.Datetime('HOD Date and Time', tracking=True)
@@ -52,6 +52,9 @@ class update_payment_process(models.Model):
         ('partial', 'Partial Payment'),
         ('full', 'Full Payment'),
     ], string='Payment Status', tracking=True)
+
+    def _expand_states(self, states, domain, order):
+        return [key for key, val in type(self).state.selection]
 
     @api.model
     def create(self, vals):

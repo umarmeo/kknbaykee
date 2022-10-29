@@ -211,8 +211,7 @@
             <field name="arch" type="xml">
                 <search string="Activities Analysis">
                     <filter string="Approved" name="approve" domain="[('state', '=', 'approved')]"/>
-                    <filter string="Cancelled" name="cancel" domain="[('state', '=', 'cancel')]"/>
-                    <filter string="Rejected" name="reject" domain="[('state', '=', 'reject')]"/>
+                    <filter string="Unapproved" name="unapprove" domain="[('state', 'in', ['hod', 'manager', 'draft', 'coo', 'ceo'])]"/>
                     <group expand="1" string="Group By">
                         <filter string="Period" name="group_by_period"
                                 context="{'group_by': 'create_date'}"/>
