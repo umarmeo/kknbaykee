@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Adding a salary rule for loan-->
+    <data noupdate="0">
+
+        <record id="ir_seq_hr_loan" model="ir.sequence">
+            <field name="name">Advance Loan Request</field>
+            <field name="code">hr.advance.loan.seq</field>
+            <field name="prefix">LO/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="implementation">standard</field>
+        </record>
+
+        <record id="ir_cron_advance_loan_contract" model="ir.cron">
+            <field name="name">Advance Loan Contract</field>
+            <field name="model_id" ref="model_hr_contract"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">records.compute_advance_loan_date_and_amount()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
+</odoo>

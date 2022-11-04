@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <!--	 Customize Attendance Report -->
+        <record id="inherited_view_attendance_tree_report" model="ir.ui.view">
+            <field name="name">inherited_hr.attendance.tree_report</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="before">
+                    <field name="employee_code"/>
+                </field>
+                <field name="employee_id" position="after">
+                    <field name="is_absent" invisible="1"/>
+                    <field name="shift" invisible="1"/>
+                    <field name="new_shift"/>
+                    <field name="current_shiftatt_date"/>
+                </field>
+                <tree string="Employee attendances">
+                    <field name="status"/>
+                    <field name="late_time"/>
+                    <field name="out_status"/>
+                    <field name="out_late_time"/>
+                    <field name="late_count" invisible="1"/>
+                    <field name="leave_count" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="inherited_view_attendance_form_report" model="ir.ui.view">
+            <field name="name">inherited_hr.attendance.form_report</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <field name="employee_id" position="attributes">
+                    <attribute name="options">{'no_open': True, 'no_create': True, 'no_edit': True}</attribute>
+                </field>
+                <field name="employee_id" position="before">
+                    <field name="employee_code"/>
+                </field>
+                <field name="employee_id" position="after">
+                    <field name="shift" force_save="True"/>
+                    <field name="new_shift" force_save="True"
+                           options="{'no_open': True, 'no_create': True, 'no_edit': True}"/>
+                    <field name="current_shiftatt_date"/>
+                </field>
+                <field name="check_out" position="after">
+                    <field name="worked_hours"/>
+                    <field name="status" force_save="True"/>
+                    <field name="out_status" force_save="True"/>
+                    <field name="late_time"/>
+                    <field name="out_late_time"/>
+                    <field name="late_count" invisible="1"/>
+                    <field name="is_absent" invisible="1"/>
+                    <field name="leave_count" invisible="1"/>
+                </field>
+<!--                <xpath expr="//form[1]/sheet[1]" position="after">-->
+<!--                    <div class="oe_chatter">-->
+<!--                        <field name="message_follower_ids" widget="mail_followers"/>-->
+<!--                        <field name="activity_ids" widget="mail_activity"/>-->
+<!--                        <field name="message_ids" widget="mail_thread"/>-->
+<!--                    </div>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+
+        <record id="view_attendance_tree_inherit_new" model="ir.ui.view">
+            <field name="name">hr.attendance.tree.inherit.new</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="groups_id" eval="[(4, ref('hr_attendance.group_hr_attendance_user'))]"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="edit">0</attribute>
+                    <attribute name="editable"></attribute>
+                </tree>
+            </field>
+        </record>
+        <record id="inherited_view_attendance_search" model="ir.ui.view">
+            <field name="name">inherited_hr.attendance.search</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search[1]/filter[@name='check_in_filter']" position="before">
+                    <filter name="today" string="Today"
+                            domain="[('current_shiftatt_date', '=', datetime.datetime.today())]"/>
+                    <filter string="Current Month" name="month"
+                            domain="['&amp;',('current_shiftatt_date', '&gt;=', datetime.datetime.today().strftime('%Y-%m-01')),('current_shiftatt_date', '&lt;=', datetime.datetime.today())]"/>
+                    <separator/>
+                </xpath>
+                <xpath expr="//search[1]/field[@name='employee_id']" position="before">
+                    <field name="employee_code"/>
+                </xpath>
+                <xpath expr="//search[1]/group[1]/filter[@name='employee']" position="after">
+                    <filter string="Old Shift" name="groupby_shift" context="{'group_by': 'shift'}"/>
+                    <filter string="New Shift" name="groupby_new_shift" context="{'group_by': 'new_shift'}"/>
+                </xpath>
+            </field>
+        </record>
+
+
+<!--        <record id="action_employee_department_wizard" model="ir.actions.act_window">-->
+<!--            <field name="name">Employee/Department Wise Report</field>-->
+<!--            <field name="res_model">attendance.customattendance</field>-->
+<!--            <field name="view_mode">form</field>-->
+<!--            <field name="target">new</field>-->
+<!--        </record>-->
+<!--        <menuitem id="hr_report_menuitem_new"-->
+<!--                  name="Reporting"-->
+<!--                  parent="hr_attendance.menu_hr_attendance_root"-->
+<!--                  groups="hr_attendance.group_hr_attendance_user"-->
+<!--                  sequence="30"/>-->
+<!--        <menuitem id="hr_attendance.menu_hr_attendance_report"-->
+<!--                  name="Attendance Analysis"-->
+<!--                  parent="hr_report_menuitem_new"-->
+<!--                  sequence="1"-->
+<!--                  groups="hr_attendance.group_hr_attendance_user"-->
+<!--                  action="hr_attendance.hr_attendance_action_graph"/>-->
+
+<!--        <menuitem id="menu_employee_department_attendance_report"-->
+<!--                  name="Employee/Department Report"-->
+<!--                  parent="hr_report_menuitem_new"-->
+<!--                  sequence="2"-->
+<!--                  groups="hr_attendance.group_hr_attendance_user"-->
+<!--                  action="action_employee_department_wizard"/>-->
+
+    </data>
+</odoo>

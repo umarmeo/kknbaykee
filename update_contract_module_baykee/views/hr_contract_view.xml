@@ -1,0 +1,148 @@
+<odoo>
+    <data>
+        <record id="update_cnotract_tree_new" model="ir.ui.view">
+            <field name="name">update.hr.tree.update_cnotract_tree_new</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+            <field name="arch" type="xml">
+                <field name="job_id" position="after">
+                    <field name="department_id"/>
+                    <field name="gross_finals" string="Gross Salary"/>
+                </field>
+            </field>
+        </record>
+        <!--      <record id="update_contract_form_new_1" model="ir.ui.view">-->
+        <!--          <field name="name">update.hr.form.update_cnotract_form_new_1</field>-->
+        <!--          <field name="model">hr.contract</field>-->
+        <!--          <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>-->
+        <!--          <field name="arch" type="xml">-->
+        <!--              <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='structure_type_id']" position="attributes">-->
+        <!--                  <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>-->
+        <!--              </xpath>-->
+        <!--          </field>-->
+        <!--      </record>-->
+        <record id="update_cnotract_form_new" model="ir.ui.view">
+            <field name="name">update.hr.form.update_cnotract_form_new</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="options">{}</attribute>
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+<!--                <xpath expr="//form/header/field[@name='state']" position="before">-->
+<!--                    <button name="onchange_contract_history" string="Update Salary Contract" type="object"-->
+<!--                            class="oe_highlight"/>-->
+<!--                    <button name="onchange_running" string="Move To Running" type="object" groups="hr.group_hr_manager"-->
+<!--                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>-->
+<!--                    <button name="onchange_reset" string="Reset To Draft" type="object" invisible="1"-->
+<!--                            class="oe_highlight" attrs="{'invisible': [('state', '=', 'draft')]}"/>-->
+<!--                    &lt;!&ndash;                    <button name="all_contract_update" string="Update All Contract" groups="base.group_no_one" type="object" class="oe_highlight"/>&ndash;&gt;-->
+<!--                </xpath>-->
+                <field name='name' position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </field>
+                <xpath expr="//field[@name='date_start']"
+                       position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_end']"
+                       position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+<!--                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/group[1]/group[1]/field[@name='trial_date_end']"-->
+<!--                       position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='resource_calendar_id']"
+                       position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='hr_responsible_id']"
+                       position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='wage']"
+                       position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </xpath>
+                <field name="structure_type_id" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                    <attribute name="options">{'no_open': True}</attribute>
+                </field>
+                <field name="notes" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                </field>
+                <xpath expr="//field[@name='employee_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='department_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='job_id']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('state', '!=', 'draft')]}</attribute>
+                    <attribute name="options">{'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='other']/group[1]" position="after">
+                    <group string="Contract Salary">
+                        <field name="deduction_check" attrs="{'readonly': [('state', '!=', 'draft')]}" force_save="1"/>
+                        <field name="incremented_date" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="total_salary" force_save="True" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="Basic_salary" readonly="1" force_save="True"/>
+                        <field name="medical_allowance" readonly="1" force_save="True"/>
+                        <field name="Allowance_fuel" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="Allowance_house" invisible="1" force_save="True"
+                               attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="gross_finals" readonly="1" force_save="True"/>
+                        <field name="Deduction_Tax" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="Deduction_EOBI" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="Deduction_PF" invisible="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="Deduction_Advance" readonly="1" force_save="1"/>
+                        <field name="Deduction_Loan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="Deduction_MobileBills" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <field name="deduction_lates" readonly="1" force_save="1"/>
+                        <field name="deduction_absent" readonly="1" force_save="1"/>
+                        <field name="Deduction_Finals" readonly="1" force_save="True"/>
+                        <field name="gazette_comp" readonly="1" force_save="1"/>
+                        <field name="special_allowance" readonly="1" force_save="1"/>
+                        <field name="Net_finals" readonly="1" force_save="True"/>
+
+                    </group>
+                </xpath>
+<!--                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='information']" position="after">-->
+<!--                    <page name="history Salary" string="Salary History">-->
+<!--                        &lt;!&ndash;                      <group>&ndash;&gt;-->
+<!--                        <field name="history_contract_salary">-->
+<!--                            <tree default_order="in_date desc" create="false" readonly="1" force_save="1">-->
+<!--                                <field name="Basic_salary"/>-->
+<!--                                <field name="Allowance_fuel"/>-->
+<!--                                <field name="Allowance_house"/>-->
+<!--                                <field name="gross_finals"/>-->
+<!--                                <field name="incremented_date" string="Increment Date"/>-->
+<!--                                <field name="user_id"/>-->
+<!--                                <field name="in_date"/>-->
+<!--                            </tree>-->
+<!--                            <form create="false" edit="false" delete="false">-->
+<!--                                <sheet>-->
+<!--                                    <group>-->
+<!--                                        <field name="Basic_salary" readonly="1" force_save="1"/>-->
+<!--                                        <field name="Allowance_fuel" readonly="1" force_save="1"/>-->
+<!--                                        <field name="Allowance_house" readonly="1" force_save="1"/>-->
+<!--                                        <field name="gross_finals" readonly="1" force_save="1"/>-->
+<!--                                        <field name="incremented_date" readonly="1" force_save="1"/>-->
+<!--                                        <field name="user_id" readonly="1" force_save="1"/>-->
+<!--                                        <field name="in_date" readonly="1" force_save="1"/>-->
+<!--                                    </group>-->
+<!--                                </sheet>-->
+<!--                            </form>-->
+<!--                        </field>-->
+<!--                        &lt;!&ndash;                      </group>&ndash;&gt;-->
+<!--                    </page>-->
+<!--                </xpath>-->
+            </field>
+        </record>
+    </data>
+</odoo>
