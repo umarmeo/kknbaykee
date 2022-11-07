@@ -17,9 +17,7 @@ class update_payment_process(models.Model):
                                  default=lambda self: self.env.user.company_id.id)
     currency_id = fields.Many2one('res.currency', string="Currency",
                                   related='company_id.currency_id')
-    employee_id = fields.Many2one('hr.employee', compute='_compute_employee_id_from_user', store=True)
-    department_id = fields.Many2one(related='employee_id.department_id', string="Department Id")
-    user_id = fields.Many2one('res.users', string='Scheduler User', default=lambda self: self.env.user)
+
     amount = fields.Monetary('Amount', tracking=True, required=True)
     purpose = fields.Text('Purpose', tracking=True, required=True)
     state = fields.Selection(selection=[
@@ -31,7 +29,7 @@ class update_payment_process(models.Model):
         ('approved', 'Approved'),
         ('cancel', 'Cancelled'),
         ('reject', 'Reject'),
-    ], string='Status', tracking=True,
+    ], string='Status', tracking=True, group_expand='_expand_states',
         default='draft')
     hod_uid = fields.Many2one('res.users', string='HOD uid', tracking=True)
     hod_date_time = fields.Datetime('HOD Date and Time', tracking=True)
@@ -55,14 +53,8 @@ class update_payment_process(models.Model):
         ('full', 'Full Payment'),
     ], string='Payment Status', tracking=True)
 
-    @api.depends('create_uid')
-    def _compute_employee_id_from_user(self):
-        for res in self:
-            res.employee_id = False
-            if len(res.create_uid) == 1:
-                employee_id = self.env['hr.employee'].search([('user_id', '=', res.create_uid.id)], limit=1)
-                if len(employee_id) == 1:
-                    res.employee_id = employee_id.ids[0]
+    def _expand_states(self, states, domain, order):
+        return [key for key, val in type(self).state.selection]
 
     @api.model
     def create(self, vals):

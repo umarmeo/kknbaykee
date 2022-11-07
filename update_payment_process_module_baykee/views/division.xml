@@ -6,6 +6,7 @@
             <field name="arch" type="xml">
                 <tree delete="false" editable="bottom">
                     <field name="name"/>
+                    <field name="user_id"/>
                 </tree>
             </field>
         </record>
