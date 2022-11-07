@@ -232,7 +232,7 @@
                     Create a Payment Process
                 </p>
                 <p>
-                    A Payment Process consists of amount field and purpose fie;d, in amount field enter amount,
+                    A Payment Process consists of amount field and purpose field, in amount field enter amount,
                     in purpose field enter purpose of amount.
                 </p>
             </field>
