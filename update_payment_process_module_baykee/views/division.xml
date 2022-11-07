@@ -6,7 +6,7 @@
             <field name="arch" type="xml">
                 <tree delete="false" editable="bottom">
                     <field name="name"/>
-                    <field name="user_id"/>
+                    <field name="user_id" widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
