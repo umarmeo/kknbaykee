@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="accounting_reports_baykee.partner_ledger_temp">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <t t-set="data_report_margin_top" t-value="12"/>
+                    <t t-set="data_report_header_spacing" t-value="9"/>
+                    <t t-set="data_report_dpi" t-value="110"/>
+                    <div class="page">
+                        <h2>Partner Ledger</h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Company:</strong>
+                                <p t-esc="env.company.name"/>
+                            </div>
+                            <div class="col-6">
+                                <t>
+                                    <strong>Date from :</strong>
+                                    <span t-esc="start_date"/>
+                                    <br/>
+                                </t>
+                                <t>
+                                    <strong>Date to :</strong>
+                                    <span t-esc="end_date"/>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <t>
+                                    <strong>Analytic Account :</strong>
+                                    <t t-if="analytic_accounts">
+                                        <t t-foreach="analytic_accounts" t-as="account">
+                                            <span t-esc="account.name"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="not analytic_accounts">
+                                        <span t-esc="analytic_accounts_all"/>
+                                    </t>
+                                    <br/>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <t>
+                                    <strong>Analytic Tags :</strong>
+                                    <t t-if="analytic_tags">
+                                        <t t-foreach="analytic_tags" t-as="tag">
+                                            <span t-esc="tag.name"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="not analytic_tags">
+                                        <span t-esc="analytic_tags_all"/>
+                                    </t>
+                                    <br/>
+                                </t>
+                            </div>
+                        </div>
+                        <table class="table table-sm table-reports">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>JRNL</th>
+                                    <th>Account</th>
+                                    <th>Move</th>
+                                    <th>Reference</th>
+                                    <th></th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
+                                    <th>Balance</th>
+                                    <!--                                    <th t-if="data['form']['amount_currency']">Currency</th>-->
+                                </tr>
+                            </thead>
+                            <t t-foreach="dat" t-as="data">
+                                <tbody>
+                                    <tr>
+                                        <t t-set="total_debit" t-value="0"/>
+                                        <t t-set="total_credit" t-value="0"/>
+                                        <t t-set="total_close_bal" t-value="0"/>
+                                        <t t-foreach="data[1]" t-as="s">
+                                            <t t-set="total_debit" t-value="total_debit+s['debit']"/>
+                                            <t t-set="total_credit" t-value="total_credit+s['credit']"/>
+                                            <t t-set="total_close_bal" t-value="total_debit-total_credit"/>
+                                        </t>
+                                        <td colspan="6">
+                                            <strong t-esc="data[0]"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="total_debit"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="total_credit"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="total_close_bal"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-foreach="data[1]" t-as="line">
+                                        <td>
+                                            <span t-esc="line['date']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['jrnl']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['account']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['move']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['narration']"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line['text']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['debit']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['credit']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['balance']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <!--        <template id="accounting_reports_baykee.partner_ledger_temp">-->
+        <!--            <t t-call="web.html_container">-->
+        <!--                <t t-foreach="docs" t-as="o">-->
+        <!--                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-5 text-left">-->
+        <!--                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"-->
+        <!--                                     style="height:100px;width:250px;margin-bottom:15px"/>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-7 text-right">-->
+        <!--                                <br/>-->
+        <!--                                <h3 t-if="company_id">-->
+        <!--                                    <t t-esc="company_id.name"/>-->
+        <!--                                </h3>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"-->
+        <!--                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-12 text-center">-->
+        <!--                                <h3>Partner Ledger</h3>-->
+        <!--                                <br/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-3">-->
+        <!--                            </div>-->
+        <!--                            <div class="col-6 text-right">-->
+        <!--                                <span>Start Date</span>-->
+        <!--                                <br/>-->
+        <!--                                <span>End Date</span>-->
+        <!--                                <br/>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-3 text-right">-->
+        <!--                                <span>-->
+        <!--                                    <t t-esc="start_date"/>-->
+        <!--                                </span>-->
+        <!--                                <br/>-->
+        <!--                                <span>-->
+        <!--                                    <t t-esc="end_date"/>-->
+        <!--                                </span>-->
+        <!--                                <br/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">-->
+        <!--                            <tr style="background-color:#f48531;color:white;">-->
+        <!--                                <th style="width:14%">Partner</th>-->
+        <!--                                <th style="width:14%">Analytic Account</th>-->
+        <!--                                <th style="width:14%">Analytic Tag</th>-->
+        <!--                                <th style="width:14%">Nature of Account</th>-->
+        <!--                                <th style="text-align:right; width:14%">Opening Balance</th>-->
+        <!--                                <th style="text-align:left; width:30%">Narration</th>-->
+        <!--                                <th style="text-align:right; width:14%">Receipts</th>-->
+        <!--                                <th style="text-align:right; width:14%">Payments</th>-->
+        <!--                                <th style="text-align:right; width:14%">Closing Balance</th>-->
+        <!--                            </tr>-->
+        <!--                            <t t-foreach="main" t-as="m">-->
+        <!--                                <tr style="font-size:12px;">-->
+        <!--                                    <td>-->
+        <!--                                        <span t-esc="m['partner']"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td>-->
+        <!--                                        <span t-esc="m['analytic_account']"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td>-->
+        <!--                                        <span t-esc="m['analytic_tag']"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td>-->
+        <!--                                        <span t-esc="m['account']"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td style="text-align:right">-->
+        <!--                                        <span t-if="m['open_bal'] != 0" t-esc="'{:,.2f}'.format(m['open_bal'])"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td style="text-align:left">-->
+        <!--                                        <span t-esc="m['narration']"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td style="text-align:right">-->
+        <!--                                        <span t-if="m['receipt'] != 0" t-esc="'{:,.2f}'.format(m['receipt'])"/>-->
+        <!--                                    </td>-->
+        <!--                                    <td style="text-align:right">-->
+        <!--                                        <span t-if="m['payment'] != 0" t-esc="'{:,.2f}'.format(m['payment'])"/>-->
+        <!--                                    </td>-->
+
+        <!--                                    <td style="text-align:right">-->
+        <!--                                        <span t-esc="'{:,.2f}'.format(m['close_bal'])"/>-->
+        <!--                                    </td>-->
+        <!--                                </tr>-->
+        <!--                            </t>-->
+        <!--                            <tr style="background-color:#f48531;color:white;">-->
+        <!--                                <td class="text-right" colspan="1">-->
+        <!--                                    <b>Total</b>-->
+        <!--                                </td>-->
+        <!--                                <t t-set="total_receipt" t-value="0"/>-->
+        <!--                                <t t-set="total_payment" t-value="0"/>-->
+        <!--                                <t t-set="total_open_bal" t-value="0"/>-->
+        <!--                                <t t-set="total_close_bal" t-value="0"/>-->
+        <!--                                <t t-foreach="main" t-as="s">-->
+        <!--                                    <t t-set="total_receipt" t-value="total_receipt+s['receipt']"/>-->
+        <!--                                    <t t-set="total_payment" t-value="total_payment+s['payment']"/>-->
+        <!--                                    <t t-set="total_open_bal" t-value="total_open_bal+s['open_bal']"/>-->
+        <!--                                    <t t-set="total_close_bal" t-value="total_receipt-total_payment"/>-->
+        <!--                                </t>-->
+        <!--                                <td class="text-right">-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                    <strong>-->
+        <!--                                        <t t-esc="'{:,.2f}'.format(total_open_bal)"/>-->
+        <!--                                    </strong>-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                    <strong>-->
+        <!--                                        <t t-esc="'{:,.2f}'.format(total_receipt)"/>-->
+        <!--                                    </strong>-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                    <strong>-->
+        <!--                                        <span t-esc="'{:,.2f}'.format(total_payment)"/>-->
+        <!--                                    </strong>-->
+        <!--                                </td>-->
+        <!--                                <td class="text-right">-->
+        <!--                                    <strong>-->
+        <!--                                        <span t-esc="'{:,.2f}'.format(total_close_bal)"/>-->
+        <!--                                    </strong>-->
+        <!--                                </td>-->
+        <!--                            </tr>-->
+        <!--                        </table>-->
+        <!--                    </div>-->
+        <!--                    <div class="footer" style="font-size:11px;border-top:1px solid black;">-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-5 text-left">-->
+        <!--                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </template>-->
+    </data>
+</odoo>
