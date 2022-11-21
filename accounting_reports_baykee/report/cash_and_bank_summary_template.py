@@ -69,13 +69,13 @@ class CashAndBankSummaryTemplate(models.AbstractModel):
                     move_lines = self.env['account.move.line'].search(
                         [('date', '>=', start_date), ('date', '<=', end_date),
                          ('account_id', '=', chart.id)], order='id')
-                for line in move_lines:
-                    debit += line.debit
-                    credit += line.credit
-                    if debit or credit > 0:
+                if move_lines:
+                    for line in move_lines:
+                        debit += line.debit
+                        credit += line.credit
                         close_bal = open_bal + debit - credit
-                    else:
-                        close_bal = open_bal
+                else:
+                    close_bal = open_bal
                 main.append({
                     'account': chart.code + ' ' + chart.name,
                     'open_bal': open_bal,
