@@ -7,13 +7,9 @@
             <field name="arch" type="xml">
                 <form string="Biometric Device">
                     <header>
-                        <button name="try_connection" type="object" string="Try connection" class="btn-primary" attrs="{'invisible':[('ip_select','!=','local')]}"/>
-                        <button name="check_connection_api" type="object" string="Check Connection"
-                                class="oe_highlight" attrs="{'invisible':[('ip_select','!=','other')]}"/>
+                        <button name="try_connection" type="object" string="Try connection" class="btn-primary"/>
                         <button name="download_attendance" type="object" string="Update Attendance" class="oe_highlight"
-                                icon="fa-download " confirm="Are you sure you want to do this?" attrs="{'invisible':[('ip_select','!=','local')]}"/>
-                        <button name="download_attendance_api" type="object" string="Download Attendance"
-                                class="oe_highlight" attrs="{'invisible':[('ip_select','!=','other')]}"/>
+                                icon="fa-download " confirm="Are you sure you want to do this?"/>
                         <button name="clear_attendance" type="object" string="Clear Data" class="oe_highlight"
                                 icon="fa-remove " confirm="Are you sure you want to do this?"/>
                     </header>
@@ -23,7 +19,7 @@
                             <h3>
                                 <field name="ip_select"/>
                             </h3>
-                            <label for="name"/>
+                            <label for="name" attrs="{'invisible':[('ip_select','=',False)]}"/>
                             <h1>
                                 <field name="name" placeholder="Machine IP" attrs="{'invisible':[('ip_select','=',False)]}"/>
                             </h1>

@@ -54,6 +54,7 @@ class Attendance(models.Model):
                     else:
                         atten_time = now_dubai.strftime("%Y-%m-%d %H:%M:%S")
                     timendate = str(atten_time).split()
+
                     name = self.env['hr.employee'].search([('machine_id', '=', each['user_id'])])
                     print(name, "")
                     duplicate_atten_ids = zk_attendance.search(
