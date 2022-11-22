@@ -7,18 +7,25 @@
             <field name="arch" type="xml">
                 <form string="Biometric Device">
                     <header>
-                        <button name="try_connection" type="object" string="Try connection" class="btn-primary"/>
-                        <button name="zkgetuser" type="object" string="Update User" class="btn-primary"/>
+                        <button name="try_connection" type="object" string="Try connection" class="btn-primary" attrs="{'invisible':[('ip_select','!=','local')]}"/>
+                        <button name="check_connection_api" type="object" string="Check Connection"
+                                class="oe_highlight" attrs="{'invisible':[('ip_select','!=','other')]}"/>
                         <button name="download_attendance" type="object" string="Update Attendance" class="oe_highlight"
-                                icon="fa-download " confirm="Are you sure you want to do this?"/>
+                                icon="fa-download " confirm="Are you sure you want to do this?" attrs="{'invisible':[('ip_select','!=','local')]}"/>
+                        <button name="download_attendance_api" type="object" string="Download Attendance"
+                                class="oe_highlight" attrs="{'invisible':[('ip_select','!=','other')]}"/>
                         <button name="clear_attendance" type="object" string="Clear Data" class="oe_highlight"
                                 icon="fa-remove " confirm="Are you sure you want to do this?"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
+                            <label for="ip_select"/>
+                            <h3>
+                                <field name="ip_select"/>
+                            </h3>
                             <label for="name"/>
                             <h1>
-                                <field name="name" placeholder="Machine IP"/>
+                                <field name="name" placeholder="Machine IP" attrs="{'invisible':[('ip_select','=',False)]}"/>
                             </h1>
                         </div>
                         <group>
@@ -27,8 +34,6 @@
                                 <field name="zk_timeout"/>
                                 <field name="zk_after_date"/>
                                 <field name="address_id"/>
-
-
                             </group>
                             <group>
                                 <field name="company_id" groups="base.group_multi_company"/>
@@ -49,7 +54,6 @@
                     <field name="port_no"/>
                     <field name="address_id"/>
                     <field name="company_id" groups="base.group_multi_company"/>
-                    <button name="zkgetuser" string="Update User" type="object" class="btn-primary"/>
                     <button name="download_attendance" type="object" string="Update Attendance" class="oe_highlight"
                             icon="fa-download "/>
                 </tree>
@@ -62,7 +66,8 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem id="zk_machine_menu" parent="hr_attendance.menu_hr_attendance_root" sequence="50" name="Biometric Manager"/>
+        <menuitem id="zk_machine_menu" parent="hr_attendance.menu_hr_attendance_root" sequence="50"
+                  name="Biometric Manager"/>
         <menuitem id="zk_machine_sub_menu" parent="zk_machine_menu" name="Device Configuration"
                   action="zk_machine_action" sequence="1"/>
 

@@ -21,6 +21,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/data.xml',
+        'data/download_data.xml',
         'views/zk_device_view.xml',
         'views/hr_employee.xml',
         'views/machine_analysis_view.xml',

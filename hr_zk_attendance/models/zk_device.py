@@ -23,6 +23,10 @@ except ImportError:
 class ZkMachine(models.Model):
     _name = 'zk.machine'
 
+    ip_select = fields.Selection([
+        ('local', "Local IP Address"),
+        ('other', "Other IP Address"),
+    ], string="IP Address Type")
     name = fields.Char(string='Machine IP', required=True)
     port_no = fields.Integer(string='Port No', required=True, default="4370")
     address_id = fields.Many2one('res.partner', string='Working Address')
@@ -39,13 +43,14 @@ class ZkMachine(models.Model):
         except:
             _logger.info("zk.exception.ZKNetworkError: can't reach device.")
             raise UserError("Connection To Device cannot be established.")
-            return False
 
     def try_connection(self):
         for r in self:
             machine_ip = r.name
+            print(platform.system())
             if platform.system() == 'Linux':
                 response = os.system("ping -c 1 " + machine_ip)
+                print(response)
                 if response == 0:
                     raise UserError("Biometric Device is Up/Reachable.")
                 else:
@@ -59,49 +64,13 @@ class ZkMachine(models.Model):
 
     def clear_attendance(self):
         pass
-        # if self.name:
-        #     sql = "delete from zk_machine_attendance where location_device ='" + str(self.name) + "'"
-        #     self.env.cr.execute(sql)
 
-    def zkgetuser(self):
-        try:
-            machine_ip = self.name
-            zk_port = self.port_no
-            timeout = self.zk_timeout
-            zk = ZK(machine_ip, port=zk_port, timeout=timeout, password=0, force_udp=False, ommit_ping=False)
-            conn = zk.connect()
-            users = conn.get_users()
-            print(users)
-            for i in range(len(users)):
-                name = self.env['hr.employee'].search([('machine_id', '=', users[i].user_id)])
-                vals = {
-                    'name': name.name,
-                    'user_id': users[i].user_id,
-                }
-                if len(name) == 1:
-                    bayee_user = self.env['baykee.user'].search_count([('user_id', '=', users[i].user_id)])
-                    if bayee_user == 0:
-                        rec = self.env['baykee.user'].create(vals)
-            view = self.env.ref('hr_zk_attendance.sh_message_wizard')
-            view_id = view and view.id or False
-            context = dict(self._context or {})
-            context['message'] = ("User Updated")
-            return {
-                'name': 'Successful',
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'res_model': 'sh.message.wizard',
-                'views': [(view.id, 'form')],
-                'view_id': view.id,
-                'target': 'new',
-                'context': context,
-            }
-        except:
-            raise UserError(_('Unable to get Users.'))
+    def cron_download(self):
+        machines = self.env['zk.machine'].search([])
+        for machine in machines:
+            machine.download_attendance()
 
     def download_attendance(self):
-        pass
         _logger.info("++++++++++++Cron Executed++++++++++++++++++++++")
         zk_attendance = self.env['zk.machine.attendance']
         # zk_attendance_daily = self.env['zk.report.daily.attendance']
@@ -128,6 +97,7 @@ class ZkMachine(models.Model):
                         date_hour_end = str(date(date.today().year, 11, 7))
                         start_date_check_attendance = str(date.today() - timedelta(days=10))
                         for each in attendance:
+                            print(type(each.timestamp))
                             timedate = datetime.strptime(each.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
                                                          '%Y-%m-%d %H:%M:%S')
                             if start_date_check_attendance < str(timedate).split()[0] <= str(date.today()):
@@ -364,9 +334,6 @@ class ZkMachine(models.Model):
                                                               'location_device': str(machine_ip),
                                                               'punching_time': atten_time})
                     conn.disconnect()
-                # else:
-                #     raise UserError(
-                #         _('Unable to connect to Attendance Device. Please use Test Connection button to verify.'))
             except Exception as e:
                 pass
 

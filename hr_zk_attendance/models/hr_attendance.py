@@ -186,5 +186,63 @@ class attendance_report_form(models.Model):
         if self.employee_id:
             self.new_shift = self.employee_id.new_shift_type
 
+    def cron_download(self):
+        self.add_absent_leave(start_work=True)
 
+    def add_absent_leave(self, start_work=False):
+        weekDays = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+        if start_work:
+            delete_date = [1]
+            for i in delete_date:
+                date_check = datetime.date.today() - datetime.timedelta(days=i)
+                date_hour_start = str(datetime.date(date_check.year, 3, 13))
+                date_hour_end = str(datetime.date(date_check.year, 11, 7))
+                attendance = self.env['hr.attendance'].search([('current_shiftatt_date', '=', date_check)])
+                if len(attendance) > 0:
+                    id = []
+                    for emp in attendance:
+                        id.append(emp.employee_id.id)
+                    employees = self.env['hr.employee'].search([('id', 'not in', id)])
+                else:
+                    employees = self.env['hr.employee'].search([])
+                for employee in employees:
+                    if employee.name != 'System':
+                        rest_day = []
+                        for rest in employee.rest_days:
+                            rest_day.append(weekDays[int(rest.id) - 1])
+                        if date_check.strftime("%A") in rest_day:
+                            status = 'RestDay'
+                        else:
+                            status = 'Absent'
+                        start_date = date_check
+                        if employee.new_shift_type:
+                            check_in = datetime.datetime(start_date.year, start_date.month, start_date.day) + datetime.timedelta(hours=employee.new_shift_type.shift_start)
+                            now_dubai = check_in.astimezone(pytz.timezone('Canada/Eastern'))
+                            if employee.new_shift_type.shift_type == 'Night':
+                                now_dubai += datetime.timedelta(days=1)
+                            atten_time1 = now_dubai.strftime("%Y-%m-%d %H:%M:%S")
+                            if date_hour_start < str(atten_time1).split()[0] < date_hour_end:
+                                check_in = now_dubai - datetime.timedelta(hours=1)
+                                check_in = check_in.strftime("%Y-%m-%d %H:%M:%S")
+                            else:
+                                check_in = now_dubai.strftime("%Y-%m-%d %H:%M:%S")
+                        else:
+                            check_in = False
+                        att_vals = {
+                            'employee_id': employee.id,
+                            'current_shiftatt_date': start_date,
+                            'check_in': check_in,
+                            'check_out': check_in,
+                            'new_shift': employee.new_shift_type.id if employee.new_shift_type else False ,
+                            'status': status,
+                            'is_absent': True,
+                            'out_status': status,
+                            'late_time': False,
+                        }
+                        check_record = self.env['hr.attendance'].search(
+                            [('employee_id', '=', employee.id), ('current_shiftatt_date', '=', start_date)])
+                        if len(check_record) == 1:
+                            pass
+                        else:
+                            self.env['hr.attendance'].create(att_vals)
 

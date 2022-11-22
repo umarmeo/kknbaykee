@@ -82,6 +82,7 @@ class BaykeeEmployeeShifts(models.Model):
                 rec.present_end = rec.shift_start + rec.margin
                 rec.late_end = rec.shift_start + 1
                 rec.short_leave = rec.shift_start + 2
+                rec.half_leave = rec.shift_start + 4
             if rec.present_end > 0:
                 rec.shift_end = rec.shift_start + rec.shift_duration
                 while rec.shift_end >= 24:
