@@ -1,7 +1,6 @@
 from odoo import models, fields, api
-from datetime import datetime
+from datetime import datetime, date
 from datetime import timedelta
-from datetime import date
 import pytz
 from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
@@ -41,6 +40,8 @@ class attendance_report_form(models.Model):
                                          ('RestDay', 'Rest Day'),
                                          ('PaidLeave', 'Paid Leave'),
                                          ('UnpaidLeave', 'Unpaid Leave'),
+                                         ('MarriageLeave', 'Marriage Leave'),
+                                         ('BloodRelationDeathLeave', 'Blood Relation Death Leave'),
                                          ('CasualLeave', 'Casual Leave'),
                                          ('SickLeave', 'Sick Leave'),
                                          ('CompensatoryLeave', 'Compensatory Leave'),
@@ -57,6 +58,8 @@ class attendance_report_form(models.Model):
                                              ('RestDay', 'Rest Day'),
                                              ('PaidLeave', 'Paid Leave'),
                                              ('UnpaidLeave', 'Unpaid Leave'),
+                                             ('MarriageLeave', 'Marriage Leave'),
+                                             ('BloodRelationDeathLeave', 'Blood Relation Death Leave'),
                                              ('CasualLeave', 'Casual Leave'),
                                              ('SickLeave', 'Sick Leave'),
                                              ('CompensatoryLeave', 'Compensatory Leave'),
@@ -66,6 +69,25 @@ class attendance_report_form(models.Model):
                                              ('OutdoorDuty', 'Outdoor Duty'),
                                              ('Absent', 'Absent'), ],
                                   string='Check Out Status', tracking=True, store=True, readonly=False)
+    status_leave = fields.Selection(selection=[('PresentOnTime', 'Present'),
+                                               ('Late', 'Late'),
+                                               ('ShortLeave(unpaid)', 'Short Leave Unpaid'),
+                                               ('ShortLeave(paid)', 'Short Leave Paid'),
+                                               ('HalfLeave(unpaid)', 'Half Leave Unpaid'),
+                                               ('HalfLeave(paid)', 'Half Leave Paid'),
+                                               ('RestDay', 'Rest Day'),
+                                               ('PaidLeave', 'Paid Leave'),
+                                               ('UnpaidLeave', 'Unpaid Leave'),
+                                               ('MarriageLeave', 'Marriage Leave'),
+                                               ('BloodRelationDeathLeave', 'Blood Relation Death Leave'),
+                                               ('CasualLeave', 'Casual Leave'),
+                                               ('SickLeave', 'Sick Leave'),
+                                               ('CompensatoryLeave', 'Compensatory Leave'),
+                                               ('GazetteLeave', 'Gazette Leave'),
+                                               ('OfficialLeaves', 'Official Leave'),
+                                               ('WorkfromHome', 'Work from Home'),
+                                               ('Absent', 'Absent'), ],
+                                    string='Leave Status', tracking=False, store=True, readonly=False)
     is_absent = fields.Boolean('Is Absent')
     late_time = fields.Char(string='Late Check In', tracking=True, readonly=False)
     out_late_time = fields.Char(string='Early Check Out', tracking=True, readonly=False)
@@ -76,6 +98,8 @@ class attendance_report_form(models.Model):
 
     check_in = fields.Datetime(string="Check In", default=fields.Datetime.now, required=False, tracking=True)
     check_out = fields.Datetime(string="Check Out", tracking=True)
+    timeoff_id1 = fields.Many2one('hr.leave', string='TimeOff Ref 2nd')
+    timeoff_id = fields.Many2one('hr.leave', string='TimeOff Ref')
 
     @api.depends('check_in', 'check_out')
     def _compute_worked_hours(self):
@@ -120,27 +144,32 @@ class attendance_report_form(models.Model):
                 shift_check = name.employee_shift
                 date_check = temp_time.date()
                 temp_time = datetime.strptime(str(temp_time), '%Y-%m-%d %H:%M:%S')
+                print(temp_time, 'temp_time')
                 shift_start = datetime(date_check.year, date_check.month, date_check.day) + timedelta(
                     hours=shift_check.shift_start)
+                print(shift_start, 'shift_start')
                 margin_shift_start = shift_start - timedelta(hours=3)
-
+                print(margin_shift_start, 'margin_shift_start')
                 present_end = datetime(date_check.year, date_check.month, date_check.day) + timedelta(
                     hours=shift_check.present_end)
+                print(present_end, 'present_end')
                 late_end = datetime(date_check.year, date_check.month, date_check.day) + timedelta(
                     hours=shift_check.late_end)
+                print(late_end, 'late_end')
                 short_end = datetime(date_check.year, date_check.month, date_check.day) + timedelta(
                     hours=shift_check.short_leave)
+                print(short_end, 'short_end')
                 if margin_shift_start <= temp_time < present_end:
                     self.late_time = False
                     self.status = 'PresentOnTime'
                 elif present_end <= temp_time < late_end:
-                    self.late_time = str(temp_time - shift_start)
+                    self.late_time = str(temp_time - present_end)
                     self.status = 'Late'
                 elif late_end <= temp_time < short_end:
-                    self.late_time = str(temp_time - shift_start)
+                    self.late_time = str(temp_time - present_end)
                     self.status = 'ShortLeave'
                 else:
-                    self.late_time = str(temp_time - shift_start)
+                    self.late_time = str(temp_time - present_end)
                     if self.status == 'HalfLeave':
                         self.status = 'HalfLeave'
                     else:
@@ -153,7 +182,11 @@ class attendance_report_form(models.Model):
                 temp_time = datetime.strptime(str(self.check_out), '%Y-%m-%d %H:%M:%S').astimezone(
                     pytz.timezone('Asia/Karachi'))
                 temp_time = datetime.strptime(str(temp_time), '%Y-%m-%d %H:%M:%S+05:00')
-
+                # leave_timeoff = self.env['hr.leave'].search(
+                #     [('employee_id', '=', self.employee_id.id), ('state', '=', 'validate')])
+                # if leave_timeoff:
+                #     for leave in leave_timeoff:
+                #         if leave.date_from ==
                 if shift_late_departure_margin <= temp_time:
                     self.out_late_time = False
                     self.out_status = 'PresentOnTime'
@@ -216,7 +249,9 @@ class attendance_report_form(models.Model):
                             status = 'Absent'
                         start_date = date_check
                         if employee.new_shift_type:
-                            check_in = datetime.datetime(start_date.year, start_date.month, start_date.day) + datetime.timedelta(hours=employee.new_shift_type.shift_start)
+                            check_in = datetime.datetime(start_date.year, start_date.month,
+                                                         start_date.day) + datetime.timedelta(
+                                hours=employee.new_shift_type.shift_start)
                             now_dubai = check_in.astimezone(pytz.timezone('Canada/Eastern'))
                             if employee.new_shift_type.shift_type == 'Night':
                                 now_dubai += datetime.timedelta(days=1)
@@ -233,7 +268,7 @@ class attendance_report_form(models.Model):
                             'current_shiftatt_date': start_date,
                             'check_in': check_in,
                             'check_out': check_in,
-                            'new_shift': employee.new_shift_type.id if employee.new_shift_type else False ,
+                            'new_shift': employee.new_shift_type.id if employee.new_shift_type else False,
                             'status': status,
                             'is_absent': True,
                             'out_status': status,
@@ -245,4 +280,3 @@ class attendance_report_form(models.Model):
                             pass
                         else:
                             self.env['hr.attendance'].create(att_vals)
-

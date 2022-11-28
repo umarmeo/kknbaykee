@@ -52,6 +52,7 @@
                     <field name="late_count" invisible="1"/>
                     <field name="is_absent" invisible="1"/>
                     <field name="leave_count" invisible="1"/>
+                    <field name="status_leave" invisible="1"/>
                 </field>
 <!--                <xpath expr="//form[1]/sheet[1]" position="after">-->
 <!--                    <div class="oe_chatter">-->

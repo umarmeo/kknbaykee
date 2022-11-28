@@ -231,7 +231,7 @@ class ZkMachine(models.Model):
                                                 'check_out': atten_time,
                                                 'status': 'Late',
                                                 'new_shift': shift_check.id,
-                                                'late_time': str(temp_time - shift_start),
+                                                'late_time': str(temp_time - present_end),
                                                 'out_status': 'Absent',
                                                 'out_late_time': False,
                                             }
@@ -245,7 +245,7 @@ class ZkMachine(models.Model):
                                                 'new_shift': shift_check.id,
                                                 'status': 'ShortLeave',
                                                 'out_status': 'Absent',
-                                                'late_time': str(temp_time - shift_start),
+                                                'late_time': str(temp_time - present_end),
                                                 'out_late_time': False,
                                             }
                                             self.env['hr.attendance'].create(att_vals)
@@ -258,7 +258,7 @@ class ZkMachine(models.Model):
                                                 'new_shift': shift_check.id,
                                                 'status': 'HalfLeave',
                                                 'out_status': 'Absent',
-                                                'late_time': str(temp_time - shift_start),
+                                                'late_time': str(temp_time - present_end),
                                                 'out_late_time': False,
                                             }
                                             self.env['hr.attendance'].create(att_vals)
@@ -292,14 +292,14 @@ class ZkMachine(models.Model):
                                                 elif present_end <= temp_time < late_end:
                                                     check_record.status = 'Late'
                                                     check_record.status_leave = 'Late'
-                                                    check_record.late_time = str(temp_time - shift_start)
+                                                    check_record.late_time = str(temp_time - present_end)
                                                 elif late_end <= temp_time < short_end:
                                                     check_record.status = 'ShortLeave'
                                                     check_record.status_leave = 'ShortLeave(paid)'
-                                                    check_record.late_time = str(temp_time - shift_start)
+                                                    check_record.late_time = str(temp_time - present_end)
                                                 elif late_end <= temp_time < half_end:
                                                     check_record.status = 'HalfLeave'
-                                                    check_record.late_time = str(temp_time - shift_start)
+                                                    check_record.late_time = str(temp_time - present_end)
                                             temp1 = check_record.check_in
                                             check_record.check_in = atten_time
                                             check_record.check_out = temp1
