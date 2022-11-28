@@ -1,37 +1,43 @@
 import datetime
 
 from odoo import models, fields, api
+from datetime import datetime, date
+from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError
 
 
 class HrContract(models.Model):
     _inherit = 'hr.contract'
 
-    incremented_date = fields.Datetime(string="Increment Date", tracking=True)
     Basic_salary = fields.Monetary(string='Basic Salary', store=True, tracking=True)
     Allowance_fuel = fields.Monetary(string='Fuel Allowance', tracking=True)
     medical_allowance = fields.Monetary(string='Medical Allowance', store=True, tracking=True)
-    total_salary = fields.Monetary('Total Salary', tracking=True)
     Allowance_house = fields.Monetary('Allowance House', store=True, default=0.0,
                                       tracking=True)
     gross_finals = fields.Monetary('Gross', default=0.0, tracking=True)
     Deduction_Tax = fields.Monetary('Tax', default=0.0, tracking=True, compute='_tax_slabs')
-    Deduction_EOBI = fields.Monetary('EOBI', default=0.0, tracking=True)
-    Deduction_PF = fields.Monetary('PF', default=0.0, tracking=True)
-    Deduction_Advance = fields.Monetary('Advance', default=0.0, tracking=True)
-    Deduction_MobileBills = fields.Monetary('Mobile Bill', default=0.0, tracking=True)
-    deduction_lates = fields.Monetary('Late Deductions', default=0.0, tracking=True)
-    deduction_absent = fields.Monetary('Absent Deductions', default=0.0, tracking=True)
-    gazette_comp = fields.Monetary('Gazette Holiday Compensation', default=0.0, tracking=True)
-    special_allowance = fields.Monetary('Special Allowance', default=0.0, tracking=True)
-    Deduction_Finals = fields.Monetary('Deduction Finals', default=0.0, store=False,
-                                       tracking=True)
-    Net_finals = fields.Monetary('Net', store=False, default=0.0, tracking=True)
+    Deduction_EOBI = fields.Selection([
+        ('yes', "Yes"),
+        ('no', "No"),
+    ], string='EOBI', default='no', tracking=True)
+    Deduction_PF = fields.Selection([
+        ('yes', "Yes"),
+        ('no', "No"),
+    ], string='PF', default='no', tracking=True)
+    Deduction_Advance = fields.Monetary(string='Advance', default=0.0, tracking=True, compute='compute_advance_amount')
+    Deduction_MobileBills = fields.Monetary(string='Mobile Bill', default=0.0, tracking=True)
+    deduction_late = fields.Monetary(string='Late Deductions', default=0.0, tracking=True)
+    deduction_short_leave = fields.Monetary(string='Short Leave Deductions', default=0.0, tracking=True)
+    deduction_half_leave = fields.Monetary(string='Half Leave Deductions', default=0.0, tracking=True)
+    gazette_comp = fields.Monetary(string='Gazette Holiday Compensation', default=0.0, tracking=True)
+    special_allowance = fields.Monetary(string='Special Allowance', default=0.0, tracking=True)
+    travel_allowance = fields.Monetary(string='Travelling Allowance', default=0.0, tracking=True)
+    Net_finals = fields.Monetary(string='Net Salary', store=False, default=0.0, tracking=True,
+                                 compute='calculate_net_salary')
     deduction_check = fields.Selection([('Yes', 'Yes'), ('No', 'No')], string='Attendance Deduction', default='Yes',
                                        tracking=True)
     history_contract_salary = fields.One2many('hr.contract.history', 'contract_id', string='Salary History')
-    arrears = fields.Monetary('Arrears', tracking=True)
-    Deduction_Loan = fields.Monetary('Loan', tracking=True)
+    Deduction_Loan = fields.Monetary(string='Loan', tracking=True, compute='compute_loan_amount')
 
     state = fields.Selection([
         ('draft', 'New'),
@@ -50,11 +56,28 @@ class HrContract(models.Model):
     def onchange_reset(self):
         self.state = 'draft'
 
-    @api.depends('wage', 'date_start')
+    @api.onchange('Basic_salary', 'Allowance_fuel', 'medical_allowance', 'Allowance_house', 'special_allowance')
+    def calculate_gross_salary(self):
+        self.gross_finals = self.Basic_salary + self.Allowance_fuel + self.special_allowance + self.Allowance_house
+        self.wage = self.gross_finals
+
+    # @api.depends('gross_finals')
+    # def calculate_medical_allowance(self):
+    #     self.medical_allowance = (self.gross_finals * 10) / 100
+
+    @api.depends('medical_allowance', 'Deduction_Tax', 'Deduction_Advance', 'Deduction_Loan', 'Deduction_MobileBills',
+                 'deduction_late', 'deduction_half_leave', 'deduction_short_leave', 'gross_finals')
+    def calculate_net_salary(self):
+        self.Net_finals = self.gross_finals - self.medical_allowance - self.Deduction_Tax - self.Deduction_Advance \
+                          - self.Deduction_Loan - self.Deduction_MobileBills - self.deduction_late \
+                          - self.deduction_half_leave - self.deduction_short_leave
+
+    @api.depends('gross_finals', 'date_start', 'medical_allowance')
     def _tax_slabs(self):
         for rec in self:
-            yearly_wage = 12 * rec.wage
-            salary = rec.wage
+            rec.Deduction_Tax = 0
+            yearly_wage = 12 * rec.gross_finals
+            salary = rec.gross_finals
             if yearly_wage > 600000:
                 if 600000 < yearly_wage <= 1200000:
                     rec.Deduction_Tax = (salary - 50000) * 0.025
@@ -66,33 +89,37 @@ class HrContract(models.Model):
                     rec.Deduction_Tax = (((salary - 208333.33) * 0.25) + 405000)
                 elif 6000000 < salary <= 12000000:
                     rec.Deduction_Tax = (((salary - 291666.66) * 0.325) + 1005000)
-                # elif 416666.66 < salary <= 666666.66:
-                #     rec.Deduction_Tax = (((salary - 416666.66) * 0.225) + 55833.33)
-                # elif 666666.66 < salary <= 1000000:
-                #     rec.Deduction_Tax = (((salary - 666666.66) * 0.25) + 112083.33)
-                # elif 1000000 < salary <= 2500000:
-                #     rec.Deduction_Tax = (((salary - 1000000) * 0.275) + 195416.66)
-                # elif 2500000 < salary <= 4166666.66:
-                #     rec.Deduction_Tax = (((salary - 2500000) * 0.3) + 607916.66)
-                # elif 4166666.66 < salary <= 6250000:
-                #     rec.Deduction_Tax = (((salary - 4166666.66) * 0.325) + 1107916.66)
-                # elif salary > 6250000:
-                #     rec.Deduction_Tax = (((salary - 6250000) * 0.35) + 1785000)
                 else:
                     rec.Deduction_Tax = 0
-            else:
-                rec.Deduction_Tax = 0
 
-# class HrContractHistory(models.Model):
-#     _inherit = 'hr.contract.history'
-#
-#     contract_id = fields.Many2one('hr.contract', string="Contract")
-#     user_id = fields.Many2one('res.users', string="User")
-#     Basic_salary = fields.Monetary(string='Basic Salary', default=0.0, tracking=True)
-#     Allowance_fuel = fields.Monetary(string='Allowance Fuel', default=0.0, tracking=True)
-#     Allowance_house = fields.Monetary(string='Allowance House', default=0.0, tracking=True)
-#     gross_finals = fields.Monetary(string='Gross', default=0.0, tracking=True)
-#     in_date = fields.Datetime(string="In Date")
-#     incremented_date = fields.Datetime(string="Increment Date")
-#     currency_id = fields.Many2one('res.currency', string='Currency', readonly=True,
-#                                   default=lambda self: self.env.company.currency_id)
+    def compute_loan_amount(self):
+        for rec in self:
+            today_date = date.today()
+            previous_date = today_date.replace(day=1) - relativedelta(months=1)
+            advance_loan_lines = self.env['hr.advance.loan.line'].search(
+                [('loan_id.state', '=', 'approve'), ('loan_id.employee_id', '=', rec.employee_id.id),
+                 ('loan_id.type', '=', 'loan')]).filtered(
+                lambda m: m.month == previous_date.month and m.year == previous_date.year)
+            if advance_loan_lines:
+                amount = 0
+                for l in advance_loan_lines:
+                    amount += l.amount
+                rec.Deduction_Loan = amount
+            else:
+                rec.Deduction_Loan = 0
+
+    def compute_advance_amount(self):
+        for rec in self:
+            today_date = date.today()
+            previous_date = today_date.replace(day=1) - relativedelta(months=1)
+            advance_loan = self.env['hr.advance.loan'].search(
+                [('state', '=', 'approve'), ('employee_id', '=', rec.employee_id.id),
+                 ('type', '=', 'ad_sal')]).filtered(
+                lambda m: m.month == previous_date.month and m.year == previous_date.year)
+            if advance_loan:
+                amount = 0
+                for l in advance_loan:
+                    amount += l.adv_sal_amount
+                rec.Deduction_Advance = amount
+            else:
+                rec.Deduction_Advance = 0
