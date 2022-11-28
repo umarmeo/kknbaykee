@@ -2,8 +2,10 @@
 
 from odoo import models, fields, api, _
 from datetime import datetime
+from lxml import etree
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import ValidationError, UserError
+from odoo.tools.misc import DEFAULT_SERVER_DATE_FORMAT
 
 
 class HrAdvanceLoan(models.Model):
@@ -32,16 +34,29 @@ class HrAdvanceLoan(models.Model):
             loan.balance_amount = balance_amount
             loan.total_paid_amount = total_paid
 
+    # @api.model
+    # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+    #     res = super(HrAdvanceLoan, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+    #                                                      submenu=submenu)
+    #     if view_type == 'form':
+    #         doc = etree.XML(res['arch'])
+    #         for node in doc.xpath("//field[@name='payment_date']"):
+    #             node.set('options', "{'datepicker': {'maxDate': '%sT23:59:59'}}" % fields.Date.today().strftime(
+    #                 DEFAULT_SERVER_DATE_FORMAT))
+    #         res['arch'] = etree.tostring(doc)
+    #     return res
+
     name = fields.Char(string="Loan Name", required=True, copy=False, readonly=True,
                        index=True, default=lambda self: _('New'))
-    date = fields.Date(string="Date", default=fields.Date.today(), readonly=True, help="Date")
-    employee_id = fields.Many2one('hr.employee', string="Employee", required=True, help="Employee")
+    date = fields.Date(string="Date", default=fields.Date.today(), readonly=False, help="Date")
+    employee_id = fields.Many2one('hr.employee', string="Employee", required=True, help="Employee", store=True)
     department_id = fields.Many2one('hr.department', related="employee_id.department_id", readonly=True,
                                     string="Department", help="Employee")
     installment = fields.Integer(string="No Of Installments", default=1, help="Number of installments")
-    payment_date = fields.Date(string="Payment Start Date", required=True, default=fields.Date.today(), help="Date of "
-                                                                                                             "the "
-                                                                                                             "paymemt")
+    payment_date = fields.Date(string="Payment Start Date", required=True,
+                               default=fields.Date.today().replace(day=1) + relativedelta(months=1), help="Date of "
+                                                                                                          "the"
+                                                                                                          "paymemt")
     loan_lines = fields.One2many('hr.advance.loan.line', 'loan_id', string="Loan Line", index=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True, help="Company",
                                  default=lambda self: self.env.user.company_id,
@@ -58,10 +73,12 @@ class HrAdvanceLoan(models.Model):
                                   help="Balance amount")
     total_paid_amount = fields.Float(string="Total Paid Amount", store=True, compute='_compute_loan_amount',
                                      help="Total paid amount")
-    advance_loan_sal_check = fields.Selection([
+    month = fields.Integer(string="Month", compute='compute_month_year')
+    year = fields.Integer(string="Year", compute='compute_month_year')
+    type = fields.Selection([
         ('ad_sal', "Advance Salary"),
-        ('ad_loan', "Advance Loan"),
-    ], string="Advance Salary / Advance Loan", store=True, default="ad_sal")
+        ('loan', "Loan"),
+    ], string="Type", store=True)
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -79,12 +96,19 @@ class HrAdvanceLoan(models.Model):
         if loan_count:
             raise ValidationError(_("The employee has already a pending installment"))
         else:
-            if vals.get('name', _('New')) == _('New'):
-                vals['name'] = self.env['ir.sequence'].next_by_code(
-                    'hr.advance.loan.seq') or _(
-                    'New')
+            if vals.get('name', _('New')) == _('New') and vals.get('type') == 'loan':
+                vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.loan.seq') or _('New')
+            if vals.get('name', _('New')) == _('New') and vals.get('type') == 'ad_sal':
+                vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.salary.seq') or _('New')
             res = super(HrAdvanceLoan, self).create(vals)
             return res
+
+    @api.depends('payment_date')
+    def compute_month_year(self):
+        for rec in self:
+            if rec.payment_date:
+                rec.year = rec.payment_date.year
+                rec.month = rec.payment_date.month
 
     def compute_installment(self):
         """This automatically create the installment the employee need to pay to
@@ -108,21 +132,27 @@ class HrAdvanceLoan(models.Model):
         return self.write({'state': 'refuse'})
 
     def action_submit(self):
-        self.write({'state': 'waiting_approval_1'})
+        search_contract = self.env['hr.contract'].search(
+            [('employee_id', '=', self.employee_id.id), ('state', '=', 'open')])
+        print(search_contract)
+        if search_contract:
+            self.write({'state': 'waiting_approval_1'})
+        else:
+            raise UserError(_('No Contract Found for this Employee'))
 
     def action_cancel(self):
         self.write({'state': 'cancel'})
 
     def action_approve(self):
         for data in self:
-            if not data.loan_lines:
+            if not data.loan_lines and data.type == 'loan':
                 raise ValidationError(_("Please Compute installment"))
             else:
                 self.write({'state': 'approve'})
 
     def unlink(self):
         for loan in self:
-            if loan.state not in ('draft', 'cancel'):
+            if loan.state not in ('draft', 'refuse'):
                 raise UserError(
                     'You cannot delete a loan which is not in draft or cancelled state')
         return super(HrAdvanceLoan, self).unlink()
@@ -155,6 +185,14 @@ class HrEmployee(models.Model):
     def _compute_employee_loans(self):
         """This compute the loan amount and total loans count of an employee.
             """
-        self.loan_count = self.env['hr.advance.loan'].search_count([('employee_id', '=', self.id)])
+        self.loan_count = self.env['hr.advance.loan'].search_count(
+            [('employee_id', '=', self.id), ('type', '=', 'loan')])
+
+    def _compute_employee_advance(self):
+        """This compute the loan amount and total loans count of an employee.
+            """
+        self.advance_count = self.env['hr.advance.loan'].search_count(
+            [('employee_id', '=', self.id), ('type', '=', 'ad_sal')])
 
     loan_count = fields.Integer(string="Loan Count", compute='_compute_employee_loans')
+    advance_count = fields.Integer(string="Loan Count", compute='_compute_employee_advance')

@@ -12,7 +12,6 @@
         'data/ir_sequence.xml',
         'wizard/skip_installment.xml',
         'views/advance_loan.xml',
-        'views/hr_contract.xml',
     ],
     'installable': True,
     'auto_install': False,
