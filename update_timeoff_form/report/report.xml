@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="hr_leave_balance_report_id" model="ir.actions.report">
+        <field name="name">HR Leave Balance Report</field>
+        <field name="model">hr.leave.balance.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">update_timeoff_form.hr_leave_balance_report_pdf</field>
+        <field name="report_file">update_timeoff_form.hr_leave_balance_report_pdf</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.module.category" id="group_leaves_attendance">
+        <field name="name">Leaves Rights</field>
+        <field name="description">Leaves Rights</field>
+    </record>
+    <record id="show_leave_menuitem" model="res.groups">
+        <field name="name">Show Leaves Menuitem</field>
+        <field name="category_id" ref="group_leaves_attendance"/>
+    </record>
+    <record id="group_leaves_attendance_own" model="res.groups">
+        <field name="name">Show Own Leaves</field>
+        <field name="category_id" ref="group_leaves_attendance"/>
+    </record>
+    <record id="group_manager_right_leave" model="res.groups">
+        <field name="name">Manager Right</field>
+        <field name="category_id" ref="group_leaves_attendance"/>
+    </record>
+    <record id="group_developer_right_leave" model="res.groups">
+        <field name="name">Developer Approval</field>
+        <field name="category_id" ref="group_leaves_attendance"/>
+    </record>
+    <record id="group_coo_right_leave" model="res.groups">
+        <field name="name">COO Approvals</field>
+        <field name="category_id" ref="group_leaves_attendance"/>
+    </record>
+    <record id="group_hr_right_leave" model="res.groups">
+        <field name="name">HR Approvals</field>
+        <field name="category_id" ref="group_leaves_attendance"/>
+    </record>
+     <record id="see_leaves_attendance_lead_only" model="ir.rule">
+        <field name="name">Own Leaves Lead Only</field>
+        <field name="model_id" ref="update_timeoff_form.model_hr_leave_employee"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0" />
+        <field name="groups" eval="[(4, ref('group_leaves_attendance_own'))]"/>
+        <field name="domain_force">['|', '|', ('create_uid', '=', user.id), ('employee_id.parent_id.user_id', '=', user.id), ('department_id.manager_id.user_id', '=', user.id)]</field>
+    </record>
+</odoo>
