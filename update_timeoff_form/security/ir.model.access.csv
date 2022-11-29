@@ -1,8 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_leave_employee,hr.leave.employee,model_hr_leave_employee,,1,1,1,1
-access_hr_leave_employee_report,hr.leave.employee.report,model_hr_leave_employee_report,,1,1,1,1
-access_hr_hr_attendance_edit,hr.attendance.edit.attendance,hr_attendance.model_hr_attendance,update_timeoff_form.group_manager_right_leave,1,0,0,0
-access_hr_hr_leave_edit,hr.leave,hr_holidays.model_hr_leave,update_timeoff_form.group_manager_right_leave,1,1,1,0
-access_hr_approved_leave,hr.approved.leave,model_hr_approved_leave,,1,1,1,1
-access_coo_approved_leave,coo.approved.leave,model_coo_approved_leave,,1,1,1,1
-access_manager_approved_leave,manager.approved.leave,model_manager_approved_leave,,1,1,1,1
