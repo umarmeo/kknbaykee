@@ -117,6 +117,8 @@
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="Deduction_Loan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="Deduction_MobileBills" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="deduction_absent" force_save="1"
+                                   attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="deduction_late" force_save="1"
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="deduction_short_leave" force_save="1"

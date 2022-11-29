@@ -27,6 +27,7 @@ class HrContract(models.Model):
     Deduction_Advance = fields.Monetary(string='Advance', default=0.0, tracking=True, compute='compute_advance_amount')
     Deduction_MobileBills = fields.Monetary(string='Mobile Bill', default=0.0, tracking=True)
     deduction_late = fields.Monetary(string='Late Deductions', default=0.0, tracking=True)
+    deduction_absent = fields.Monetary(string='Absent Deductions', default=0.0, tracking=True)
     deduction_short_leave = fields.Monetary(string='Short Leave Deductions', default=0.0, tracking=True)
     deduction_half_leave = fields.Monetary(string='Half Leave Deductions', default=0.0, tracking=True)
     gazette_comp = fields.Monetary(string='Gazette Holiday Compensation', default=0.0, tracking=True)
@@ -68,9 +69,10 @@ class HrContract(models.Model):
     @api.depends('medical_allowance', 'Deduction_Tax', 'Deduction_Advance', 'Deduction_Loan', 'Deduction_MobileBills',
                  'deduction_late', 'deduction_half_leave', 'deduction_short_leave', 'gross_finals')
     def calculate_net_salary(self):
-        self.Net_finals = self.gross_finals - self.medical_allowance - self.Deduction_Tax - self.Deduction_Advance \
-                          - self.Deduction_Loan - self.Deduction_MobileBills - self.deduction_late \
-                          - self.deduction_half_leave - self.deduction_short_leave
+        for rec in self:
+            rec.Net_finals = rec.gross_finals - rec.medical_allowance - rec.Deduction_Tax - rec.Deduction_Advance \
+                              - rec.Deduction_Loan - rec.Deduction_MobileBills - rec.deduction_late \
+                              - rec.deduction_half_leave - rec.deduction_short_leave - rec.deduction_absent
 
     @api.depends('gross_finals', 'date_start', 'medical_allowance')
     def _tax_slabs(self):
