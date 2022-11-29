@@ -36,9 +36,11 @@ class HrPayslipRun(models.Model):
             }
             rec.write(vals)
             # I create a payslip employee.
+            search_structure = self.env['hr.payroll.structure'].search([('current_structure', '=', True)], limit=1)
+        
             payslip_employee = self.env['hr.payslip.employees'].create({
                 'employee_ids': employee_ids,
-                'structure_id': 4,
+                'structure_id': search_structure.id,
             })
 
             # I generate the payslip by clicking on Generate button wizard.
@@ -146,3 +148,10 @@ class HrPayslipRun(models.Model):
             self.update_contract_payroll(employee, start_date, end_date)
         payslips = self.env['hr.payslip'].search([('payslip_run_id', '=', self.id), ('state', '!=', 'cancel')])
         payslips.compute_sheet()
+
+
+class HrPayrollStructure(models.Model):
+    _inherit = 'hr.payroll.structure'
+
+    current_structure = fields.Boolean(string="Current Structure")
+
