@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_zk_machine_form" model="ir.ui.view">
+            <field name="name">zk.machine.form</field>
+            <field name="model">zk.machine</field>
+            <field name="arch" type="xml">
+                <form string="Biometric Device">
+                    <header>
+                        <button name="try_connection" type="object" string="Try connection" class="btn-primary"/>
+                        <button name="download_attendance" type="object" string="Update Attendance" class="oe_highlight"
+                                icon="fa-download " confirm="Are you sure you want to do this?"/>
+                        <button name="clear_attendance" type="object" string="Clear Data" class="oe_highlight"
+                                icon="fa-remove " confirm="Are you sure you want to do this?"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="ip_select"/>
+                            <h3>
+                                <field name="ip_select"/>
+                            </h3>
+                            <label for="name" attrs="{'invisible':[('ip_select','=',False)]}"/>
+                            <h1>
+                                <field name="name" placeholder="Machine IP" attrs="{'invisible':[('ip_select','=',False)]}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="port_no"/>
+                                <field name="zk_timeout"/>
+                                <field name="zk_after_date"/>
+                                <field name="address_id"/>
+                            </group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="machine_location"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_zk_machine_tree" model="ir.ui.view">
+            <field name="name">zk.machine.tree</field>
+            <field name="model">zk.machine</field>
+            <field name="arch" type="xml">
+                <tree string="Biometric Machine">
+                    <field name="name"/>
+                    <field name="port_no"/>
+                    <field name="address_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <button name="download_attendance" type="object" string="Update Attendance" class="oe_highlight"
+                            icon="fa-download "/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="zk_machine_action" model="ir.actions.act_window">
+            <field name="name">Attendances</field>
+            <field name="res_model">zk.machine</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="zk_machine_menu" parent="hr_attendance.menu_hr_attendance_root" sequence="50"
+                  name="Biometric Manager"/>
+        <menuitem id="zk_machine_sub_menu" parent="zk_machine_menu" name="Device Configuration"
+                  action="zk_machine_action" sequence="1"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="zk_hr_employee_inh" model="ir.ui.view">
+            <field name="name">zk_hr_employee_inh</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='identification_group']/div" position="after">
+                    <field name="machine_id" force_save="1"/>
+                </xpath>
+                <xpath expr="//field[@name='tz']" position="after">
+                    <field name="employee_shift" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                    <field name="rest_days" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.module.category" id="biometric_manager_category_hide">
+        <field name="name">Attendance Biometric</field>
+        <field name="description">Attendance Module</field>
+    </record>
+    <record id="biometric_manager_menu_hide" model="res.groups">
+        <field name="name">Attendance Biometric Manager</field>
+        <field name="category_id" ref="biometric_manager_category_hide"></field>
+    </record>
+</odoo>
