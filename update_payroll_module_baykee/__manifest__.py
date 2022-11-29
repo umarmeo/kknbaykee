@@ -10,8 +10,10 @@
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence.xml',
+        'data/ir_cron.xml',
         'wizard/skip_installment.xml',
         'views/advance_loan.xml',
+        'views/payslip_view.xml',
     ],
     'installable': True,
     'auto_install': False,
