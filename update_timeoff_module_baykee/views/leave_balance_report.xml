@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="hr_leave_balance_report_form" model="ir.ui.view">
+        <field name="name">hr.leave.balance.report.form</field>
+        <field name="model">hr.leave.balance.report</field>
+        <field name="arch" type="xml">
+            <form string="HR Leave Balance Report">
+                <group>
+                    <group>
+                        <field name="employee_id" />
+                    </group>
+                    <group>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="company_id" />
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="%(hr_leave_balance_report_id)d" type="action" string="submit" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_leave_balance_report" model="ir.actions.act_window">
+        <field name="name">HR Leave Balance Report</field>
+        <field name="res_model">hr.leave.balance.report</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_hr_leave_balance_report" name="Reporting" parent="menu_timeoff_leaves" action="action_hr_leave_balance_report" sequence="3" />
+</odoo>
