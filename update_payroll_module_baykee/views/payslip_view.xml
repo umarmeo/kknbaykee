@@ -12,8 +12,6 @@
                 <xpath expr="//field[@name='net_wage']" position="attributes">
                     <attribute name="invisible">1</attribute>
                 </xpath>
-
-
             </field>
         </record>
 

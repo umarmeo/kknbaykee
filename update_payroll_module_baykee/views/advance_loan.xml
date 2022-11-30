@@ -41,6 +41,7 @@
                             attrs="{'invisible':['|', ('state','in',('approve', 'refuse')), ('type','!=','loan')]}"/>
                     <button name="action_submit" type="object" string="Submit" states="draft" class="oe_highlight"/>
                     <button name="action_cancel" type="object" string="Cancel" states="approve"/>
+<!--                    <button name="reset_to_draft" type="object" string="Reset To Draft" states="approve"/>-->
                     <button name="action_approve" type="object" string="Approve" states="waiting_approval_1"
                             class="oe_highlight" groups="hr.group_hr_manager,hr.group_hr_user"/>
                     <button name="action_refuse" type="object" string="Refuse" states="draft,waiting_approval_1"
@@ -72,6 +73,7 @@
                                attrs="{'readonly':[('state','=','approve')]}"/>
                         <field name="month"/>
                         <field name="year"/>
+                        <field name="advance_paid"/>
                         <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                         <field name="currency_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                     </group>
@@ -83,7 +85,7 @@
                                     <field name="month"/>
                                     <field name="year"/>
                                     <field name="amount" readonly="1"/>
-                                    <field name="paid" readonly="1" invisible="1"/>
+                                    <field name="paid" readonly="1" invisible="0"/>
                                 </tree>
                             </field>
                             <group class="oe_subtotal_footer oe_right" colspan="2">

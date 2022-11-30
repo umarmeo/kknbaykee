@@ -34,18 +34,6 @@ class HrAdvanceLoan(models.Model):
             loan.balance_amount = balance_amount
             loan.total_paid_amount = total_paid
 
-    # @api.model
-    # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
-    #     res = super(HrAdvanceLoan, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
-    #                                                      submenu=submenu)
-    #     if view_type == 'form':
-    #         doc = etree.XML(res['arch'])
-    #         for node in doc.xpath("//field[@name='payment_date']"):
-    #             node.set('options', "{'datepicker': {'maxDate': '%sT23:59:59'}}" % fields.Date.today().strftime(
-    #                 DEFAULT_SERVER_DATE_FORMAT))
-    #         res['arch'] = etree.tostring(doc)
-    #     return res
-
     name = fields.Char(string="Loan Name", required=True, copy=False, readonly=True,
                        index=True, default=lambda self: _('New'))
     date = fields.Date(string="Date", default=fields.Date.today(), readonly=False, help="Date")
@@ -75,6 +63,7 @@ class HrAdvanceLoan(models.Model):
                                      help="Total paid amount")
     month = fields.Integer(string="Month", compute='compute_month_year')
     year = fields.Integer(string="Year", compute='compute_month_year')
+    advance_paid = fields.Boolean(string="Paid", help="Paid")
     type = fields.Selection([
         ('ad_sal', "Advance Salary"),
         ('loan', "Loan"),
@@ -90,18 +79,24 @@ class HrAdvanceLoan(models.Model):
 
     @api.model
     def create(self, vals):
-        loan_count = self.env['hr.advance.loan'].search_count(
-            [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'),
-             ('balance_amount', '!=', 0)])
-        if loan_count:
-            raise ValidationError(_("The employee has already a pending installment"))
-        else:
-            if vals.get('name', _('New')) == _('New') and vals.get('type') == 'loan':
+        if vals.get('name', _('New')) == _('New') and vals.get('type') == 'loan':
+            loan_count = self.env['hr.advance.loan'].search_count(
+                [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'), ('type', '=', 'loan'),
+                 ('balance_amount', '!=', 0)])
+            if loan_count:
+                raise ValidationError(_("The employee has already a pending Loan installment"))
+            else:
                 vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.loan.seq') or _('New')
-            if vals.get('name', _('New')) == _('New') and vals.get('type') == 'ad_sal':
+        if vals.get('name', _('New')) == _('New') and vals.get('type') == 'ad_sal':
+            advance_count = self.env['hr.advance.loan'].search_count(
+                [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'), ('type', '=', 'ad_sal'),
+                 ('advance_paid', '!=', True)])
+            if advance_count:
+                raise ValidationError(_("The employee has already taken Advance"))
+            else:
                 vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.salary.seq') or _('New')
-            res = super(HrAdvanceLoan, self).create(vals)
-            return res
+        res = super(HrAdvanceLoan, self).create(vals)
+        return res
 
     @api.depends('payment_date')
     def compute_month_year(self):
@@ -130,6 +125,9 @@ class HrAdvanceLoan(models.Model):
 
     def action_refuse(self):
         return self.write({'state': 'refuse'})
+
+    def reset_to_draft(self):
+        return self.write({'state': 'draft'})
 
     def action_submit(self):
         search_contract = self.env['hr.contract'].search(

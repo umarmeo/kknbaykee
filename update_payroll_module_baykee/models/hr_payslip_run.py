@@ -6,6 +6,25 @@ from odoo.exceptions import UserError
 from odoo.tools import format_date
 
 
+class HrPayslip(models.Model):
+    _inherit = 'hr.payslip'
+
+    def action_payslip_paid(self):
+        if any(slip.state != 'done' for slip in self):
+            raise UserError(_('Cannot mark payslip as paid if not confirmed.'))
+        loan = self.env['hr.advance.loan'].search([('employee_id', '=', self.employee_id.id), ('type', '=', 'loan')])
+        loan_line = self.env['hr.advance.loan.line'].search(
+            [('loan_id', '=', loan.id), ('date', '>=', self.date_from), ('date', '<=', self.date_to)])
+        for line in loan_line:
+            line.paid = True
+        loan._compute_loan_amount()
+        advance = self.env['hr.advance.loan'].search(
+            [('employee_id', '=', self.employee_id.id), ('type', '=', 'ad_sal'), ('payment_date', '>=', self.date_from),
+             ('payment_date', '<=', self.date_to)])
+        advance.advance_paid = True
+        self.write({'state': 'paid'})
+
+
 class HrPayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
 
@@ -37,7 +56,7 @@ class HrPayslipRun(models.Model):
             rec.write(vals)
             # I create a payslip employee.
             search_structure = self.env['hr.payroll.structure'].search([('current_structure', '=', True)], limit=1)
-        
+
             payslip_employee = self.env['hr.payslip.employees'].create({
                 'employee_ids': employee_ids,
                 'structure_id': search_structure.id,
@@ -52,6 +71,8 @@ class HrPayslipRun(models.Model):
         contract = self.env['hr.contract'].search([('employee_id', '=', employee.id),
                                                    ('state', '=', 'open')], limit=1)
         if len(contract) == 1:
+            contract.compute_loan_amount()
+            contract.compute_advance_amount()
             contract.deduction_late = 0
             contract.deduction_half_leave = 0
             contract.deduction_short_leave = 0
@@ -154,4 +175,3 @@ class HrPayrollStructure(models.Model):
     _inherit = 'hr.payroll.structure'
 
     current_structure = fields.Boolean(string="Current Structure")
-
