@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="hr_leave_balance_report_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div t-attf-class="header" style='font-family:Tahoma; font-size:11px;  line-height: 1.6; color:black;' >
+                    <div class="row">
+                        <div class="col-4">
+                            <br/>
+                            <img class="img img-responsive" t-if = "doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" width="200" height="60"/>
+                        </div>
+                        <div class="col-8">
+                            <br/><br/>
+                            <br/><br/>
+                            <h3 class="text-left">Leave Balance Report</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="article"  style='font-family:Tahoma; font-size:11px;line-height: 1.6; color:black; margin-top-160px;' t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id" t-att-data-oe-lang="doc and doc.env.context.get('lang')">
+                    <style type="text/css" t-if="doc.company_id.company_color_code">
+                         thead{
+                            background-color: #<t t-esc="doc.company_id.company_color_code" />;
+                         }
+                         caption{
+                            background-color: #<t t-esc="doc.company_id.company_color_code" />;
+                         }
+                         .custom_background{
+                            background-color: #<t t-esc="doc.company_id.company_color_code" />;
+                        }
+                    </style>
+                    <style type="text/css" t-if="not doc.company_id.company_color_code">
+                         thead{
+                            background-color: #c60808;
+                         }
+                         caption{
+                            background-color: #c60808;
+                         }
+                         .custom_background{
+                            background-color: #c60808;
+                        }
+                    </style>
+                    <t t-foreach="complete_data" t-as="data">
+                        <br/><br/>
+                        <div class="row">
+                             <div class="col-3" style="font-size:13px;">
+                                 <span ><strong>Code:</strong></span> <br/>
+                                 <span><strong>Name:</strong></span><br/>
+                                 <span><strong>Department:</strong></span><br/>
+                                 <span><strong>Job Position:</strong></span><br/>
+                                 <span><strong>Manager:</strong></span><br/>
+                                 <span><strong>Start Date:</strong></span><br/>
+                                 <span><strong>End Date:</strong></span><br/>
+
+                             </div>
+                             <div class="col-9" style="font-size:13px;">
+                                 <span><t t-esc="data['employee_code']" /></span><br/>
+                                 <span><t t-esc="data['employee_name']" /></span><br/>
+                                 <span><t t-esc="data['employee_department']" /></span><br/>
+                                 <span><t t-esc="data['employee_job']" /></span><br/>
+                                 <span><t t-esc="data['employee_manager']" /></span><br/>
+                                 <span><t t-esc="doc.start_date"  t-options='{"widget": "date", "format": "dd MMM Y"}'/></span><br/>
+                                 <span><t t-esc="doc.end_date" t-options='{"widget": "date", "format": "dd MMM Y"}'/></span><br/>
+                             </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-12">
+                                 <table class="table table-sm o_main_table table-bordered" name="invoice_line_table">
+                                    <caption class="font-weight-bold" style="caption-side: top;font-size:11px; padding:4px; background-color: #c60808;text-align:center;color:white;">Leave Balance</caption>
+                                    <thead style="color:white; font-size:11px;">
+                                        <tr>
+                                            <th class="text-center">Leave Name</th>
+                                            <th class="text-center">Available</th>
+                                            <th class="text-center">Allocated</th>
+                                        </tr>
+                                    </thead>
+                                    <br/>
+                                    <br/>
+                                    <tbody class="invoice_tbody">
+                                        <t t-foreach="data['leave_balance_list']" t-as="leave">
+                                            <tr>
+                                                <td><t t-esc="leave['name']" /></td>
+                                                <td><t t-esc="leave['available']" /></td>
+                                                <td><t t-esc="leave['allocated']" /></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                 </table>
+                                 <br/><br/>
+                                 <table class="table table-sm o_main_table table-bordered" name="invoice_line_table">
+                                    <caption class="font-weight-bold" style="caption-side: top;font-size:11px; padding:4px; background-color: #c60808;text-align:center;color:white;">Time off Track</caption>
+                                    <thead style="color:white; font-size:11px;">
+                                        <tr>
+                                            <th class="text-center">Leave Name</th>
+                                            <th class="text-center">Description</th>
+                                            <th class="text-center">Request Date From</th>
+                                            <th class="text-center">Request Date To</th>
+                                            <th class="text-center">Days</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <t t-foreach="data['leave_track_list']" t-as="leave">
+                                            <tr>
+                                                <td><t t-esc="leave['holiday_status_id_name']" /></td>
+                                                <td><t t-esc="leave['name']" /></td>
+                                                <td><t t-esc="leave['request_date_from']" /></td>
+                                                <td><t t-esc="leave['request_date_to']" /></td>
+                                                <td><t t-esc="leave['number_of_days']" /></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                 </table>
+                             </div>
+                        </div>
+                        <p style="page-break-after:always;"/>
+                    </t>
+                </div>
+                <div class="footer" style='font-family:Tahoma; line-height: 1.6; color:black;'>
+                    <div class="row" style="border-top:1px solid black;">
+                        <div class="col-6">
+                            <p  style="text-align:left;">
+                                 <span>
+                                     <strong>Printed By:</strong> <span t-esc="print_new_person"/>
+                                 </span><br/>
+                                 <span>
+                                     <strong>Printed ON:</strong> <span t-esc="date_now" t-options='{"widget": "date", "format": "dd MMM Y"}'/>
+                                 </span>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p style="text-align:right;">
+                                <span>
+                                    Page:
+                                    <span class="page"/> of <span class="topage"/>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

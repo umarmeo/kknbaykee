@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_hr_leave_employee_form" model="ir.ui.view">
+            <field name="name">hr.leave.employee.form</field>
+            <field name="model">hr.leave.employee</field>
+            <field name="arch" type="xml">
+                <form string="Leaves" name="Leaves" delete="false">
+                    <header>
+                        <button name="request_manager"
+                                attrs="{'invisible':['|',('state', '!=', 'Draft'),('types', '!=', 'Timeoff')]}"
+                                string="Request Complete" class="oe_highlight" type="object"/>
+
+                        <button name="request_complete" groups="update_timeoff_module_baykee.group_manager_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'Manager Approval'),('types', '!=', 'Timeoff')]}"
+                                string="Approved" class="oe_highlight" type="object"/>
+                        <button name="request_complete_system" groups="update_timeoff_module_baykee.group_developer_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'Manager Approval'),('types', '!=', 'Timeoff')]}"
+                                string="Request Complete System" class="oe_highlight" type="object"/>
+                        <button name="request_reject" string="Reject"
+                                groups="update_timeoff_module_baykee.group_manager_right_leave"
+                                attrs="{'invisible':['|',('state', 'not in', ('Manager Approval')),('types', '!=', 'Timeoff')]}"
+                                class="oe_highlight" type="object"/>
+
+                        <button name="request_for_coo_approval" groups="update_timeoff_module_baykee.group_hr_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'HR Approval'),('types', '!=', 'Timeoff')]}"
+                                string="Approved" class="oe_highlight" type="object"/>
+                        <button name="request_reject" string="Reject" groups="update_timeoff_module_baykee.group_hr_right_leave"
+                                attrs="{'invisible':['|',('state', 'not in', ('HR Approval')),('types', '!=', 'Timeoff')]}"
+                                class="oe_highlight" type="object"/>
+
+                        <button name="request_approved" groups="update_timeoff_module_baykee.group_coo_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'COO Approval'),('types', '!=', 'Timeoff')]}"
+                                string="Approved" class="oe_highlight" type="object"/>
+                        <button name="request_reject" string="Reject" groups="update_timeoff_module_baykee.group_coo_right_leave"
+                                attrs="{'invisible':['|',('state', 'not in', ('COO Approval')),('types', '!=', 'Timeoff')]}"
+                                class="oe_highlight" type="object"/>
+
+
+                        <button name="request_manager_allocation"
+                                attrs="{'invisible':['|',('state', '!=', 'Draft'),('types', '=', 'Timeoff')]}"
+                                string="Request Complete" class="oe_highlight" type="object"/>
+                        <button name="request_complete_allocation"
+                                groups="update_timeoff_module_baykee.group_manager_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'Manager Approval'),('types', '=', 'Timeoff')]}"
+                                string="Approved" class="oe_highlight" type="object"/>
+                        <button name="request_reject_allocation" groups="update_timeoff_module_baykee.group_manager_right_leave"
+                                string="Reject"
+                                attrs="{'invisible':['|',('state', 'not in', ('Manager Approval')),('types', '=', 'Timeoff')]}"
+                                class="oe_highlight" type="object"/>
+
+                        <button name="request_for_coo_approval_allocation"
+                                groups="update_timeoff_module_baykee.group_hr_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'HR Approval'),('types', '=', 'Timeoff')]}"
+                                string="Approved" class="oe_highlight" type="object"/>
+                        <button name="request_reject_allocation" groups="update_timeoff_module_baykee.group_hr_right_leave"
+                                string="Reject"
+                                attrs="{'invisible':['|',('state', 'not in', ('HR Approval')),('types', '=', 'Timeoff')]}"
+                                class="oe_highlight" type="object"/>
+
+                        <button name="request_approved_allocation" groups="update_timeoff_module_baykee.group_coo_right_leave"
+                                attrs="{'invisible':['|',('state', '!=', 'COO Approval'),('types', '=', 'Timeoff')]}"
+                                string="Approved" class="oe_highlight" type="object"/>
+                        <button name="request_reject_allocation" groups="update_timeoff_module_baykee.group_coo_right_leave"
+                                string="Reject"
+                                attrs="{'invisible':['|',('state', 'not in', ('COO Approval')),('types', '=', 'Timeoff')]}"
+                                class="oe_highlight" type="object"/>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="Draft,Manager Approval,HR Approval,COO Approval,Approved"
+                               readonly="1"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="company_type" widget="radio"
+                                       groups="update_timeoff_module_baykee.group_hr_right_leave" options="{'horizontal': true}"
+                                       attrs="{'readonly':[('state','!=','Draft')]}" force_save="1"/>
+                            </h1>
+                            <h1>
+                                <field name="employee_id" placeholder="Enter Employee"
+                                       attrs="{'readonly':[('state','!=','Draft')], 'invisible':[('company_type','!=','Employee')], 'required':[('company_type','=','Employee')]}"
+                                       force_save="1" options='{"no_open": True, "no_create": True, "no_edit": True}'/>
+                            </h1>
+                            <h1>
+                                <field name="leave_type" placeholder="Enter Leave Type"
+                                       attrs="{'readonly':[('state','!=','Draft')], 'invisible':[('employee_id','=',False),('company_type','=','Employee')]}"
+                                       force_save="True"
+                                       options='{"no_open": True, "no_create": True, "no_edit": True}'/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="department_id" readonly="1" force_save="1"
+                                       attrs="{'invisible':[('company_type','!=','Employee')], 'required':[('company_type','=','Employee')]}"
+                                       options='{"no_open": True, "no_create": True, "no_edit": True}'/>
+                            </group>
+                            <group>
+                                <field name="is_portal" invisible="1" force_save="1"/>
+                                <field name="leave_type_name" invisible="1" force_save="1"/>
+                                <field name="sub_leave_type" widget="radio" options="{'horizontal': true}"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('leave_type_name', 'not in', ('Paid Leaves','Unpaid Leaves'))],'required':[('types', '=', 'Timeoff')]}"
+                                       force_save="1"/>
+
+                                <field name="date_from"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'in', ('short'))],'required':[('types', '=', 'Timeoff')]}"
+                                       force_save="1"/>
+                                <field name="date_to"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'in', ('half','short'))],'required':[('types', '=', 'Timeoff')]}"
+                                       force_save="1"/>
+
+                                <field name="datetime_from"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'not in', ('short'))],'required':[('types', '=', 'Timeoff'),('sub_leave_type', 'in', ('short'))]}"
+                                       force_save="1"/>
+                                <field name="datetime_to"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'not in', ('short'))],'required':[('types', '=', 'Timeoff'),('sub_leave_type', 'in', ('short'))]}"
+                                       force_save="1"/>
+
+                                <field name="halfday_type"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'not in', ('half'))],'required':[('types', '=', 'Timeoff'),('sub_leave_type', 'in', ('half'))]}"
+                                       force_save="1"/>
+                                <field name="shortday_type"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'not in', ('short'))],'required':[('types', '=', 'Timeoff'),('sub_leave_type', 'in', ('short'))]}"
+                                       force_save="1"/>
+
+                                <field name="duration" readonly="1"
+                                       attrs="{'invisible':['|',('types', '!=', 'Timeoff'),('sub_leave_type', 'in', ('half','short'))]}"
+                                       force_save="1"/>
+                                <field name="number_of_days"
+                                       attrs="{'readonly':[('state','!=','Draft')],'invisible':[('types', '=', 'Timeoff')]}"
+                                       force_save="1"/>
+                            </group>
+                            <group>
+                                <field name="name" placeholder="DESCRIPTION"
+                                       attrs="{'readonly':[('state','!=','Draft')]}" force_save="1"/>
+                                <field name="cancel_reason" string="Cancel Remarks" readonly="1" force_save="1"
+                                       attrs="{'invisible':[('cancel_reason', '=',False)]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Leave Balance">
+                                <field name="auto_approve" invisible="1" readonly="1" force_save="1"/>
+                                <field name="types" invisible="1" readonly="1" force_save="1"/>
+                                <div>
+                                    <field name="total_leave_summary" readonly="1" force_save="1">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="available"/>
+                                            <field name="allocated"/>
+                                            <field name="leave_type" invisible="1"/>
+                                        </tree>
+                                        <form>
+                                            <field name="name" readonly="1" force_save="1"/>
+                                            <field name="available" readonly="1" force_save="1"/>
+                                            <field name="allocated" readonly="1" force_save="1"/>
+                                            <field name="leave_type" invisible="1"/>
+                                        </form>
+                                    </field>
+                                </div>
+                            </page>
+                            <page string="Leaves Tracking">
+                                <div>
+                                    <field name="leave_report" readonly="1" force_save="1">
+                                        <tree>
+                                            <field name="holiday_status_id_name"/>
+                                            <field name="name"/>
+                                            <field name="request_date_from"/>
+                                            <field name="request_date_to"/>
+                                            <field name="number_of_days"/>
+                                        </tree>
+                                        <form>
+                                            <group>
+                                                <field name="holiday_status_id_name" readonly="1" force_save="1"/>
+                                                <field name="name" readonly="1" force_save="1"/>
+                                                <field name="request_date_from" readonly="1" force_save="1"/>
+                                                <field name="request_date_to" readonly="1" force_save="1"/>
+                                                <field name="number_of_days" readonly="1" force_save="1"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+
+        <record id="view_hr_leave_employee_tree" model="ir.ui.view">
+            <field name="name">hr.leave.employee.tree</field>
+            <field name="model">hr.leave.employee</field>
+            <field name="arch" type="xml">
+                <tree string="Leaves" name="Leaves" export_xlsx="false" delete="false">
+                    <field name="department_id"/>
+                    <field name="employee_id"/>
+                    <field name="leave_type_name"/>
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="duration"/>
+                    <field name="state"/>
+                    <field name="create_date" widget="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_hr_leave_employee_search" model="ir.ui.view">
+            <field name="name">hr.leave.employee.search</field>
+            <field name="model">hr.leave.employee</field>
+            <field name="arch" type="xml">
+                <search string="Leaves">
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="leave_type_name"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <group expand="1" string="Group By">
+                        <filter string="State" name="state_group_by" context="{'group_by':'state'}"/>
+                        <filter string="Employee(s)" name="employee_group_by" context="{'group_by':'employee_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="hr_leaves_kanban_view_leads" model="ir.ui.view">
+            <field name="name">hr.leaves.kanban</field>
+            <field name="model">hr.leave.employee</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <kanban default_group_by="state" default_order="state"
+                        class="o_kanban_small_column o_kanban_project_tasks" quick_create="false"
+                        records_draggable="false" on_create="quick_create"
+                        quick_create_view="update_timeoff_module_baykee.view_hr_leave_employee_form">
+
+                    <field name="state"/>
+                    <field name="employee_id"/>
+                    <field name="leave_type"/>
+                    <field name="color"/>
+                    <field name="priority"/>
+
+                    <progressbar field="kanban_state"
+                                 colors="{&quot;done&quot;: &quot;success&quot;, &quot;blocked&quot;: &quot;danger&quot;, &quot;normal&quot;: &quot;muted&quot;}"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="employee_id"/>
+                                            </strong>
+                                            <br/>
+                                            Type:
+                                            <field name="leave_type"/>
+                                            <br/>
+                                            Reason:
+                                            <field name="name"/>
+                                            <br/>
+                                            From:
+                                            <field name="date_from"/>
+                                            <br/>
+                                            To:
+                                            <field name="date_to"/>
+                                        </div>
+                                        <div class="o_dropdown_kanban dropdown" t-if="!selection_mode"
+                                             groups="base.group_user">
+                                            <a role="button" class="dropdown-toggle o-no-caret btn"
+                                               data-toggle="dropdown" data-display="static" href="#"
+                                               aria-label="Dropdown menu" title="Dropdown menu">
+                                                <span class="fa fa-ellipsis-v"/>
+                                            </a>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a t-if="widget.editable" role="menuitem" type="set_cover"
+                                                   class="dropdown-item" data-field="displayed_image_id">Set Cover Image
+                                                </a>
+                                                <a name="144" role="menuitem" type="action" class="dropdown-item">
+                                                    Share
+                                                </a>
+                                                <a t-if="widget.editable" role="menuitem" type="edit"
+                                                   class="dropdown-item">Edit Task
+                                                </a>
+                                                <a t-if="widget.deletable" role="menuitem" type="delete"
+                                                   class="dropdown-item">Delete
+                                                </a>
+                                                <div role="separator" class="dropdown-divider"/>
+                                                <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                        <div class="oe_kanban_bottom_left">
+                                            <t t-set="date_format" t-value="'MM/DD/YY'"/>
+                                            <t t-set="date" t-value=""/>
+                                            <span name="date" t-attf-class="#{deadline_class || ''}">
+                                                <t t-esc="date"/>
+                                            </span>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right" t-if="!selection_mode">
+                                            <field name="kanban_state" widget="state_selection" groups="base.group_user"
+                                                   invisible="context.get('fsm_mode', False)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="action_timeoff_leaves" model="ir.actions.act_window">
+            <field name="name">Leaves</field>
+            <field name="res_model">hr.leave.employee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'default_group_by':'state','default_types': 'Timeoff'}</field>
+            <field name="domain">[('types','=', 'Timeoff')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Your Leaves Here!
+                </p>
+            </field>
+        </record>
+
+        <record id="action_allocation_leaves" model="ir.actions.act_window">
+            <field name="name">Allocation</field>
+            <field name="res_model">hr.leave.employee</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'default_group_by':'state','default_types': 'Allocation'}</field>
+            <field name="domain">[('types','=', 'Allocation')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Your Allocation Here!
+                </p>
+            </field>
+        </record>
+
+        <!-- Top menu item -->
+        <menuitem name="Leaves"
+                  id="menu_timeoff_leaves" web_icon="update_timeoff_module_baykee,static/img/icon_image.png"
+                  groups="update_timeoff_module_baykee.show_leave_menuitem"
+                  sequence="40"/>
+
+        <menuitem id="menu_timeoff_leaves_operation_1" name="Operation" parent="menu_timeoff_leaves" sequence="0"/>
+
+        <menuitem id="menu_timeoff_leaves_sub_1" name="Time off" parent="menu_timeoff_leaves_operation_1" sequence="0"/>
+        <menuitem id="menu_timeoff_leaves_sub_1_1" name="Time off" action="action_timeoff_leaves"
+                  parent="menu_timeoff_leaves_sub_1" sequence="0"/>
+
+        <menuitem id="menu_timeoff_leaves_sub_2" name="Allocation" parent="menu_timeoff_leaves_operation_1"
+                  sequence="1"/>
+        <menuitem id="menu_timeoff_leaves_sub_2_2" name="Allocation" action="action_allocation_leaves"
+                  parent="menu_timeoff_leaves_sub_2" sequence="0"/>
+
+
+        <record id="leave_hr_approved" model="ir.ui.view">
+            <field name="name">hr.approved.leave.form</field>
+            <field name="model">hr.approved.leave</field>
+            <field name="arch" type="xml">
+                <form string="HR Approval Selected Entries">
+                    <div class="text-left d-inline-block mr8">
+                        Are you sure you want to send selected entries in COO Approval state?
+                        <br/>
+                        Note: Only HR Approval entries will be sent.
+                    </div>
+                    <footer>
+                        <button name="action_hr_approved_data" type="object" string="Yes" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--        <act_window-->
+        <!--                name="HR Approved"-->
+        <!--                id="hr_approved_send_value_leave"-->
+        <!--                res_model="hr.approved.leave"-->
+        <!--                binding_model="hr.leave.employee"-->
+        <!--                binding_views="list"-->
+        <!--                view_mode="form"-->
+        <!--                target="new"-->
+        <!--                context="{-->
+        <!--                'mark_invoice_as_sent': True,-->
+        <!--            }"-->
+        <!--        />-->
+        <record id="hr_approved_send_value_leave" model="ir.actions.act_window">
+            <field name="name">HR Approved</field>
+            <field name="res_model">hr.approved.leave</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'mark_invoice_as_sent': True}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="leave_coo_approved" model="ir.ui.view">
+            <field name="name">coo.approved.leave.form</field>
+            <field name="model">coo.approved.leave</field>
+            <field name="arch" type="xml">
+                <form string="COO Approval Selected Entries">
+                    <div class="text-left d-inline-block mr8">
+                        Are you sure you want to send selected entries in Approved state?
+                        <br/>
+                        Note: Only COO Approval entries will be sent.
+                    </div>
+                    <footer>
+                        <button name="action_coo_approved_data" type="object" string="Yes" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <!--        <act_window-->
+        <!--                name="COO Approved"-->
+        <!--                id="coo_approved_send_value_leave"-->
+        <!--                res_model="coo.approved.leave"-->
+        <!--                binding_model="hr.leave.employee"-->
+        <!--                binding_views="list"-->
+        <!--                view_mode="form"-->
+        <!--                target="new"-->
+        <!--                context="{-->
+        <!--                'mark_invoice_as_sent': True,-->
+        <!--            }"-->
+        <!--        />-->
+
+        <record id="coo_approved_send_value_leave" model="ir.actions.act_window">
+            <field name="name">COO Approved</field>
+            <field name="res_model">coo.approved.leave</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'mark_invoice_as_sent': True}</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id="leave_manager_approved" model="ir.ui.view">
+            <field name="name">manager.approved.leave.form</field>
+            <field name="model">manager.approved.leave</field>
+            <field name="arch" type="xml">
+                <form string="Manager Approval Selected Entries">
+                    <div class="text-left d-inline-block mr8">
+                        Are you sure you want to send selected entries in Approved state?
+                        <br/>
+                        Note: Only Manager Approval entries will be sent.
+                    </div>
+                    <footer>
+                        <button name="action_manager_approved_data" type="object" string="Yes" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+<!--        <act_window-->
+<!--                name="Manager Approved"-->
+<!--                id="manager_approved_send_value_leave"-->
+<!--                res_model="manager.approved.leave"-->
+<!--                binding_model="hr.leave.employee"-->
+<!--                binding_views="list"-->
+<!--                view_mode="form"-->
+<!--                target="new"-->
+<!--                context="{-->
+<!--                'mark_invoice_as_sent': True,-->
+<!--            }"-->
+<!--        />-->
+
+        <record id="manager_approved_send_value_leave" model="ir.actions.act_window">
+            <field name="name">Manager Approved</field>
+            <field name="res_model">manager.approved.leave</field>
+            <field name="view_mode">form</field>
+            <field name="context">{'mark_invoice_as_sent': True}</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+
+</odoo>
