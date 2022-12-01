@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="hr_contract_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr_contract_view_form_inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='other']/group[2]" position="after">
+                    <button type="object" name="compute_advance_loan_date_and_amount" string="Test"/>
+                    <group string="Advance Loan">
+                        <field name="advance_loan_date" force_save="1"/>
+                        <field name="advance_loan_amount" force_save="1" widget="monetary"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_payslip_tree_inherit" model="ir.ui.view">
+            <field name="name">view_hr_payslip_tree_inherit</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='basic_wage']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='net_wage']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr_payslip_run_form_inherit" model="ir.ui.view">
+            <field name="name">hr_payslip_run_form_inherit</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[1]" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <button string="Create Payslips" name="create_payroll_for_previous_month_manual" type="object"
+                            class="oe_highlight" states="draft"/>
+                    <button string="Rerun Payslips" name="rerun_payroll_for_previous_month_manual" type="object"
+                            class="oe_highlight" states="verify"/>
+                </xpath>
+                <xpath expr="//button[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

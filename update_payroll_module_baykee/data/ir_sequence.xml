@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Adding a salary rule for loan-->
+    <data noupdate="0">
+
+        <record id="ir_seq_hr_loan" model="ir.sequence">
+            <field name="name">Advance Loan Request</field>
+            <field name="code">hr.advance.loan.seq</field>
+            <field name="prefix">LO/</field>
+            <field name="padding">4</field>
+        </record>
+
+        <record id="ir_seq_hr_advance_salary" model="ir.sequence">
+            <field name="name">Advance Salary Request</field>
+            <field name="code">hr.advance.salary.seq</field>
+            <field name="prefix">AS/</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

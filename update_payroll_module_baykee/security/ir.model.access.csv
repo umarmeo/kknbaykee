@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_advance_loan,hr.advance.loan,model_hr_advance_loan,,1,1,1,1
+access_hr_advance_loan_line,hr.advance.loan.line,model_hr_advance_loan_line,,1,1,1,1
+access_loan_skip_installment,loan.skip.installment,model_loan_skip_installment,,1,1,1,1

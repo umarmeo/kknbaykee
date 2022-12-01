@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_skip_loan_installment_wizard_form" model="ir.ui.view">
+            <field name="name">view_skip_loan_installment_wizard_form</field>
+            <field name="model">loan.skip.installment</field>
+            <field name="arch" type="xml">
+                <form string="Loan Skip Installment">
+                    <group>
+                        <field name="payment_date" required="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Installments">
+                            <field name="installment_lines" readonly="1">
+                                <tree string="Installments">
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <button name="skip_installment" string="Proceed" type="object"
+                                class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_skip_loan_installment_wizard">
+            <field name="name">Skip loan Installment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">loan.skip.installment</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_skip_loan_installment_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>
