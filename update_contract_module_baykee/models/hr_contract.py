@@ -83,16 +83,25 @@ class HrContract(models.Model):
             yearly_wage = 12 * rec.gross_finals
             salary = rec.gross_finals
             if yearly_wage > 600000:
+                print('nice')
                 if 600000 < yearly_wage <= 1200000:
+                    print("Please enter")
                     rec.Deduction_Tax = (salary - 50000) * 0.025
                 elif 1200000 < yearly_wage <= 2400000:
-                    rec.Deduction_Tax = (((salary - 100000) * 0.125) + 15000)
-                elif 2400000 < salary <= 3600000:
-                    rec.Deduction_Tax = (((salary - 150000) * 0.2) + 165000)
-                elif 3600000 < salary <= 6000000:
-                    rec.Deduction_Tax = (((salary - 208333.33) * 0.25) + 405000)
-                elif 6000000 < salary <= 12000000:
-                    rec.Deduction_Tax = (((salary - 291666.66) * 0.325) + 1005000)
+                    cal_per = (((yearly_wage - 1200000) * 0.125) + 15000)
+                    rec.Deduction_Tax = cal_per / 12
+                elif 2400000 < yearly_wage <= 3600000:
+                    cal_per = (((yearly_wage - 2400000) * 0.2) + 165000)
+                    rec.Deduction_Tax = cal_per / 12
+                elif 3600000 < yearly_wage <= 6000000:
+                    cal_per = (((yearly_wage - 3600000) * 0.25) + 405000)
+                    rec.Deduction_Tax = cal_per / 12
+                elif 6000000 < yearly_wage <= 12000000:
+                    cal_per = (((yearly_wage - 6000000) * 0.325) + 1005000)
+                    rec.Deduction_Tax = cal_per / 12
+                elif 12000000 < yearly_wage:
+                    cal_per = (((yearly_wage - 12000000) * 0.35) + 2955000)
+                    rec.Deduction_Tax = cal_per / 12
                 else:
                     rec.Deduction_Tax = 0
 
