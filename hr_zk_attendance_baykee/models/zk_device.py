@@ -121,7 +121,7 @@ class ZkMachine(models.Model):
                 weekDays = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
                 date_hour_start = str(date(date.today().year, 3, 13))
                 date_hour_end = str(date(date.today().year, 11, 7))
-                start_date_check_attendance = str(date.today() - timedelta(days=23))
+                start_date_check_attendance = str(date.today() - timedelta(days=35))
                 for each in attendance:
                     if info.ip_select == 'local':
                         timedate = datetime.strptime(each.timestamp.strftime('%Y-%m-%d %H:%M:%S'),
