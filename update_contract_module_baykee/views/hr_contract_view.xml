@@ -111,8 +111,11 @@
                             <field name="Deduction_Tax" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="Deduction_EOBI" widget="radio" options="{'horizontal': true}"
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="Deduction_EOBI_amount"
+                                   attrs="{'invisible':[('Deduction_EOBI', '!=', 'yes')]}"/>
                             <field name="Deduction_PF" widget="radio" options="{'horizontal': true}"
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="Deduction_PF_amount" attrs="{'invisible':[('Deduction_PF', '!=', 'yes')]}"/>
                             <field name="Deduction_Advance" force_save="1"
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="Deduction_Loan" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
