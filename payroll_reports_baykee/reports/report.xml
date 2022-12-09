@@ -1,0 +1,30 @@
+<odoo>
+    <data>
+        <record id="paperformat_salary_summary_report" model="report.paperformat">
+            <field name="name">Stock In Hand</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_salary_summary_report" model="ir.actions.report">
+            <field name="name">Salary Summary</field>
+            <field name="model">salary.summary.report.wizard</field>
+            <field name="binding_model_id" ref="payroll_reports_baykee.model_salary_summary_report_wizard"/>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">payroll_reports_baykee.salary_summary_report</field>
+            <field name="report_file">payroll_reports_baykee.salary_summary_report</field>
+            <field name="attachment">'Salary Summary Report'</field>
+            <field name="paperformat_id" ref="paperformat_salary_summary_report"/>
+        </record>
+    </data>
+</odoo>
