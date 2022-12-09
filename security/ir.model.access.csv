@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_cash_bank_summary_report,cash.bank.summary.report,model_cash_bank_summary_report,,1,1,1,1
-access_partner_ledger_report,partner.ledger.report,model_partner_ledger_report,,1,1,1,1
-access_general_ledger_report,general.ledger.report,model_general_ledger_report,,1,1,1,1
