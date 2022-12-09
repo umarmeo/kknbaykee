@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="attendance_sheet_report_wizard_view_form" model="ir.ui.view">
+            <field name="name">attendance_sheet_report_wizard_view_form</field>
+            <field name="model">attendance.sheet.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="form">
+                    <group>
+                        <group>
+                            <field name="type" required="1"/>
+                            <field name="employee_ids" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                                   attrs="{'invisible':[('type','!=','emp')], 'required':[('type', '=', 'emp')]}"/>
+                            <field name="department_ids" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                                   attrs="{'invisible':[('type','!=','dpt')], 'required':[('type', '=', 'dpt')]}"/>
+                        </group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" class="btn-primary"
+                                name="export_excel" type="object"/>
+                        <button string="Cancel" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_attendance_sheet_report_wizard">
+            <field name="name">Attendance Sheet Report Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">attendance.sheet.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="attendance_sheet_report_wizard_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="hr_attendance.menu_hr_attendance_report"
+                name="Reporting"
+                sequence="30"
+                parent="hr_attendance.menu_hr_attendance_root"
+                groups="hr_attendance.group_hr_attendance_user"/>
+
+        <menuitem
+                id="menu_hr_attendance_analysis"
+                name="Attendance Analysis"
+                sequence="30"
+                parent="hr_attendance.menu_hr_attendance_report"
+                action="hr_attendance.hr_attendance_report_action"
+                groups="hr_attendance.group_hr_attendance_user"/>
+
+        <menuitem
+                id="menu_hr_attendance_sheet_report"
+                name="Attendance Sheet"
+                parent="hr_attendance.menu_hr_attendance_report"
+                action="action_attendance_sheet_report_wizard"
+                sequence="35"/>
+    </data>
+</odoo>
