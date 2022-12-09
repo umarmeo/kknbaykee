@@ -35,7 +35,7 @@
                                 <th style="text-align:center; width:5%;" rowspan="2">Days Absent</th>
                                 <th style="text-align:center; width:5%;" rowspan="2">Days Working</th>
                                 <th style="text-align:center; width:5%;" rowspan="2">Gross Salary</th>
-                                <th colspan="8" style="text-align:center;">Deductions</th>
+                                <th colspan="10" style="text-align:center;">Deductions</th>
                                 <th style="text-align:center; width:5%;" rowspan="2">Net Salary</th>
                             </tr>
                             <tr style="background-color:#f48531;color:white;">
@@ -43,6 +43,8 @@
                                 <th style="text-align:center; width:5%;">Advance Salary</th>
                                 <th style="text-align:center; width:5%;">Loan</th>
                                 <th style="text-align:center; width:5%;">Mobile Bill</th>
+                                <th style="text-align:center; width:5%;">EOBI</th>
+                                <th style="text-align:center; width:5%;">PF</th>
                                 <th style="text-align:center; width:5%;">Absent Deduction</th>
                                 <th style="text-align:center; width:5%;">Late Deduction</th>
                                 <th style="text-align:center; width:5%;">Short Leave Deduction</th>
@@ -89,6 +91,12 @@
                                             <span t-esc="'{:,.1f}'.format(m['mobile_bill'])"/>
                                         </td>
                                         <td style="text-align:right">
+                                            <span t-esc="'{:,.1f}'.format(m['EOBI_deduction'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.1f}'.format(m['PF_deduction'])"/>
+                                        </td>
+                                        <td style="text-align:right">
                                             <span t-esc="'{:,.1f}'.format(m['absent_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
@@ -107,49 +115,163 @@
                                     </tr>
                                 </t>
                             </t>
+                            <tr style="background-color:#f48531;color:white;">
+                                <t t-set="total_basic" t-value="0"/>
+                                <t t-set="total_gross" t-value="0"/>
+                                <t t-set="total_tax" t-value="0"/>
+                                <t t-set="total_ad_sal" t-value="0"/>
+                                <t t-set="total_loan" t-value="0"/>
+                                <t t-set="total_mobile_bill" t-value="0"/>
+                                <t t-set="total_eobi" t-value="0"/>
+                                <t t-set="total_pf" t-value="0"/>
+                                <t t-set="total_absent_deduct" t-value="0"/>
+                                <t t-set="total_late_deduct" t-value="0"/>
+                                <t t-set="total_short_deduct" t-value="0"/>
+                                <t t-set="total_half_deduct" t-value="0"/>
+                                <t t-set="total_net" t-value="0"/>
+                                <t t-foreach="dat" t-as="total">
+
+                                    <t t-foreach="total[0]" t-as="s">
+                                        <t t-set="total_basic" t-value="total_basic+s['basic']"/>
+                                        <t t-set="total_gross" t-value="total_gross+s['gross']"/>
+                                        <t t-set="total_tax" t-value="total_tax+s['tax']"/>
+                                        <t t-set="total_ad_sal" t-value="total_ad_sal+s['advance_sal']"/>
+                                        <t t-set="total_loan" t-value="total_loan+s['loan']"/>
+                                        <t t-set="total_mobile_bill" t-value="total_mobile_bill+s['mobile_bill']"/>
+                                        <t t-set="total_eobi" t-value="total_eobi+s['EOBI_deduction']"/>
+                                        <t t-set="total_pf" t-value="total_pf+s['PF_deduction']"/>
+                                        <t t-set="total_absent_deduct"
+                                           t-value="total_absent_deduct+s['absent_deduction']"/>
+                                        <t t-set="total_late_deduct" t-value="total_late_deduct+s['late_deduction']"/>
+                                        <t t-set="total_short_deduct"
+                                           t-value="total_short_deduct+s['short_leave_deduction']"/>
+                                        <t t-set="total_half_deduct"
+                                           t-value="total_half_deduct+s['half_leave_deduction']"/>
+                                        <t t-set="total_net" t-value="total_net+s['net']"/>
+                                    </t>
+                                </t>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-left" colspan="1">
+                                    <b>Total</b>
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_basic)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_gross)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_tax)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_ad_sal)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_loan)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_mobile_bill)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_eobi)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_pf)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_absent_deduct)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_late_deduct)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_short_deduct)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_half_deduct)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_net)"/>
+                                    </strong>
+                                </td>
+                            </tr>
                         </table>
 
                     </div>
-                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="text-center" style="margin-left:25px">
-                                    <strong>Address:</strong>
-                                    <t t-if="company_id.street" t-esc="company_id.street"/>
-                                    <span t-if="company_id.city">
-                                        ,
-                                        <t t-esc="company_id.city"/>
-                                    </span>
-                                    <span t-if="company_id.country_id">
-                                        -
-                                        <t t-esc="company_id.country_id.name"/>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row" style="margin-left:200px">
-                            <div class="col-12">
-                                <span class="text-center" style="margin-left:100px">
-                                    <strong>Mobile:</strong>
-                                    <span>
-                                        <t t-esc="company_id.mobile"/>
-                                    </span>
-                                </span>
-                                <span class="text-center" style="margin-left:100px">
-                                    <strong>Tel:</strong>
-                                    <span>
-                                        <t t-esc="company_id.phone"/>
-                                    </span>
-                                </span>
-                                <span class="text-center" style="margin-left:100px">
-                                    <strong>Web:</strong>
-                                    <span>
-                                        <t t-esc="company_id.website"/>
-                                    </span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+<!--                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-12">-->
+<!--                                <p class="text-center" style="margin-left:25px">-->
+<!--                                    <strong>Address:</strong>-->
+<!--                                    <t t-if="company_id.street" t-esc="company_id.street"/>-->
+<!--                                    <span t-if="company_id.city">-->
+<!--                                        ,-->
+<!--                                        <t t-esc="company_id.city"/>-->
+<!--                                    </span>-->
+<!--                                    <span t-if="company_id.country_id">-->
+<!--                                        - -->
+<!--                                        <t t-esc="company_id.country_id.name"/>-->
+<!--                                    </span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="row" style="margin-left:200px">-->
+<!--                            <div class="col-12">-->
+<!--                                <span class="text-center" style="margin-left:100px">-->
+<!--                                    <strong>Mobile:</strong>-->
+<!--                                    <span>-->
+<!--                                        <t t-esc="company_id.mobile"/>-->
+<!--                                    </span>-->
+<!--                                </span>-->
+<!--                                <span class="text-center" style="margin-left:100px">-->
+<!--                                    <strong>Tel:</strong>-->
+<!--                                    <span>-->
+<!--                                        <t t-esc="company_id.phone"/>-->
+<!--                                    </span>-->
+<!--                                </span>-->
+<!--                                <span class="text-center" style="margin-left:100px">-->
+<!--                                    <strong>Web:</strong>-->
+<!--                                    <span>-->
+<!--                                        <t t-esc="company_id.website"/>-->
+<!--                                    </span>-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </t>
             </t>
         </template>

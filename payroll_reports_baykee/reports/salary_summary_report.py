@@ -58,6 +58,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                 late_deduction = 0
                 short_leave_deduction = 0
                 half_leave_deduction = 0
+                EOBI_deduction = 0
+                PF_deduction = 0
                 for line in payslip_line:
                     basics = self.env['hr.payslip.line'].search([('id', '=', line.id), ('name', '=', "Basic Salary")])
                     basic += basics.amount
@@ -80,13 +82,20 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                     absent_deduction += absent_deductions.amount
                     late_deductions = self.env['hr.payslip.line'].search(
                         [('id', '=', line.id), ('name', '=', "Late Deductions")])
-                    late_deduction = late_deductions.amount
+                    late_deduction += late_deductions.amount
                     short_leave_deductions = self.env['hr.payslip.line'].search(
                         [('id', '=', line.id), ('name', '=', "Short Leave Deductions")])
                     short_leave_deduction += short_leave_deductions.amount
                     half_leave_deductions = self.env['hr.payslip.line'].search(
                         [('id', '=', line.id), ('name', '=', "Half Leave Deductions")])
-                    half_leave_deduction = half_leave_deductions.amount
+                    half_leave_deduction += half_leave_deductions.amount
+                    EOBI_deductions = self.env['hr.payslip.line'].search(
+                        [('id', '=', line.id), ('name', '=', "EOBI")])
+                    EOBI_deduction += EOBI_deductions.amount
+                    PF_deductions = self.env['hr.payslip.line'].search(
+                        [('id', '=', line.id), ('name', '=', "Provident Fund")])
+                    PF_deduction += PF_deductions.amount
+                print(half_leave_deduction)
                 vals = {
                     'employee': emp.name,
                     'desig': emp.job_title,
@@ -99,6 +108,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                     'advance_sal': adv_sal,
                     'loan': loan,
                     'mobile_bill': mobile_bill,
+                    'EOBI_deduction': EOBI_deduction,
+                    'PF_deduction': PF_deduction,
                     'absent_deduction': absent_deduction,
                     'late_deduction': late_deduction,
                     'short_leave_deduction': short_leave_deduction,
@@ -157,6 +168,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                     late_deduction = 0
                     short_leave_deduction = 0
                     half_leave_deduction = 0
+                    EOBI_deduction = 0
+                    PF_deduction = 0
                     for line in payslip_line:
                         basics = self.env['hr.payslip.line'].search([('id', '=', line.id), ('name', '=', "Basic Salary")])
                         basic += basics.amount
@@ -179,13 +192,19 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                         absent_deduction += absent_deductions.amount
                         late_deductions = self.env['hr.payslip.line'].search(
                             [('id', '=', line.id), ('name', '=', "Late Deductions")])
-                        late_deduction = late_deductions.amount
+                        late_deduction += late_deductions.amount
                         short_leave_deductions = self.env['hr.payslip.line'].search(
                             [('id', '=', line.id), ('name', '=', "Short Leave Deductions")])
                         short_leave_deduction += short_leave_deductions.amount
                         half_leave_deductions = self.env['hr.payslip.line'].search(
                             [('id', '=', line.id), ('name', '=', "Half Leave Deductions")])
-                        half_leave_deduction = half_leave_deductions.amount
+                        half_leave_deduction += half_leave_deductions.amount
+                        EOBI_deductions = self.env['hr.payslip.line'].search(
+                            [('id', '=', line.id), ('name', '=', "EOBI")])
+                        EOBI_deduction += EOBI_deductions.amount
+                        PF_deductions = self.env['hr.payslip.line'].search(
+                            [('id', '=', line.id), ('name', '=', "Provident Fund")])
+                        PF_deduction += PF_deductions.amount
                     vals = {
                         'employee': emp.name,
                         'desig': emp.job_title,
@@ -198,6 +217,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                         'advance_sal': adv_sal,
                         'loan': loan,
                         'mobile_bill': mobile_bill,
+                        'EOBI_deduction': EOBI_deduction,
+                        'PF_deduction': PF_deduction,
                         'absent_deduction': absent_deduction,
                         'late_deduction': late_deduction,
                         'short_leave_deduction': short_leave_deduction,
