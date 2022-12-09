@@ -184,7 +184,7 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                             [('id', '=', line.id), ('name', '=', "Short Leave Deductions")])
                         short_leave_deduction += short_leave_deductions.amount
                         half_leave_deductions = self.env['hr.payslip.line'].search(
-                            [('id', '=', line.id), ('name', '=', "half_leave_deduction")])
+                            [('id', '=', line.id), ('name', '=', "Half Leave Deductions")])
                         half_leave_deduction = half_leave_deductions.amount
                     vals = {
                         'employee': emp.name,
