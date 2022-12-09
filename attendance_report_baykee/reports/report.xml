@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="action_attendance_sheet_report_xlsx" model="ir.actions.report">
+            <field name="name">Attendance Report</field>
+            <field name="model">attendance.sheet.report.wizard</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">attendance_report_baykee.attendance_sheet_report_xlsx</field>
+            <field name="report_file">attendance_report_baykee.attendance_sheet_report_xlsx</field>
+            <field name="binding_model_id" ref="model_attendance_sheet_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>
