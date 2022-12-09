@@ -25,6 +25,8 @@ class HrContract(models.Model):
         ('no', "No"),
     ], string='PF', default='no', tracking=True)
     Deduction_Advance = fields.Monetary(string='Advance', default=0.0, tracking=True, compute='compute_advance_amount')
+    Deduction_EOBI_amount = fields.Monetary(string="EOBI Amount", default=0.0, tracking=True)
+    Deduction_PF_amount = fields.Monetary(string="PF Amount", default=0.0, tracking=True)
     Deduction_MobileBills = fields.Monetary(string='Mobile Bill', default=0.0, tracking=True)
     deduction_late = fields.Monetary(string='Late Deductions', default=0.0, tracking=True)
     deduction_absent = fields.Monetary(string='Absent Deductions', default=0.0, tracking=True)
