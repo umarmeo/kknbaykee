@@ -103,11 +103,11 @@ class HrPayslipRun(models.Model):
                 if total_absent > 0:
                     contract.deduction_absent = (contract.gross_finals / total_days) * total_absent
 
-                # both_late = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
-                #                                               ('status', '=', 'Late'),
-                #                                               ('out_status', '=', 'Late'),
-                #                                               ('current_shiftatt_date', '>=', temp_start_date),
-                #                                               ('current_shiftatt_date', '<=', end_date)])
+                both_late = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
+                                                              ('status', '=', 'Late'),
+                                                              ('out_status', '=', 'Late'),
+                                                              ('current_shiftatt_date', '>=', temp_start_date),
+                                                              ('current_shiftatt_date', '<=', end_date)])
 
                 status_late = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
                                                                 ('status', '=', 'Late'),
@@ -121,17 +121,15 @@ class HrPayslipRun(models.Model):
                                                                     ('current_shiftatt_date', '>=', temp_start_date),
                                                                     ('current_shiftatt_date', '<=', end_date)])
 
-                total_late = len(status_late) + len(out_status_late)
+                total_late = len(status_late) + len(out_status_late) + len(both_late)
                 if total_late >= 4:
                     total_late_process = total_late / 4
                     contract.deduction_late = (contract.gross_finals / total_days) * int(total_late_process)
-
-                # both_short = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
-                #                                                ('status', '=', 'ShortLeave'),
-                #                                                ('out_status', '=', 'ShortLeave'),
-                #                                                ('current_shiftatt_date', '>=', temp_start_date),
-                #                                                ('current_shiftatt_date', '<=', end_date)])
-                # print(both_short)
+                both_short = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
+                                                               ('status', '=', 'ShortLeave'),
+                                                               ('out_status', '=', 'ShortLeave'),
+                                                               ('current_shiftatt_date', '>=', temp_start_date),
+                                                               ('current_shiftatt_date', '<=', end_date)])
 
                 status_short = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
                                                                  ('status', '=', 'ShortLeave'),
@@ -144,20 +142,26 @@ class HrPayslipRun(models.Model):
                                                                      ('out_status', '=', 'ShortLeave'),
                                                                      ('current_shiftatt_date', '>=', temp_start_date),
                                                                      ('current_shiftatt_date', '<=', end_date)])
-                total_short_leaves = len(status_short) + len(out_status_short)
+                total_short_leaves = len(status_short) + len(out_status_short) + len(both_short)
                 total_short_leaves_proces = total_short_leaves * 0.334
                 contract.deduction_short_leave = (contract.gross_finals / total_days) * total_short_leaves_proces
-
+                both_half = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
+                                                                ('status', '=', 'HalfLeave'),
+                                                                ('out_status', '=', 'HalfLeave'),
+                                                                ('current_shiftatt_date', '>=', temp_start_date),
+                                                                ('current_shiftatt_date', '<=', end_date)])
                 status_half = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
                                                                 ('status', '=', 'HalfLeave'),
+                                                                ('out_status', 'not in', ('Absent', 'HalfLeave')),
                                                                 ('current_shiftatt_date', '>=', temp_start_date),
                                                                 ('current_shiftatt_date', '<=', end_date)])
 
                 out_status_half = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
+                                                                    ('status', 'not in', ('Absent', 'HalfLeave')),
                                                                     ('out_status', '=', 'HalfLeave'),
                                                                     ('current_shiftatt_date', '>=', temp_start_date),
                                                                     ('current_shiftatt_date', '<=', end_date)])
-                total_half_leaves = len(status_half) + len(out_status_half)
+                total_half_leaves = len(status_half) + len(out_status_half) + len(both_half)
                 total_half_leaves_proces = total_half_leaves * 0.5
                 contract.deduction_half_leave = (contract.gross_finals / total_days) * total_half_leaves_proces
 
