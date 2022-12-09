@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="view_hr_payslip_form_inherit_view" model="ir.ui.view">
+            <field name="name">view_hr_payslip_form_inherit_view</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='has_refund_slip']" position="after">
+                    <field name="month" invisible="1"/>
+                    <field name="year" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

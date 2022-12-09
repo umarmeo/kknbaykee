@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="salary_summary_report_wizard_view_form" model="ir.ui.view">
+            <field name="name">salary_summary_report_wizard_view_form</field>
+            <field name="model">salary.summary.report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="form">
+                    <group>
+                        <group>
+                            <field name="type" required="1"/>
+                            <field name="employee_ids" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}" attrs="{'invisible':[('type','!=','emp')], 'required':[('type', '=', 'emp')]}"/>
+                            <field name="department_ids" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}" attrs="{'invisible':[('type','!=','dpt')], 'required':[('type', '=', 'dpt')]}"/>
+                        </group>
+                        <group>
+                            <label for="month"/>
+                            <div class="o_row">
+                                <field name="month" required="1"/>
+                                <field name="year" required="1"/>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" class="btn-primary"
+                                name="%(payroll_reports_baykee.action_salary_summary_report)d" type="action"/>
+                        <button string="Cancel" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_salary_summary_report_wizard">
+            <field name="name">Salary Summary Report Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">salary.summary.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="salary_summary_report_wizard_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_salary_summary_report" name="Salary Summary" parent="hr_payroll.menu_hr_payroll_report"
+                  action="action_salary_summary_report_wizard" sequence="30"/>
+    </data>
+</odoo>
