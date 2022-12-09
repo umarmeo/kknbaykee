@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_zk_machine,hr.zk.machine,model_zk_machine,,1,1,1,1
+access_baykee_user,access.baykee.user,model_baykee_user,,1,1,1,1
+access_sh_message_wizard,sh.message.wizard,model_sh_message_wizard,,1,1,1,1
+access_zk_report_daily_attendance,zk.report.daily.attendance,model_zk_report_daily_attendance,,1,1,1,1
+access_zk_machine_attendance,zk.machine.attendance,model_zk_machine_attendance,,1,1,1,1
+access_baykee_employee_shift,baykee.employee.shift,model_baykee_employee_shift,,1,1,1,1
+access_days_week,days.week,model_days_week,,1,1,1,1
