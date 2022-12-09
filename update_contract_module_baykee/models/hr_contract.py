@@ -69,12 +69,14 @@ class HrContract(models.Model):
     #     self.medical_allowance = (self.gross_finals * 10) / 100
 
     @api.depends('Deduction_Tax', 'Deduction_Advance', 'Deduction_Loan', 'Deduction_MobileBills',
-                 'deduction_late', 'deduction_half_leave', 'deduction_short_leave', 'gross_finals')
+                 'deduction_late', 'deduction_half_leave', 'deduction_short_leave', 'gross_finals',
+                 'Deduction_EOBI_amount', 'Deduction_PF_amount')
     def calculate_net_salary(self):
         for rec in self:
             rec.Net_finals = rec.gross_finals - rec.Deduction_Tax - rec.Deduction_Advance \
                              - rec.Deduction_Loan - rec.Deduction_MobileBills - rec.deduction_late \
-                             - rec.deduction_half_leave - rec.deduction_short_leave - rec.deduction_absent
+                             - rec.deduction_half_leave - rec.deduction_short_leave - rec.deduction_absent \
+                             - rec.Deduction_EOBI_amount - rec.Deduction_PF_amount
 
     @api.depends('gross_finals', 'date_start', 'medical_allowance')
     def _tax_slabs(self):
