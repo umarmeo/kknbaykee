@@ -18,6 +18,5 @@
         'reports/salary_summary_report.xml',
         'wizards/salary_summary_report_wizard.xml',
         'views/hr_payslip_view.xml',
-        'views/hr_contract_view.xml',
     ],
 }
