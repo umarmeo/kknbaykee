@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                             <div style="page-break-after: always;" t-if="data_line[1]">
-                                <div class="row" t-if="data_line[1]">
+                                <div class="row">
                                     <div class="col-6">
                                         <span class="text-left"
                                               style="align:left; font-size:14px; font-family:Tahoma; color:black;">
@@ -43,8 +43,7 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
-                                       t-if="data_line[1]">
+                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
                                     <tr style="background-color:#f48531;color:white;">
                                         <th style="text-align:center; width:5%;">Sr#</th>
                                         <th style="text-align:center; width:25%;">Employee</th>
