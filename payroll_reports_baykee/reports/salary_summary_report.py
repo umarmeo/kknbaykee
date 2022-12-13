@@ -43,7 +43,13 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                                                                           ('current_shiftatt_date', '>=',
                                                                            temp_start_date),
                                                                           ('current_shiftatt_date', '<=', date_end)])
-                    total_absent = len(status_absent) + len(out_status_absent)
+                    both_absent = self.env['hr.attendance'].search([('employee_id', '=', emp.id),
+                                                                    ('status', '=', 'Absent'),
+                                                                    ('out_status', '=', 'Absent'),
+                                                                    ('current_shiftatt_date', '>=',
+                                                                     temp_start_date),
+                                                                    ('current_shiftatt_date', '<=', date_end)])
+                    total_absent = len(status_absent) + len(out_status_absent) + len(both_absent)
                 payslip_line = self.env['hr.payslip.line'].search(
                     [('employee_id', '=', emp.id), ('slip_id.month', '=', month), ('slip_id.year', '=', year)])
                 temp = []

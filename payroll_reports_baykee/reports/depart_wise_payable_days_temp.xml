@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="payroll_reports_baykee.payable_summary_report_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <br/>
+                                <h3 t-if="company_id">
+                                    <t t-esc="company_id.name"/>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <t t-foreach="dat" t-as="data_line">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3>PAYABLE DAYS FOR THE MONTH OF
+                                        <span t-esc="{'1': 'JAN', '2': 'FEB', '3': 'MAR', '4': 'APR', '5': 'MAY', '6': 'JUN', '7': 'JUL', '8': 'AUG', '9': 'SEP', '10': 'OCT', '11': 'NOV', '12': 'DEC' }[data_line[2]]"/>
+                                        -
+                                        <span t-esc="data_line[3]"/>
+                                    </h3>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div style="page-break-after: always;" t-if="data_line[1]">
+                                <div class="row" t-if="data_line[1]">
+                                    <div class="col-6">
+                                        <span class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Department Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <br/>
+                                    </div>
+                                </div>
+                                <br/>
+                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
+                                       t-if="data_line[1]">
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <th style="text-align:center; width:5%;">Sr#</th>
+                                        <th style="text-align:center; width:25%;">Employee</th>
+                                        <th style="text-align:center; width:20%;">Designation</th>
+                                        <th style="text-align:center; width:10%;">Working Days</th>
+                                        <th style="text-align:center; width:10%;">Total Salary Days</th>
+                                        <th style="text-align:center; width:10%;">Late</th>
+                                        <th style="text-align:center; width:10%;">Absent</th>
+                                        <th style="text-align:center; width:10%;">Total Payable</th>
+                                    </tr>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="data_line[1]" t-as="m">
+                                        <tr style="font-size:12px;">
+                                            <td style="text-align:left">
+                                                <span t-esc="i"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['employee']"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['designation']"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <span t-esc="m['working_days']"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <span t-esc="m['salary_days']"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <span t-esc="m['total_late']"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <span t-esc="m['total_absent']"/>
+                                            </td>
+                                            <td style="text-align:center">
+                                                <span t-esc="m['total_payable']"/>
+                                            </td>
+                                            <t t-set="i" t-value="i+1"/>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
