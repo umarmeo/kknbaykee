@@ -101,7 +101,6 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                     PF_deductions = self.env['hr.payslip.line'].search(
                         [('id', '=', line.id), ('name', '=', "Provident Fund")])
                     PF_deduction += PF_deductions.amount
-                print(half_leave_deduction)
                 vals = {
                     'employee': emp.name,
                     'desig': emp.job_title,
@@ -110,6 +109,7 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                     'absent_days': total_absent,
                     'days_working': total_days,
                     'gross': gross,
+                    'mop': emp.contract_id.mop,
                     'tax': tax,
                     'advance_sal': adv_sal,
                     'loan': loan,
@@ -149,7 +149,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                         status_absent = self.env['hr.attendance'].search([('employee_id', '=', emp.id),
                                                                           ('status', '=', 'Absent'),
                                                                           ('out_status', '!=', 'Absent'),
-                                                                          ('current_shiftatt_date', '>=', temp_start_date),
+                                                                          ('current_shiftatt_date', '>=',
+                                                                           temp_start_date),
                                                                           ('current_shiftatt_date', '<=', date_end)])
 
                         out_status_absent = self.env['hr.attendance'].search([('employee_id', '=', emp.id),
@@ -157,7 +158,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                                                                               ('out_status', '=', 'Absent'),
                                                                               ('current_shiftatt_date', '>=',
                                                                                temp_start_date),
-                                                                              ('current_shiftatt_date', '<=', date_end)])
+                                                                              (
+                                                                              'current_shiftatt_date', '<=', date_end)])
                         total_absent = len(status_absent) + len(out_status_absent)
 
                     payslip_line = self.env['hr.payslip.line'].search(
@@ -177,9 +179,11 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                     EOBI_deduction = 0
                     PF_deduction = 0
                     for line in payslip_line:
-                        basics = self.env['hr.payslip.line'].search([('id', '=', line.id), ('name', '=', "Basic Salary")])
+                        basics = self.env['hr.payslip.line'].search(
+                            [('id', '=', line.id), ('name', '=', "Basic Salary")])
                         basic += basics.amount
-                        grosses = self.env['hr.payslip.line'].search([('id', '=', line.id), ('name', '=', "Gross Salary")])
+                        grosses = self.env['hr.payslip.line'].search(
+                            [('id', '=', line.id), ('name', '=', "Gross Salary")])
                         gross += grosses.amount
                         nets = self.env['hr.payslip.line'].search([('id', '=', line.id), ('name', '=', "Net Salary")])
                         net += nets.amount
@@ -219,6 +223,7 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                         'absent_days': total_absent,
                         'days_working': total_days,
                         'gross': gross,
+                        'mop': emp.contract_id.mop,
                         'tax': tax,
                         'advance_sal': adv_sal,
                         'loan': loan,
