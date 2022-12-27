@@ -34,17 +34,20 @@ class ItemWiseSaleReportTemplate(models.AbstractModel):
                 domain.append(('salesman_id', '=', sale_person))
             sale_order_line = self.env['sale.order.line'].search(domain).sorted(key=lambda r: r.salesman_id)
             for line in sale_order_line:
+                invoice = self.env['account.move'].search([('invoice_origin', '=', line.order_id.name), ('ref', 'not ilike', 'Reversal of'), ('state', '=', 'posted')])
                 vals = {
                     'sale_person': line.salesman_id.name,
                     'quantity': line.product_uom_qty,
                     'unit_price': line.price_unit,
-                    'order_date': line.order_id.date_order,
+                    'order_date': invoice.invoice_date,
                 }
-                temp.append(vals)
+                if invoice:
+                    temp.append(vals)
             temp2 = temp
+            product_variant = [var.name for var in product.product_template_variant_value_ids]
+            result = ', '.join(product_variant)
             data_temp.append(
-                [product.name, temp2, start_date, end_date])
-            print(data_temp)
+                [product.name + ' ' + result, temp2, start_date, end_date])
         return {
             'doc_ids': self.ids,
             'doc_model': 'general.ledger',

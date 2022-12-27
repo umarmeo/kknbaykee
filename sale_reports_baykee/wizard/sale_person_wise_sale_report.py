@@ -35,8 +35,14 @@ class SalePersonWiseSaleReport(models.TransientModel):
         first = datetime.today().replace(day=1)
         last = first + relativedelta(months=1) + timedelta(days=-1)
         return last
-
+    report_type = fields.Selection([
+        ('sale_person', "Sale Person Wise"),
+        ('sale_team', "Sale Team Wise"),
+        ('sale_division', "Sale Division Wise"),
+        ('sale_project', "Sale Project Wise"),
+    ], string="Report Type", default='sale_person')
     end_date = fields.Date(string="End Date", default=_default_end_date)
     sale_person = fields.Many2many('res.users', string="Sale Person")
+    sale_team = fields.Many2many('crm.team', string="Sales Team")
     analytic_account_id = fields.Many2many('account.analytic.account', string="Analytic Account")
     analytic_tag_id = fields.Many2many('account.analytic.tag', string="Analytic Tags")
