@@ -13,9 +13,7 @@ class StockInHandTemplate(models.AbstractModel):
         date = docs.date
         product = docs.product_ids.ids if docs.product_ids else []
         location = docs.location_id
-        # location_name = docs.location_id.complete_name
         loc_domain = [('usage', '=', 'internal')]
-        loc_list = []
         if location:
             loc_domain += [('id', '=', location.id)]
         location_search = self.env['stock.location'].search(loc_domain)
@@ -27,8 +25,10 @@ class StockInHandTemplate(models.AbstractModel):
                 domain.append(('product_id', '=', product))
             stock = self.env['stock.quant'].search(domain).sorted(key=lambda r: r.new_date)
             for rec in stock:
+                product_variant = [var.name for var in rec.product_id.product_template_variant_value_ids]
+                result = ', '.join(product_variant)
                 vals = {
-                    'pro': rec.product_id.name,
+                    'pro': rec.product_id.name + ' ' + result,
                     'categ': rec.product_categ_id.name,
                     'lot': rec.lot_id.name,
                     'inv_qty_auto': rec.inventory_quantity_auto_apply,
