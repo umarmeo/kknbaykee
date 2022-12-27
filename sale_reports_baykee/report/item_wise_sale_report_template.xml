@@ -69,10 +69,10 @@
                                                 <span t-esc="m['sale_person']"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['quantity']"/>
+                                                <span t-esc="'{:,.2f}'.format(m['quantity'])"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['unit_price']"/>
+                                                <span t-esc="'{:,.2f}'.format(m['unit_price'])"/>
                                             </td>
                                             <td style="text-align:right">
                                                 <span t-esc="m['order_date']"/>

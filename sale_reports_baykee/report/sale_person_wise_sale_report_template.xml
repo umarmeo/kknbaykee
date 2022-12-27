@@ -22,7 +22,10 @@
                          t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <h3>Sale Person Wise Sale Report</h3>
+                                <h3 t-if="o.report_type == 'sale_person'">Sale Person Wise Sale Report</h3>
+                                <h3 t-if="o.report_type == 'sale_team'">Sale Team Wise Sale Report</h3>
+                                <h3 t-if="o.report_type == 'sale_division'">Sale Division Wise Sale Report</h3>
+                                <h3 t-if="o.report_type == 'sale_project'">Sale Project Wise Sale Report</h3>
                                 <br/>
                             </div>
                         </div>
@@ -30,9 +33,24 @@
                             <div style="page-break-after: always;" t-if="data_line[1]">
                                 <div class="row" t-if="data_line[1]">
                                     <div class="col-6">
-                                        <span class="text-left"
+                                        <span class="text-left" t-if="o.report_type == 'sale_person'"
                                               style="align:left; font-size:14px; font-family:Tahoma; color:black;">
                                             Sale Person:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <span class="text-left" t-if="o.report_type == 'sale_team'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Sale Team:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <span class="text-left" t-if="o.report_type == 'sale_division'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Sale Division:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <span class="text-left" t-if="o.report_type == 'sale_project'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Sale Project:
                                             <t t-esc="data_line[0]"/>
                                         </span>
                                     </div>
@@ -45,36 +63,6 @@
                                             To:
                                             <t t-esc="data_line[3]"
                                                t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="row" t-if="data_line[1]">
-                                    <div class="col-6">
-                                        <span class="text-left"
-                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            <strong>Analytic Account:</strong>
-                                            <t t-if="analytic_account">
-                                                <t t-foreach="analytic_account" t-as="aa">
-                                                    <span t-esc="aa.name"/>
-                                                </t>
-                                            </t>
-                                            <t t-if="not analytic_account">
-                                                <span t-esc="analytic_account_all"/>
-                                            </t>
-                                        </span>
-                                    </div>
-                                    <div class="col-6 text-right" style="align:right;">
-                                        <span class="text-right"
-                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            <strong>Analytic Tag:</strong>
-                                            <t t-if="analytic_tag">
-                                                <t t-foreach="analytic_tag" t-as="at">
-                                                    <span t-esc="at.name"/>
-                                                </t>
-                                            </t>
-                                            <t t-if="not analytic_tag">
-                                                <span t-esc="analytic_tag_all"/>
-                                            </t>
                                         </span>
                                     </div>
                                 </div>
@@ -106,13 +94,13 @@
                                                 <span t-esc="m['customer']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['amount_nogst']"/>
+                                                <span t-esc="'{:,.2f}'.format(m['amount_nogst'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['gst']"/>
+                                                <span t-esc="'{:,.2f}'.format(m['gst'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['amount_gst']"/>
+                                                <span t-esc="'{:,.2f}'.format(m['amount_gst'])"/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
