@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="loan_employee_wizard_view_form" model="ir.ui.view">
+            <field name="name">loan_employee_wizard_view_form</field>
+            <field name="model">loan.employee.wizard</field>
+            <field name="arch" type="xml">
+                <form string="form">
+                    <group>
+                        <group>
+                            <label for="month"/>
+                            <div class="o_row">
+                                <field name="month" required="1"/>
+                                <field name="year" required="1"/>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" class="btn-primary"
+                                name="%(loan_advances_report_baykee.action_loan_employee_report)d" type="action"/>
+                        <button string="Cancel" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_loan_employee_report_wizard">
+            <field name="name">Loan To Employees Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">loan.employee.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="loan_employee_wizard_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_loan_reporting" name="Reporting" parent="update_payroll_module_baykee.root_menu_loan_icon"
+                  sequence="5"/>
+        <menuitem id="menu_loan_employee_report" name="Loan To Employees" parent="menu_loan_reporting"
+                  action="action_loan_employee_report_wizard" sequence="1"/>
+    </data>
+</odoo>

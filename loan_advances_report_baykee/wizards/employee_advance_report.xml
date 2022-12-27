@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="advance_against_salary_wizard_view_form" model="ir.ui.view">
+            <field name="name">advance_against_salary_wizard_view_form</field>
+            <field name="model">advance.against.salary.wizard</field>
+            <field name="arch" type="xml">
+                <form string="form">
+                    <group>
+                        <group>
+                            <label for="month"/>
+                            <div class="o_row">
+                                <field name="month" required="1"/>
+                                <field name="year" required="1"/>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" class="btn-primary"
+                                name="%(loan_advances_report_baykee.action_advance_salary_report)d" type="action"/>
+                        <button string="Cancel" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_advance_against_salary_report_wizard">
+            <field name="name">Advance Against Salary Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">advance.against.salary.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="advance_against_salary_wizard_view_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_advances_reporting" name="Reporting" parent="update_payroll_module_baykee.root_menu_advances_icon"
+                  sequence="5"/>
+        <menuitem id="menu_advance_against_salary_report" name="Advance Against Salary" parent="menu_advances_reporting"
+                  action="action_advance_against_salary_report_wizard" sequence="1"/>
+    </data>
+</odoo>

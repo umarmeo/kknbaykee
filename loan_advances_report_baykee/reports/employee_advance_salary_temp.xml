@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="loan_advances_report_baykee.advance_salary_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="company_id.partner_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Advance Against Salary Report</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-right">
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Period:
+                                    <t t-esc="o.month"/>
+                                    -
+                                    <span t-esc="o.year"/>
+                                </span>
+                            </div>
+                        </div>
+                        <table class="table table-bordered mb64" style="width:100%;">
+                            <tr style="background-color:#f48531;color:white;">
+                                <th style="text-align:center; width:5%;">Sr#</th>
+                                <th style="text-align:center; width:20%;">Employee</th>
+                                <th style="text-align:center; width:20%;">Designation</th>
+                                <th style="text-align:center; width:20%;">Department</th>
+                                <th style="text-align:center; width:15%;">Payment Date</th>
+                                <th style="text-align:center; width:10%;">Amount</th>
+                            </tr>
+                            <t t-set="i" t-value="1"/>
+                            <t t-foreach="dat" t-as="data_line">
+                                <t t-foreach="data_line[0]" t-as="m">
+                                    <tr style="font-size:12px;">
+                                        <td style="text-align:center">
+                                            <span t-esc="i"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['employee']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['desig']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['depart']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['payment_date']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.2f}'.format(m['amount'])"/>
+                                        </td>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr style="background-color:#f48531;color:white;">
+                                <t t-set="total_amount" t-value="0"/>
+                                <t t-foreach="dat" t-as="total">
+                                    <t t-foreach="total[0]" t-as="s">
+                                        <t t-set="total_amount" t-value="total_amount+s['amount']"/>
+                                    </t>
+                                </t>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-left" colspan="1">
+                                    <b>Total</b>
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <!--                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">-->
+                    <!--                        <div class="row">-->
+                    <!--                            <div class="col-12">-->
+                    <!--                                <p class="text-center" style="margin-left:25px">-->
+                    <!--                                    <strong>Address:</strong>-->
+                    <!--                                    <t t-if="company_id.street" t-esc="company_id.street"/>-->
+                    <!--                                    <span t-if="company_id.city">-->
+                    <!--                                        ,-->
+                    <!--                                        <t t-esc="company_id.city"/>-->
+                    <!--                                    </span>-->
+                    <!--                                    <span t-if="company_id.country_id">-->
+                    <!--                                        - -->
+                    <!--                                        <t t-esc="company_id.country_id.name"/>-->
+                    <!--                                    </span>-->
+                    <!--                                </p>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="row" style="margin-left:200px">-->
+                    <!--                            <div class="col-12">-->
+                    <!--                                <span class="text-center" style="margin-left:100px">-->
+                    <!--                                    <strong>Mobile:</strong>-->
+                    <!--                                    <span>-->
+                    <!--                                        <t t-esc="company_id.mobile"/>-->
+                    <!--                                    </span>-->
+                    <!--                                </span>-->
+                    <!--                                <span class="text-center" style="margin-left:100px">-->
+                    <!--                                    <strong>Tel:</strong>-->
+                    <!--                                    <span>-->
+                    <!--                                        <t t-esc="company_id.phone"/>-->
+                    <!--                                    </span>-->
+                    <!--                                </span>-->
+                    <!--                                <span class="text-center" style="margin-left:100px">-->
+                    <!--                                    <strong>Web:</strong>-->
+                    <!--                                    <span>-->
+                    <!--                                        <t t-esc="company_id.website"/>-->
+                    <!--                                    </span>-->
+                    <!--                                </span>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

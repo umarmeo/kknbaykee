@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_advance_loan_application_form_report" model="ir.actions.report">
+            <field name="name">Advance Against Salary/Loan Application Form</field>
+            <field name="model">hr.advance.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">loan_advances_report_baykee.advance_loan_application_form_report</field>
+            <field name="report_file">loan_advances_report_baykee.advance_loan_application_form_report</field>
+            <field name="binding_model_id" ref="update_payroll_module_baykee.model_hr_advance_loan"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">(('Application Form'+ ' ' +(object.name)))</field>
+        </record>
+
+        <record id="action_advance_salary_report" model="ir.actions.report">
+            <field name="name">Advance Against Salary Report</field>
+            <field name="model">hr.advance.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">loan_advances_report_baykee.advance_salary_report</field>
+            <field name="report_file">loan_advances_report_baykee.advance_salary_report</field>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_loan_employee_report" model="ir.actions.report">
+            <field name="name">Loan To Employees Report</field>
+            <field name="model">hr.advance.loan</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">loan_advances_report_baykee.loan_employee_report</field>
+            <field name="report_file">loan_advances_report_baykee.loan_employee_report</field>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>
