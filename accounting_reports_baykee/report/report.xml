@@ -95,7 +95,6 @@
             <field name="report_file">accounting_reports_baykee.report_baykee_invoices</field>
             <field name="binding_model_id" ref="account.model_account_move"/>
             <field name="binding_type">report</field>
-
         </record>
     </data>
 </odoo>
