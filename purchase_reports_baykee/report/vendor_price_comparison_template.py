@@ -17,6 +17,8 @@ class VendorPriceComparisonReportTemplate(models.AbstractModel):
         start_date = docs.start_date
         end_date = docs.end_date
         vendors = docs.partner_id.ids if docs.partner_id else []
+        analytic_account = docs.analytic_account_id.ids if docs.analytic_account_id else []
+        analytic_tags = docs.analytic_tag_ids.ids if docs.analytic_tag_ids else []
         product_id = docs.product_id
         prod_domain = []
         product_list = []
@@ -30,7 +32,12 @@ class VendorPriceComparisonReportTemplate(models.AbstractModel):
             domain = [('order_id.date_order', '>=', start_date), ('order_id.date_order', '<=', end_date),
                       ('product_id', '=', product.id)]
             if vendors:
-                domain.append(('salesman_id', '=', vendors))
+                print(vendors)
+                domain.append(('partner_id', 'in', vendors))
+            if analytic_account:
+                domain.append(('account_analytic_id', 'in', analytic_account))
+            if analytic_tags:
+                domain.append(('analytic_tag_ids', 'in', analytic_tags))
             purchase_order_line = self.env['purchase.order.line'].search(domain).sorted(key=lambda r: r.partner_id)
             for line in purchase_order_line:
                 vals = {
@@ -41,8 +48,10 @@ class VendorPriceComparisonReportTemplate(models.AbstractModel):
                 }
                 temp.append(vals)
             temp2 = temp
+            product_variant = [var.name for var in product.product_template_variant_value_ids]
+            result = ', '.join(product_variant)
             data_temp.append(
-                [product.name, temp2, start_date, end_date])
+                [product.name + ' ' + result, temp2, start_date, end_date])
         return {
             'doc_ids': self.ids,
             'doc_model': 'purchase.order.line',

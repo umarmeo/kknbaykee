@@ -9,6 +9,11 @@
                 <form>
                     <group>
                         <group>
+                            <field name="report_type" widget="radio"/>
+                            <field name="analytic_account_id" widget="many2many_tags" attrs="{'invisible':[('report_type','!=','project_wise')]}"/>
+                            <field name="analytic_tag_id" widget="many2many_tags" attrs="{'invisible':[('report_type','!=','division_wise')]}"/>
+                        </group>
+                        <group>
                             <field name="start_date"/>
                             <field name="end_date"/>
                         </group>
