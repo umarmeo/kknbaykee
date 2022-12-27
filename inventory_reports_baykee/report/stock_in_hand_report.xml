@@ -77,26 +77,42 @@
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
                                     </t>
-                                    <!--                                    <tr style="background-color:#f48531;color:white;">-->
-                                    <!--                                        <td class="text-right" colspan="1">-->
-                                    <!--                                            <b>Total</b>-->
-                                    <!--                                        </td>-->
-                                    <!--                                        <t t-set="total_amount" t-value="0"/>-->
-                                    <!--                                        <t t-foreach="data_line[1]" t-as="s">-->
-                                    <!--                                            <t t-set="total_amount" t-value="total_amount+s['unit_price']"/>-->
-                                    <!--                                        </t>-->
-                                    <!--                                        <td class="text-right">-->
-                                    <!--                                        </td>-->
-                                    <!--                                        <td class="text-right">-->
-                                    <!--                                        </td>-->
-                                    <!--                                        <td class="text-right">-->
-                                    <!--                                            <strong>-->
-                                    <!--                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>-->
-                                    <!--                                            </strong>-->
-                                    <!--                                        </td>-->
-                                    <!--                                        <td class="text-right">-->
-                                    <!--                                        </td>-->
-                                    <!--                                    </tr>-->
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right" colspan="1">
+                                            <b>Total</b>
+                                        </td>
+                                        <t t-set="total_amount" t-value="0"/>
+                                        <t t-set="on_hand" t-value="0"/>
+                                        <t t-set="avail" t-value="0"/>
+                                        <t t-foreach="data_line[1]" t-as="s">
+                                            <t t-set="total_amount" t-value="total_amount+s['value']"/>
+                                            <t t-set="on_hand" t-value="on_hand+s['inv_qty_auto']"/>
+                                            <t t-set="avail" t-value="avail+s['ava_qty']"/>
+                                        </t>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(on_hand)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(avail)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </t>
