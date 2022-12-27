@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="loan_advances_report_baykee.advance_loan_application_form_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="o.company_id.partner_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3 t-if="o.type == 'loan'">Loan Application Form</h3>
+                                <h3 t-if="o.type == 'ad_sal'">Advance Against Salary Application Form</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="text-left" t-if="o.type == 'loan'"
+                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                    Loan No:
+                                    <t t-esc="o.name"/>
+                                </span>
+                                <span class="text-left" t-if="o.type == 'ad_sal'"
+                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                    Advance Salary No:
+                                    <t t-esc="o.name"/>
+                                </span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="text-right" t-if="o.type == 'loan'"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Loan Date:
+                                    <t t-esc="o.date"/>
+                                </span>
+                                <span class="text-right" t-if="o.type == 'ad_sal'"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Advance Salary Date:
+                                    <t t-esc="o.date"/>
+                                </span>
+                            </div>
+                        </div>
+                        <br/>
+                        <table class="table table-bordered mb64" style="width:100%;">
+                            <tr style="background-color:#f48531;color:white;">
+                                <th style="text-align:left; width:20%;">Employee Name</th>
+                                <th style="text-align:left; width:20%;">Designation</th>
+                                <th style="text-align:left; width:20%;">Department</th>
+                                <th style="text-align:left; width:15%;" t-if="o.type == 'loan'">Loan Given Date</th>
+                                <th style="text-align:left; width:15%;" t-if="o.type == 'ad_sal'">Advance Given Date
+                                </th>
+                                <th style="text-align:right; width:15%;">Amount Given</th>
+                                <th style="text-align:right; width:10%;" t-if="o.type == 'loan'">No.of Installments</th>
+                            </tr>
+                            <tr style="font-size:12px;">
+                                <td style="text-align:left">
+                                    <span t-esc="o.employee_id.name"/>
+                                </td>
+                                <td style="text-align:left">
+                                    <span t-esc="o.employee_id.job_title"/>
+                                </td>
+                                <td style="text-align:left">
+                                    <span t-esc="o.department_id.name"/>
+                                </td>
+                                <td style="text-align:left">
+                                    <span t-esc="o.date"/>
+                                </td>
+                                <td style="text-align:right" t-if="o.type == 'loan'">
+                                    <span t-esc="'{:,.2f}'.format(o.loan_amount)"/>
+                                </td>
+                                <td style="text-align:right" t-if="o.type == 'ad_sal'">
+                                    <span t-esc="'{:,.2f}'.format(o.adv_sal_amount)"/>
+                                </td>
+                                <td style="text-align:right" t-if="o.type == 'loan'">
+                                    <span t-esc="o.installment"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="row" style="margin-top:250px">
+                            <div class="col-4">
+                                <hr style="width:100%;align:left;margin-left:10px; border: 1px solid;"/>
+                                <p style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                    Requested By:
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <hr style="width:100%;align:right; border: 1px solid;"/>
+                                <p style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                    Approved By:
+                                </p>
+                            </div>
+                            <div class="col-4">
+                                <hr style="width:100%;align:right; border: 1px solid;"/>
+                                <p style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                    Received By:
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-center" style="margin-left:25px">
+                                    <strong>Address:</strong>
+                                    <t t-if="o.company_id.street" t-esc="o.company_id.street"/>
+                                    <span t-if="o.company_id.city">
+                                        ,
+                                        <t t-esc="o.company_id.city"/>
+                                    </span>
+                                    <span t-if="o.company_id.country_id">
+                                        -
+                                        <t t-esc="o.company_id.country_id.name"/>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left:200px">
+                            <div class="col-12">
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Mobile:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.mobile"/>
+                                    </span>
+                                </span>
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Tel:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.phone"/>
+                                    </span>
+                                </span>
+                                <span class="text-center" style="margin-left:100px">
+                                    <strong>Web:</strong>
+                                    <span>
+                                        <t t-esc="o.company_id.website"/>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

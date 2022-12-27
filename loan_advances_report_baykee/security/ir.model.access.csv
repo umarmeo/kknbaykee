@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_loan_employee_wizard,loan.employee.wizard,model_loan_employee_wizard,,1,1,1,1
+access_advance_against_salary_wizard,advance.against.salary.wizard,model_advance_against_salary_wizard,,1,1,1,1
