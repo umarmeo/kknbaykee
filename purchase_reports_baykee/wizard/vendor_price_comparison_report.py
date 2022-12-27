@@ -46,4 +46,6 @@ class VendorPriceComparisonReport(models.TransientModel):
     end_date = fields.Date(string="End Date", default=_default_end_date)
     partner_id = fields.Many2many('res.partner', string="Vendor")
     product_id = fields.Many2many('product.product', string="Products")
+    analytic_account_id = fields.Many2many('account.analytic.account', string="Analytic Account")
+    analytic_tag_ids = fields.Many2many('account.analytic.tag', string="Analytic Tags")
 

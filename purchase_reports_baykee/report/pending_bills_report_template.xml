@@ -27,91 +27,104 @@
                             </div>
                         </div>
                         <t t-foreach="dat" t-as="data_line">
-
-                            <div class="row">
-                                <div class="col-6"
-                                     style="margin: 5px; padding: 5px;">
-                                    <span class="text-left"
-                                          style="align:right; font-size:14px; font-family:Tahoma; color:black;">
-                                        Period:
-                                        <t t-esc="data_line[1]"
-                                           t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                        To:
-                                        <t t-esc="data_line[2]"
-                                           t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                    </span>
+                            <div style="page-break-after: always;" t-if="data_line[1]">
+                                <div class="row" t-if="data_line[1]">
+                                    <div class="col-6">
+                                        <span class="text-left" t-if="o.report_type == 'division_wise'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Division Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <span class="text-left" t-if="o.report_type == 'Project_wise'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Project Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-6"
+                                         style="margin: 5px; padding: 5px;">
+                                        <span class="text-left"
+                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                            Period:
+                                            <t t-esc="data_line[2]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                            To:
+                                            <t t-esc="data_line[3]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
-                                <tr style="background-color:#f48531;color:white;">
-                                    <th style="text-align:center; width:3%; height: 3px">Sr#</th>
-                                    <th style="text-align:center; width:20%; height:2%">Reference</th>
-                                    <th style="text-align:center; width:7%; height:2%">Confirmation Date</th>
-                                    <th style="text-align:center; width:20%; height:2%">Vendor</th>
-                                    <th style="text-align:center; width:20%; height:2%">Receipt Date</th>
-                                    <th style="text-align:center; width:20%; height:2%">Purchase Representative</th>
-                                    <th style="text-align:center; width:20%; height:2%">Total</th>
-                                    <th style="text-align:center; width:20%; height:2%">Billing Status</th>
-                                </tr>
-                                <t t-set="i" t-value="1"/>
-                                <t t-foreach="data_line[0]" t-as="m">
-                                    <tr style="font-size:12px;">
-                                        <td style="text-align:left">
-                                            <span t-esc="i"/>
-                                        </td>
-                                        <td style="text-align:left">
-                                            <span t-esc="m['ref']"/>
-                                        </td>
-                                        <td style="text-align:left">
-                                            <span t-esc="m['confirm_date']"/>
-                                        </td>
-                                        <td style="text-align:left">
-                                            <span t-esc="m['vendor']"/>
-                                        </td>
-                                        <td style="text-align:right">
-                                            <span t-esc="m['receipt_date']"/>
-                                        </td>
-                                        <td style="text-align:right">
-                                            <span t-esc="m['represent']"/>
-                                        </td>
-                                        <td style="text-align:right">
-                                            <span t-esc="m['total']"/>
-                                        </td>
-                                        <td style="text-align:right">
-                                            <span>
-                                                Waiting Bills
-                                            </span>
-                                        </td>
-                                        <t t-set="i" t-value="i+1"/>
+                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <th style="text-align:center; width:3%; height: 3px">Sr#</th>
+                                        <th style="text-align:center; width:20%; height:2%">Reference</th>
+                                        <th style="text-align:center; width:7%; height:2%">Confirmation Date</th>
+                                        <th style="text-align:center; width:20%; height:2%">Vendor</th>
+                                        <th style="text-align:center; width:20%; height:2%">Receipt Date</th>
+                                        <th style="text-align:center; width:20%; height:2%">Purchase Representative</th>
+                                        <th style="text-align:center; width:20%; height:2%">Total</th>
+                                        <th style="text-align:center; width:20%; height:2%">Billing Status</th>
                                     </tr>
-                                </t>
-                                <tr style="background-color:#f48531;color:white;">
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right" colspan="1">
-                                        <b>Total</b>
-                                    </td>
-                                    <t t-set="total_amount" t-value="0"/>
-                                    <t t-foreach="data_line[0]" t-as="s">
-                                        <t t-set="total_amount" t-value="total_amount+s['total']"/>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="data_line[1]" t-as="m">
+                                        <tr style="font-size:12px;">
+                                            <td style="text-align:left">
+                                                <span t-esc="i"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['ref']"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['confirm_date']"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['vendor']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="m['receipt_date']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="m['represent']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="'{:,.2f}'.format(m['total'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span>
+                                                    Waiting Bills
+                                                </span>
+                                            </td>
+                                            <t t-set="i" t-value="i+1"/>
+                                        </tr>
                                     </t>
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right">
-                                        <strong>
-                                            <span t-esc="'{:,.2f}'.format(total_amount)"/>
-                                        </strong>
-                                    </td>
-                                    <td class="text-right">
-                                    </td>
-                                </tr>
-                            </table>
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right" colspan="1">
+                                            <b>Total</b>
+                                        </td>
+                                        <t t-set="total_amount" t-value="0"/>
+                                        <t t-foreach="data_line[1]" t-as="s">
+                                            <t t-set="total_amount" t-value="total_amount+s['total']"/>
+                                        </t>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </t>
                     </div>
                     <div class="footer" style="font-size:11px;border-top:1px solid black;">
