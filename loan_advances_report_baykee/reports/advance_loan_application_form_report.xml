@@ -25,6 +25,9 @@
                                 <br/>
                             </div>
                         </div>
+                        <br/>
+                        <br/>
+                        <br/>
                         <div class="row">
                             <div class="col-6">
                                 <span class="text-left" t-if="o.type == 'loan'"
@@ -60,7 +63,9 @@
                                 <th style="text-align:left; width:15%;" t-if="o.type == 'loan'">Loan Given Date</th>
                                 <th style="text-align:left; width:15%;" t-if="o.type == 'ad_sal'">Advance Given Date
                                 </th>
-                                <th style="text-align:right; width:15%;">Amount Given</th>
+                                <th style="text-align:right; width:15%;">Total Amount Given</th>
+                                <th style="text-align:right; width:15%;" t-if="o.type == 'loan'">Monthly Installment
+                                </th>
                                 <th style="text-align:right; width:10%;" t-if="o.type == 'loan'">No.of Installments</th>
                             </tr>
                             <tr style="font-size:12px;">
@@ -77,10 +82,13 @@
                                     <span t-esc="o.date"/>
                                 </td>
                                 <td style="text-align:right" t-if="o.type == 'loan'">
-                                    <span t-esc="'{:,.2f}'.format(o.loan_amount)"/>
+                                    <span t-esc="'{:,.0f}'.format(o.loan_amount)"/>
                                 </td>
                                 <td style="text-align:right" t-if="o.type == 'ad_sal'">
-                                    <span t-esc="'{:,.2f}'.format(o.adv_sal_amount)"/>
+                                    <span t-esc="'{:,.0f}'.format(o.adv_sal_amount)"/>
+                                </td>
+                                <td style="text-align:right" t-if="o.type == 'loan'">
+                                    <span t-esc="'{:,.0f}'.format(o.loan_amount / o.installment)"/>
                                 </td>
                                 <td style="text-align:right" t-if="o.type == 'loan'">
                                     <span t-esc="o.installment"/>
@@ -89,18 +97,31 @@
                         </table>
                         <div class="row" style="margin-top:250px">
                             <div class="col-4">
+                                <p t-if="o.current_user" t-esc="o.current_user.name"
+                                   style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;"/>
+                                <p t-if="not o.current_user" style="font-size:11px;color:#FFFFFF;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                    invisible
+                                </p>
                                 <hr style="width:100%;align:left;margin-left:10px; border: 1px solid;"/>
                                 <p style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
                                     Requested By:
                                 </p>
                             </div>
                             <div class="col-4">
+                                <p t-if="o.approved_user" t-esc="o.approved_user.name"
+                                   style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;"/>
+                                <p t-if="not o.approved_user" style="font-size:11px;color:#FFFFFF;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                    invisible
+                                </p>
                                 <hr style="width:100%;align:right; border: 1px solid;"/>
                                 <p style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
                                     Approved By:
                                 </p>
                             </div>
                             <div class="col-4">
+                                <p style="font-size:11px;color:#FFFFFF;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
+                                    invisible
+                                </p>
                                 <hr style="width:100%;align:right; border: 1px solid;"/>
                                 <p style="font-size:11px;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;font-weight:bold;width:100%;text-align:center;">
                                     Received By:
