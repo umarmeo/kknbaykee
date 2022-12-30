@@ -64,6 +64,9 @@ class HrAdvanceLoan(models.Model):
     month = fields.Integer(string="Month", compute='compute_month_year')
     year = fields.Integer(string="Year", compute='compute_month_year')
     advance_paid = fields.Boolean(string="Paid", help="Paid")
+    current_user = fields.Many2one('res.users', 'Requested By', default=lambda self: self.env.user)
+    approved_user = fields.Many2one('res.users', 'Approved By')
+
     type = fields.Selection([
         ('ad_sal', "Advance Salary"),
         ('loan', "Loan"),
@@ -146,7 +149,7 @@ class HrAdvanceLoan(models.Model):
             if not data.loan_lines and data.type == 'loan':
                 raise ValidationError(_("Please Compute installment"))
             else:
-                self.write({'state': 'approve'})
+                self.write({'state': 'approve', 'approved_user': self.env.user.id})
 
     def unlink(self):
         for loan in self:
@@ -154,6 +157,19 @@ class HrAdvanceLoan(models.Model):
                 raise UserError(
                     'You cannot delete a loan which is not in draft or cancelled state')
         return super(HrAdvanceLoan, self).unlink()
+
+    def _get_report_loan_advance_base_filename(self):
+        return self._get_loan_advances_display_name()
+
+    def _get_loan_advances_display_name(self, show_ref=False):
+        self.ensure_one()
+        name = ''
+        name += {
+            'loan': _('Loan Application Form'),
+            'ad_sal': _('Advance Salary Application Form'),
+        }[self.type]
+        name += ' '
+        return name
 
 
 class InstallmentLine(models.Model):
