@@ -68,7 +68,7 @@
                                             <span t-esc="m['depart']"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['basic'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['basic'])"/>
                                         </td>
                                         <td style="text-align:right">
                                             <span t-esc="m['absent_days']"/>
@@ -77,43 +77,43 @@
                                             <span t-esc="m['days_working']"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <t t-esc="'{:,.1f}'.format(m['gross'])"/>
+                                            <t t-esc="'{:,.0f}'.format(m['gross'])"/>
                                         </td>
                                         <td style="text-align:left">
                                             <span t-esc="{'cash': 'Cash', 'bank': 'Bank', 'cross_cheque': 'Cross Check'}[m['mop']]"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['tax'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['tax'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['advance_sal'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['advance_sal'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['loan'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['loan'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['mobile_bill'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['mobile_bill'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['EOBI_deduction'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['EOBI_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['PF_deduction'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['PF_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['absent_deduction'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['absent_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['late_deduction'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['late_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['short_leave_deduction'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['short_leave_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['half_leave_deduction'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['half_leave_deduction'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.1f}'.format(m['net'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['net'])"/>
                                         </td>
                                         <t t-set="i" t-value="i+1"/>
                                     </tr>
@@ -165,7 +165,7 @@
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_basic)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_basic)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
@@ -174,64 +174,64 @@
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_gross)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_gross)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_tax)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_tax)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_ad_sal)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_ad_sal)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_loan)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_loan)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_mobile_bill)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_mobile_bill)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_eobi)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_eobi)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_pf)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_pf)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_absent_deduct)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_absent_deduct)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_late_deduct)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_late_deduct)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_short_deduct)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_short_deduct)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_half_deduct)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_half_deduct)"/>
                                     </strong>
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_net)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_net)"/>
                                     </strong>
                                 </td>
                             </tr>
