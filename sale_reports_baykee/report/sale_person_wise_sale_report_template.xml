@@ -74,6 +74,12 @@
                                         <th style="text-align:center; width:15%; height: 3px">Sale Order No.</th>
                                         <th style="text-align:center; width:15%; height: 3px">Invoice No.</th>
                                         <th style="text-align:center; width:20%; height:2%">Customer</th>
+                                        <th style="text-align:center; width:10%; height:2%"
+                                            t-if="o.report_type == 'sale_division'">Project
+                                        </th>
+                                        <th style="text-align:center; width:10%; height:2%"
+                                            t-if="o.report_type == 'sale_project'">Division
+                                        </th>
                                         <th style="text-align:center; width:15%; height:2%">Amount Without GST</th>
                                         <th style="text-align:center; width:15%; height:2%">GST</th>
                                         <th style="text-align:center; width:15%; height:2%">Amount Including GST</th>
@@ -93,14 +99,20 @@
                                             <td style="text-align:left">
                                                 <span t-esc="m['customer']"/>
                                             </td>
-                                            <td style="text-align:right">
-                                                <span t-esc="'{:,.2f}'.format(m['amount_nogst'])"/>
+                                            <td t-if="o.report_type == 'sale_division'" style="text-align:left">
+                                                <span t-esc="m['project']"/>
+                                            </td>
+                                            <td t-if="o.report_type == 'sale_project'" style="text-align:left">
+                                                <span t-esc="m['division']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="'{:,.2f}'.format(m['gst'])"/>
+                                                <span t-esc="'{:,.0f}'.format(m['amount_nogst'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="'{:,.2f}'.format(m['amount_gst'])"/>
+                                                <span t-esc="'{:,.0f}'.format(m['gst'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="'{:,.0f}'.format(m['amount_gst'])"/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
@@ -123,19 +135,23 @@
                                         </td>
                                         <td class="text-right">
                                         </td>
+                                        <td t-if="o.report_type == 'sale_division'" class="text-right">
+                                        </td>
+                                        <td t-if="o.report_type == 'sale_project'" class="text-right">
+                                        </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(amount_nogst)"/>
+                                                <span t-esc="'{:,.0f}'.format(amount_nogst)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(gst)"/>
+                                                <span t-esc="'{:,.0f}'.format(gst)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(amount_gst)"/>
+                                                <span t-esc="'{:,.0f}'.format(amount_gst)"/>
                                             </strong>
                                         </td>
                                     </tr>
