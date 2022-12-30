@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_payment_status_report" model="ir.actions.report">
+            <field name="name">Payment Status</field>
+            <field name="model">payment.status.wiz</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">payment_process_reports_baykee.payment_status_report</field>
+            <field name="report_file">payment_process_reports_baykee.payment_status_report</field>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

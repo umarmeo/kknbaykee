@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherit Form View to Modify it -->
+        <record id="payment_process_module_baykee_form_view_inherit" model="ir.ui.view">
+            <field name="name">payment_process_module_baykee_form_view_inherit</field>
+            <field name="model">payment.process</field>
+            <field name="inherit_id" ref="update_payment_process_module_baykee.payment_process_module_baykee_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_status']" position="after">
+                    <field name="month" invisible="1"/>
+                    <field name="year" invisible="1"/>
+                    <!-- Add your fields or attributes here -->
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

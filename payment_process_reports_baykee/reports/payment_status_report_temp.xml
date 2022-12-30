@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="payment_process_reports_baykee.payment_status_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="company_id.partner_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Payment Status Report</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="text-left"
+                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                    Period:
+                                    <span t-esc="{'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug', '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' }[o.month]"/>
+                                    -
+                                    <span t-esc="o.year"/>
+                                </span>
+                                <br/>
+                            </div>
+                            <div class="col-6 text-right" style="align:right;">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Division:
+                                    <t t-if="o.division_id">
+                                        <t t-foreach="o.division_id" t-as="div">
+                                            <span t-esc="', '.join(div.name.split(','))"/>
+                                        </t>
+                                    </t>
+                                    <span t-if="o.division_id">All</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <span class="text-left"
+                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                    Analytic Account:
+                                    <t t-if="o.analytic_account_id">
+                                        <t t-foreach="o.analytic_account_id" t-as="aa">
+                                            <span t-esc="', '.join(aa.name.split(','))"/>
+                                        </t>
+                                    </t>
+                                    <span t-if="not o.analytic_account_id">All</span>
+                                </span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Mode of Payment:
+                                    <t t-if="o.payment_mode">
+                                        <t t-foreach="o.payment_mode" t-as="pm">
+                                            <span t-esc="', '.join(tg.name.split(','))"/>
+                                        </t>
+                                    </t>
+                                    <span t-if="not o.payment_mode">All</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <span class="text-left"
+                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                    Status:
+                                    <span t-if="o.state"
+                                          t-esc="{'draft': 'Draft', 'hod': 'HOD Approval', 'manager': 'Accounts Approval', 'coo': 'COO Approval', 'ceo': 'CEO Approval', 'approved': 'Approved', 'cancel': 'Cancelled', 'reject': 'Reject'}[o.state]"/>
+                                    <span t-if="not o.state">All</span>
+                                </span>
+                            </div>
+                            <div class="col-6 text-right">
+                            </div>
+                        </div>
+                        <br/>
+                        <t t-foreach="dat" t-as="data_line">
+                            <table class="table table-bordered mb64" style="width:100%;"
+                                   t-if="data_line[0]">
+                                <tr style="background-color:#f48531;color:white;">
+                                    <th style="text-align:center; width:3%; height: 3px">Sr#</th>
+                                    <th style="text-align:center; width:20%; height:2%">Payment Requisition No.</th>
+                                    <th style="text-align:center; width:7%; height:2%">Term</th>
+                                    <th style="text-align:center; width:20%; height:2%">Description</th>
+                                    <th style="text-align:center; width:20%; height:2%">Payment Status</th>
+                                    <th style="text-align:center; width:20%; height:2%">Amount</th>
+                                </tr>
+                                <t t-set="i" t-value="1"/>
+                                <t t-foreach="data_line[0]" t-as="m">
+                                    <tr style="font-size:12px;">
+                                        <td style="text-align:left">
+                                            <span t-esc="i"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['ref']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="{'advance': 'Advance', 'reimbursement': 'Reimbursement'}[m['term']]"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="m['desc']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="{'partial': 'Partial Payment', 'full': 'Full Payment'}[m['status']]"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['amount'])"/>
+                                        </td>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </tr>
+                                </t>
+                                <tr style="background-color:#f48531;color:white;">
+                                    <td class="text-right" colspan="2">
+                                        <b>Total</b>
+                                    </td>
+                                    <t t-set="total_amount" t-value="0"/>
+                                    <t t-foreach="data_line[0]" t-as="s">
+                                        <t t-set="total_amount" t-value="total_amount+s['amount']"/>
+                                    </t>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                    </td>
+                                    <td class="text-right">
+                                        <strong>
+                                            <span t-esc="'{:,.0f}'.format(total_amount)"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </t>
+                    </div>
+                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <!--        <template id="payment_process_reports_baykee.payment_status_report">-->
+        <!--            <t t-call="web.html_container">-->
+        <!--                <t t-foreach="docs" t-as="o">-->
+        <!--                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-5 text-left">-->
+        <!--                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"-->
+        <!--                                     style="height:100px;width:250px;margin-bottom:15px"/>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-7 text-right">-->
+        <!--                                <br/>-->
+        <!--                                <h3 t-if="company_id">-->
+        <!--                                    <t t-esc="company_id.name"/>-->
+        <!--                                </h3>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"-->
+        <!--                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-12 text-center">-->
+        <!--                                <h3>Payment Status Report</h3>-->
+        <!--                                <br/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-6">-->
+        <!--                                <span class="text-left"-->
+        <!--                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">-->
+        <!--                                    Period:-->
+        <!--                                    <span t-esc="{'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug', '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' }[o.month]"/>-->
+        <!--                                    - -->
+        <!--                                    <span t-esc="o.year"/>-->
+        <!--                                </span>-->
+        <!--                                <br/>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-6 text-right" style="align:right;">-->
+        <!--                                <span class="text-right"-->
+        <!--                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">-->
+        <!--                                    Division:-->
+        <!--                                    <t t-if="o.division_id">-->
+        <!--                                        <t t-foreach="o.division_id" t-as="div">-->
+        <!--                                            <span t-esc="', '.join(div.name.split(','))"/>-->
+        <!--                                        </t>-->
+        <!--                                    </t>-->
+        <!--                                    <span t-if="o.division_id">All</span>-->
+        <!--                                </span>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-6 text-left">-->
+        <!--                                <span class="text-left"-->
+        <!--                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">-->
+        <!--                                    Analytic Account:-->
+        <!--                                    <t t-if="o.analytic_account_id">-->
+        <!--                                        <t t-foreach="o.analytic_account_id" t-as="aa">-->
+        <!--                                            <span t-esc="', '.join(aa.name.split(','))"/>-->
+        <!--                                        </t>-->
+        <!--                                    </t>-->
+        <!--                                    <span t-if="not o.analytic_account_id">All</span>-->
+        <!--                                </span>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-6 text-right">-->
+        <!--                                <span class="text-right"-->
+        <!--                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">-->
+        <!--                                    Mode of Payment:-->
+        <!--                                    <t t-if="o.payment_mode">-->
+        <!--                                        <t t-foreach="o.payment_mode" t-as="pm">-->
+        <!--                                            <span t-esc="', '.join(tg.name.split(','))"/>-->
+        <!--                                        </t>-->
+        <!--                                    </t>-->
+        <!--                                    <span t-if="not o.payment_mode">All</span>-->
+        <!--                                </span>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-6 text-left">-->
+        <!--                                <span class="text-left"-->
+        <!--                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">-->
+        <!--                                    Status:-->
+        <!--                                    <span t-if="o.state"-->
+        <!--                                          t-esc="{'draft': 'Draft', 'hod': 'HOD Approval', 'manager': 'Accounts Approval', 'coo': 'COO Approval', 'ceo': 'CEO Approval', 'approved': 'Approved', 'cancel': 'Cancelled', 'reject': 'Reject'}[o.state]"/>-->
+        <!--                                    <span t-if="not o.state">All</span>-->
+        <!--                                </span>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-6 text-right">-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                        <br/>-->
+        <!--                        <t t-foreach="dat" t-as="data_line">-->
+        <!--                            <table class="table table-bordered mb64" style="width:100%;"-->
+        <!--                                   t-if="data_line[0]">-->
+        <!--                                <tr style="background-color:#f48531;color:white;">-->
+        <!--                                    <th style="text-align:center; width:3%; height: 3px">Sr#</th>-->
+        <!--                                    <th style="text-align:center; width:20%; height:2%">Payment Requisition No.</th>-->
+        <!--                                    <th style="text-align:center; width:7%; height:2%">Term</th>-->
+        <!--                                    <th style="text-align:center; width:20%; height:2%">Description</th>-->
+        <!--                                    <th style="text-align:center; width:20%; height:2%">Payment Status</th>-->
+        <!--                                    <th style="text-align:center; width:20%; height:2%">Amount</th>-->
+        <!--                                </tr>-->
+        <!--                                <t t-set="i" t-value="1"/>-->
+        <!--                                <t t-foreach="data_line[0]" t-as="m">-->
+        <!--                                    <tr style="font-size:12px;">-->
+        <!--                                        <td style="text-align:left">-->
+        <!--                                            <span t-esc="i"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td style="text-align:left">-->
+        <!--                                            <span t-esc="m['ref']"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td style="text-align:right">-->
+        <!--                                            <span t-esc="{'advance': 'Advance', 'reimbursement': 'Reimbursement'}[m['term']]"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td style="text-align:right">-->
+        <!--                                            <span t-esc="m['desc']"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td style="text-align:right">-->
+        <!--                                            <span t-esc="{'partial': 'Partial Payment', 'full': 'Full Payment'}[m['status']]"/>-->
+        <!--                                        </td>-->
+        <!--                                        <td style="text-align:right">-->
+        <!--                                            <span t-esc="'{:,.0f}'.format(m['amount'])"/>-->
+        <!--                                        </td>-->
+        <!--                                        <t t-set="i" t-value="i+1"/>-->
+        <!--                                    </tr>-->
+        <!--                                </t>-->
+        <!--                                <tr style="background-color:#f48531;color:white;">-->
+        <!--                                    <td class="text-right" colspan="2">-->
+        <!--                                        <b>Total</b>-->
+        <!--                                    </td>-->
+        <!--                                    <t t-set="total_amount" t-value="0"/>-->
+        <!--                                    <t t-foreach="data_line[0]" t-as="s">-->
+        <!--                                        <t t-set="total_amount" t-value="total_amount+s['amount']"/>-->
+        <!--                                    </t>-->
+        <!--                                    <td class="text-right">-->
+        <!--                                    </td>-->
+        <!--                                    <td class="text-right">-->
+        <!--                                    </td>-->
+        <!--                                    <td class="text-right">-->
+        <!--                                    </td>-->
+        <!--                                    <td class="text-right">-->
+        <!--                                        <strong>-->
+        <!--                                            <span t-esc="'{:,.0f}'.format(total_amount)"/>-->
+        <!--                                        </strong>-->
+        <!--                                    </td>-->
+        <!--                                </tr>-->
+        <!--                            </table>-->
+        <!--                        </t>-->
+        <!--                    </div>-->
+        <!--                    <div class="footer" style="font-size:11px;border-top:1px solid black;">-->
+        <!--                        <div class="row">-->
+        <!--                            <div class="col-5 text-left">-->
+        <!--                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>-->
+        <!--                            </div>-->
+        <!--                            <div class="col-7 text-right">-->
+        <!--                                <span>Page</span>-->
+        <!--                                <span class="page"/>/-->
+        <!--                                <span class="topage"/>-->
+        <!--                            </div>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </t>-->
+        <!--            </t>-->
+        <!--        </template>-->
+    </data>
+</odoo>
