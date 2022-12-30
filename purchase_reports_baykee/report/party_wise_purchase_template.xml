@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <template id="purchase_reports_baykee.vendor_price_comparison_temp">
+        <template id="purchase_reports_baykee.party_wise_purchase_temp">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <div class="header" style="border-bottom:1px solid black;font-size:11px;">
@@ -22,7 +22,7 @@
                          t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <h3>Vendor Price Comparison Report</h3>
+                                <h3>Party Wise Report</h3>
                                 <br/>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                                     <div class="col-6">
                                         <span class="text-left"
                                               style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            Product Name:
+                                            Vendor Name:
                                             <t t-esc="data_line[0]"/>
                                         </span>
                                         <br/>
@@ -41,21 +41,49 @@
                                         <span class="text-right"
                                               style="align:right; font-size:14px; font-family:Tahoma; color:black;">
                                             Period:
-                                            <t t-esc="data_line[2]"
+                                            <t t-esc="o.start_date"
                                                t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
                                             To:
-                                            <t t-esc="data_line[3]"
+                                            <t t-esc="o.end_date"
                                                t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
                                         </span>
                                     </div>
                                 </div>
+                                <div class="row" t-if="data_line[1]">
+                                    <div class="col-6 text-left">
+                                        <span class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Analytic Account:
+                                            <t t-if="analytic_accounts">
+                                                <t t-foreach="analytic_accounts" t-as="aa">
+                                                    <span t-esc="aa.name.split(',')"/>
+                                                </t>
+                                            </t>
+                                            <span t-if="not analytic_accounts">All</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="text-right"
+                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                            Analytic Tag:
+                                            <t t-if="analytic_tags">
+                                                <t t-foreach="analytic_tags" t-as="tg">
+                                                    <span t-esc="tg.name.split(',')"/>
+                                                </t>
+                                            </t>
+                                            <span t-if="not analytic_tags">All</span>
+                                        </span>
+                                    </div>
+                                </div>
                                 <br/>
-                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;" t-if="data_line[1]">
+                                <table class="table table-bordered mb64" style="width:100%;"
+                                       t-if="data_line[1]">
                                     <tr style="background-color:#f48531;color:white;">
                                         <th style="text-align:center; width:3%; height: 3px">Sr#</th>
-                                        <th style="text-align:center; width:20%; height:2%">Vendor</th>
+                                        <th style="text-align:center; width:20%; height:2%">Products</th>
                                         <th style="text-align:center; width:7%; height:2%">Quantity</th>
                                         <th style="text-align:center; width:20%; height:2%">Unit Price</th>
+                                        <th style="text-align:center; width:20%; height:2%">Total Price</th>
                                         <th style="text-align:center; width:20%; height:2%">Order Date</th>
                                     </tr>
                                     <t t-set="i" t-value="1"/>
@@ -65,35 +93,49 @@
                                                 <span t-esc="i"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['vendor']"/>
+                                                <span t-esc="m['product']"/>
                                             </td>
-                                            <td style="text-align:left">
+                                            <td style="text-align:right">
                                                 <span t-esc="'{:,.0f}'.format(m['quantity'])"/>
                                             </td>
-                                            <td style="text-align:left">
+                                            <td style="text-align:right">
                                                 <span t-esc="'{:,.0f}'.format(m['unit_price'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['order_date']"/>
+                                                <span t-esc="'{:,.0f}'.format(m['price_total'])"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['order_date']"
+                                                      t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
                                     </t>
                                     <tr style="background-color:#f48531;color:white;">
-                                        <td class="text-right" colspan="1">
+                                        <td class="text-right" colspan="2">
                                             <b>Total</b>
                                         </td>
-                                        <t t-set="total_amount" t-value="0"/>
+                                        <t t-set="total_quantity" t-value="0"/>
+                                        <t t-set="total_unit_price" t-value="0"/>
+                                        <t t-set="total_price_total" t-value="0"/>
                                         <t t-foreach="data_line[1]" t-as="s">
-                                            <t t-set="total_amount" t-value="total_amount+s['unit_price']"/>
+                                            <t t-set="total_quantity" t-value="total_quantity+s['quantity']"/>
+                                            <t t-set="total_unit_price" t-value="total_unit_price+s['unit_price']"/>
+                                            <t t-set="total_price_total" t-value="total_price_total+s['price_total']"/>
                                         </t>
                                         <td class="text-right">
-                                        </td>
-                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.0f}'.format(total_quantity)"/>
+                                            </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.0f}'.format(total_amount)"/>
+                                                <span t-esc="'{:,.0f}'.format(total_unit_price)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.0f}'.format(total_price_total)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
@@ -107,6 +149,11 @@
                         <div class="row">
                             <div class="col-5 text-left">
                                 <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
                             </div>
                         </div>
                     </div>

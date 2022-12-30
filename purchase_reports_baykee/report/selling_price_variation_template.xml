@@ -126,27 +126,27 @@
                                         </t>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(unit_price)"/>
+                                                <span t-esc="'{:,.0f}'.format(unit_price)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(landed_cost_in_usd)"/>
+                                                <span t-esc="'{:,.0f}'.format(landed_cost_in_usd)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(after_markup)"/>
+                                                <span t-esc="'{:,.0f}'.format(after_markup)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(new_price)"/>
+                                                <span t-esc="'{:,.0f}'.format(new_price)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(difference)"/>
+                                                <span t-esc="'{:,.0f}'.format(difference)"/>
                                             </strong>
                                         </td>
                                     </tr>

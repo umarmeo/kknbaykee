@@ -26,6 +26,9 @@
                                 <br/>
                             </div>
                         </div>
+                        <br/>
+                        <br/>
+                        <br/>
                         <t t-foreach="dat" t-as="data_line">
                             <div style="page-break-after: always;" t-if="data_line[1]">
                                 <div class="row" t-if="data_line[1]">
@@ -41,9 +44,8 @@
                                             <t t-esc="data_line[0]"/>
                                         </span>
                                     </div>
-                                    <div class="col-6"
-                                         style="margin: 5px; padding: 5px;">
-                                        <span class="text-left"
+                                    <div class="col-6">
+                                        <span class="text-right"
                                               style="align:right; font-size:14px; font-family:Tahoma; color:black;">
                                             Period:
                                             <t t-esc="data_line[2]"
@@ -54,12 +56,18 @@
                                         </span>
                                     </div>
                                 </div>
-                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;">
+                                <table class="table table-bordered mb64" style="width:100%;">
                                     <tr style="background-color:#f48531;color:white;">
                                         <th style="text-align:center; width:3%; height: 3px">Sr#</th>
                                         <th style="text-align:center; width:20%; height:2%">Reference</th>
                                         <th style="text-align:center; width:7%; height:2%">Confirmation Date</th>
                                         <th style="text-align:center; width:20%; height:2%">Vendor</th>
+                                        <th style="text-align:center; width:15%; height:2%"
+                                            t-if="o.report_type == 'division_wise'">Project
+                                        </th>
+                                        <th style="text-align:center; width:15%; height:2%"
+                                            t-if="o.report_type == 'project_wise'">Division
+                                        </th>
                                         <th style="text-align:center; width:20%; height:2%">Receipt Date</th>
                                         <th style="text-align:center; width:20%; height:2%">Purchase Representative</th>
                                         <th style="text-align:center; width:20%; height:2%">Total</th>
@@ -80,6 +88,12 @@
                                             <td style="text-align:left">
                                                 <span t-esc="m['vendor']"/>
                                             </td>
+                                            <td t-if="o.report_type == 'project_wise'" style="text-align:left">
+                                                <span t-esc="m['division']"/>
+                                            </td>
+                                            <td t-if="o.report_type == 'division_wise'" style="text-align:left">
+                                                <span t-esc="m['project']"/>
+                                            </td>
                                             <td style="text-align:right">
                                                 <span t-esc="m['receipt_date']"/>
                                             </td>
@@ -87,7 +101,7 @@
                                                 <span t-esc="m['represent']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="'{:,.2f}'.format(m['total'])"/>
+                                                <span t-esc="'{:,.0f}'.format(m['total'])"/>
                                             </td>
                                             <td style="text-align:right">
                                                 <span>
@@ -116,8 +130,10 @@
                                         <td class="text-right">
                                         </td>
                                         <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                                <span t-esc="'{:,.0f}'.format(total_amount)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
