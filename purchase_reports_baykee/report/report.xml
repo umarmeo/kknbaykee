@@ -29,5 +29,14 @@
             <field name="binding_model_id" ref="model_selling_price_variation_report"/>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_party_wise_purchase_template" model="ir.actions.report">
+            <field name="name">Party Wise Purchase Report</field>
+            <field name="model">party.wise.purchase.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">purchase_reports_baykee.party_wise_purchase_temp</field>
+            <field name="report_file">purchase_reports_baykee.party_wise_purchase_temp</field>
+            <field name="binding_type">report</field>
+        </record>
     </data>
 </odoo>

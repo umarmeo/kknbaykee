@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="party_wise_purchase_wizard">
+            <field name="name">party_wise_purchase_wizard</field>
+            <field name="model">party.wise.purchase.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="product_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="analytic_account_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="analytic_tag_ids" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_party_wise_purchase_template)d" string="Print" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="party_wise_purchase_wizard_action">
+            <field name="name">Part Wise Purchase Report</field>
+            <field name="res_model">party.wise.purchase.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_party_wise_purchase_wizard_report"
+                  name="Party Wise Purchase Report"
+                  action="party_wise_purchase_wizard_action"
+                  parent="purchase.purchase_report_main"
+                  sequence="115"/>
+
+    </data>
+</odoo>
