@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="pending_delivery_report_wiz_view">
+            <field name="name">pending_delivery_report_wiz_view</field>
+            <field name="model">pending.delivery.wiz</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date" required="1"/>
+                            <field name="end_date" required="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" class="btn-primary"
+                                name="%(inventory_reports_baykee.action_pending_delivery_report)d" type="action"/>
+                        <button string="Cancel" class="btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_pending_delivery_report_wiz_view">
+            <field name="name">Pending Deliveries Report Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pending.delivery.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="pending_delivery_report_wiz_view"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="menu_pending_delivery_report" name="Pending Delivery" parent="stock.menu_warehouse_report"
+                  action="action_pending_delivery_report_wiz_view" sequence="12"/>
+    </data>
+</odoo>

@@ -63,16 +63,16 @@
                                                 <span t-esc="m['lot']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['inv_qty_auto']"/>
+                                                <span t-esc="'{:,.0f}'.format(m['inv_qty_auto'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="m['ava_qty']"/>
+                                                <span t-esc="'{:,.0f}'.format(m['ava_qty'])"/>
                                             </td>
                                             <td style="text-align:left">
                                                 <span t-esc="m['pro_uom']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <t t-esc="'{:,.2f}'.format(m['value'])"/>
+                                                <t t-esc="'{:,.0f}'.format(m['value'])"/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
@@ -97,19 +97,19 @@
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(on_hand)"/>
+                                                <span t-esc="'{:,.0f}'.format(on_hand)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(avail)"/>
+                                                <span t-esc="'{:,.0f}'.format(avail)"/>
                                             </strong>
                                         </td>
                                         <td class="text-right">
                                         </td>
                                         <td class="text-right">
                                             <strong>
-                                                <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                                <span t-esc="'{:,.0f}'.format(total_amount)"/>
                                             </strong>
                                         </td>
                                     </tr>

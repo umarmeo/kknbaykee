@@ -29,7 +29,11 @@
         'security/ir.model.access.csv',
         'report/report.xml',
         'report/stock_in_hand_report.xml',
+        'report/pending_delivery_report.xml',
+        'report/product_move_report.xml',
         'wizard/stock_in_hand_wizard.xml',
+        'wizard/pending_delivery_report_wiz.xml',
+        'wizard/product_move_report_wiz.xml',
         'views/views.xml',
     ],
 }
