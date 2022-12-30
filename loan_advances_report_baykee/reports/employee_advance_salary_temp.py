@@ -13,15 +13,17 @@ class AdvanceAgainstSalaryReportTemplate(models.AbstractModel):
         company_id = self.env.user.company_id
         month = docs.month
         year = docs.year
-        advance_salary = self.env['hr.advance.loan'].search(
-            [('type', '=', 'ad_sal'), ('state', '=', 'approve')]).filtered(
+        domain = [('type', '=', 'ad_sal'), ('state', '=', 'approve')]
+        if docs.department_id:
+            domain += [('department_id', '=', docs.department_id.id)]
+        advance_salary = self.env['hr.advance.loan'].search(domain).filtered(
             lambda ln: ln.month == int(month) and ln.year == int(year))
         for ad_sal in advance_salary:
             temp = []
             vals = {
                 'employee': ad_sal.employee_id.name,
                 'desig': ad_sal.employee_id.job_title,
-                'depart': ad_sal.employee_id.department_id.name,
+                'depart': ad_sal.department_id.name,
                 'payment_date': ad_sal.payment_date,
                 'amount': ad_sal.adv_sal_amount,
             }

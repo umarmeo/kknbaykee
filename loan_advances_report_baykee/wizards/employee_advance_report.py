@@ -30,3 +30,4 @@ class AdvanceAgainstSalary(models.TransientModel):
         return year_list
 
     year = fields.Selection(year_selection, string="Year", default=datetime.now().year)
+    department_id = fields.Many2one('hr.department', string="Division")

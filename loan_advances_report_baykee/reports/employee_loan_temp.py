@@ -13,8 +13,10 @@ class EmployeeLoanReportTemplate(models.AbstractModel):
         company_id = self.env.user.company_id
         month = docs.month
         year = docs.year
-        loan = self.env['hr.advance.loan'].search(
-            [('type', '=', 'loan'), ('state', '=', 'approve')])
+        domain = [('type', '=', 'loan'), ('state', '=', 'approve')]
+        if docs.department_id:
+            domain += [('department_id', '=', docs.department_id.id)]
+        loan = self.env['hr.advance.loan'].search(domain)
         for lo in loan:
             loan_lines = lo.loan_lines.filtered(lambda ln: ln.month == int(month) and ln.year == int(year))
             for line in loan_lines:
@@ -22,7 +24,7 @@ class EmployeeLoanReportTemplate(models.AbstractModel):
                 vals = {
                     'employee': lo.employee_id.name,
                     'desig': lo.employee_id.job_title,
-                    'depart': lo.employee_id.department_id.name,
+                    'depart': lo.department_id.name,
                     'amount': lo.loan_amount,
                     'payment_date': line.date,
                     'installment': line.amount,

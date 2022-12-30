@@ -24,6 +24,9 @@
                                 <br/>
                             </div>
                         </div>
+                        <br/>
+                        <br/>
+                        <br/>
                         <div class="row">
                             <div class="col-6 text-right">
                             </div>
@@ -31,9 +34,21 @@
                                 <span class="text-right"
                                       style="align:right; font-size:14px; font-family:Tahoma; color:black;">
                                     Period:
-                                    <t t-esc="o.month"/>
+                                    <span t-esc="{'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug', '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' }[o.month]"/>
                                     -
                                     <span t-esc="o.year"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-right">
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Division:
+                                    <t t-if="o.department_id" t-esc="o.department_id.name"/>
+                                    <span t-if="not o.department_id">All</span>
                                 </span>
                             </div>
                         </div>
@@ -66,7 +81,7 @@
                                             <span t-esc="m['payment_date']"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.2f}'.format(m['amount'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['amount'])"/>
                                         </td>
                                         <t t-set="i" t-value="i+1"/>
                                     </tr>
@@ -92,7 +107,7 @@
                                 </td>
                                 <td class="text-right">
                                     <strong>
-                                        <span t-esc="'{:,.2f}'.format(total_amount)"/>
+                                        <span t-esc="'{:,.0f}'.format(total_amount)"/>
                                     </strong>
                                 </td>
                             </tr>
