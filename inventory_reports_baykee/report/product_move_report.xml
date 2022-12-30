@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="inventory_reports_baykee.product_move_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="company_id.partner_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Stock Move</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Period:
+                                    <t t-esc="o.start_date"
+                                       t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                    To:
+                                    <t t-esc="o.end_date"
+                                       t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left">
+                                <span class="text-left"
+                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                    Analytic Account:
+                                    <t t-if="o.analytic_account_id">
+                                        <t t-foreach="o.analytic_account_id" t-as="aa">
+                                            <span t-esc="', '.join(aa.name.split(','))"/>
+                                        </t>
+                                    </t>
+                                    <span t-if="not o.analytic_account_id">All</span>
+                                </span>
+                            </div>
+                            <div class="col-6 text-right">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Analytic Tag:
+                                    <t t-if="o.analytic_tag_id">
+                                        <t t-foreach="o.analytic_tag_id" t-as="at">
+                                            <span t-esc="', '.join(at.name.split(','))"/>
+                                        </t>
+                                    </t>
+                                    <span t-if="not o.analytic_tag_id">All</span>
+                                </span>
+                            </div>
+                        </div>
+                        <br/>
+                        <table class="table table-bordered mb64" style="width:100%;">
+                            <tr style="background-color:#f48531;color:white;">
+                                <th style="text-align:center; width:2%;" rowspan="2">Sr#</th>
+                                <th style="text-align:center; width:13%;" rowspan="2">Product</th>
+                                <th style="text-align:center; width:10%;" colspan="3">Opening Stock</th>
+                                <th style="text-align:center; width:10%;" colspan="3">Purchases</th>
+                                <th style="text-align:center; width:5%;" colspan="3">Purchase Return</th>
+                                <th style="text-align:center; width:5%;" colspan="3">Sale</th>
+                                <th style="text-align:center; width:5%;" colspan="3">Sale Return</th>
+                                <th style="text-align:center; width:5%;" colspan="2">Internal Transfer</th>
+                                <th style="text-align:center; width:5%;" colspan="3">Closing Stock</th>
+                            </tr>
+                            <tr style="background-color:#f48531;color:white;">
+                                <th style="text-align:center; width:5%;">Quantity</th>
+                                <th style="text-align:center; width:5%;">Rate</th>
+                                <th style="text-align:center; width:5%;">Value</th>
+                                <th style="text-align:center; width:5%;">Quantity</th>
+                                <th style="text-align:center; width:5%;">Rate</th>
+                                <th style="text-align:center; width:5%;">Value</th>
+                                <th style="text-align:center; width:5%;">Quantity</th>
+                                <th style="text-align:center; width:5%;">Rate</th>
+                                <th style="text-align:center; width:5%;">Value</th>
+                                <th style="text-align:center; width:5%;">Quantity</th>
+                                <th style="text-align:center; width:5%;">Rate</th>
+                                <th style="text-align:center; width:5%;">Value</th>
+                                <th style="text-align:center; width:5%;">Quantity</th>
+                                <th style="text-align:center; width:5%;">Rate</th>
+                                <th style="text-align:center; width:5%;">Value</th>
+                                <th style="text-align:center; width:5%;">HO-Warehouse</th>
+                                <th style="text-align:center; width:5%;">Factory Warehouse</th>
+                                <th style="text-align:center; width:5%;">Quantity</th>
+                                <th style="text-align:center; width:5%;">Rate</th>
+                                <th style="text-align:center; width:5%;">Value</th>
+                            </tr>
+                            <t t-set="i" t-value="1"/>
+                            <t t-foreach="dat" t-as="data_line">
+                                <t t-foreach="data_line[0]" t-as="m">
+                                    <tr style="font-size:12px;">
+                                        <td style="text-align:right">
+                                            <span t-esc="i"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['product']"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['stock_quantity'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['stock_price'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['stock_total'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['purchase_quantity'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['purchase_price'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['purchase_total'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['purchase_return_qty'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['purchase_return_price'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['purchase_return_total'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['sale_quantity'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['sale_price'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['sale_total'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['sale_return_qty'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['sale_return_price'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['sale_return_total'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['final_who_qty'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['final_fwh_qty'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['closing_stock_quantity'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['closing_stock_price'])"/>
+                                        </td>
+                                        <td style="text-align:right">
+                                            <span t-esc="'{:,.0f}'.format(m['closing_stock_total'])"/>
+                                        </td>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </tr>
+                                </t>
+                            </t>
+                            <tr style="background-color:#f48531;color:white;">
+                                <td class="text-right" colspan="2">
+                                    <b>Total</b>
+                                </td>
+                                <t t-set="total_stock_quantity" t-value="0"/>
+                                <t t-set="total_stock_price" t-value="0"/>
+                                <t t-set="total_stock_total" t-value="0"/>
+                                <t t-set="total_purchase_quantity" t-value="0"/>
+                                <t t-set="total_purchase_price" t-value="0"/>
+                                <t t-set="total_purchase_total" t-value="0"/>
+                                <t t-set="total_purchase_return_qty" t-value="0"/>
+                                <t t-set="total_purchase_return_price" t-value="0"/>
+                                <t t-set="total_purchase_return_total" t-value="0"/>
+                                <t t-set="total_sale_quantity" t-value="0"/>
+                                <t t-set="total_sale_price" t-value="0"/>
+                                <t t-set="total_sale_total" t-value="0"/>
+                                <t t-set="total_sale_return_qty" t-value="0"/>
+                                <t t-set="total_sale_return_price" t-value="0"/>
+                                <t t-set="total_sale_return_total" t-value="0"/>
+                                <t t-set="total_final_who_qty" t-value="0"/>
+                                <t t-set="total_final_fwh_qty" t-value="0"/>
+                                <t t-set="total_closing_stock_quantity" t-value="0"/>
+                                <t t-set="total_closing_stock_price" t-value="0"/>
+                                <t t-set="total_closing_stock_total" t-value="0"/>
+                                <t t-foreach="dat" t-as="data_line">
+                                    <t t-foreach="data_line[0]" t-as="s">
+                                        <t t-set="total_stock_quantity"
+                                           t-value="total_stock_quantity+s['stock_quantity']"/>
+                                        <t t-set="total_stock_price" t-value="total_stock_price+s['stock_price']"/>
+                                        <t t-set="total_stock_total" t-value="total_stock_total+s['stock_total']"/>
+                                        <t t-set="total_purchase_quantity"
+                                           t-value="total_purchase_quantity+s['purchase_quantity']"/>
+                                        <t t-set="total_purchase_price"
+                                           t-value="total_purchase_price+s['purchase_price']"/>
+                                        <t t-set="total_purchase_total"
+                                           t-value="total_purchase_total+s['purchase_total']"/>
+                                        <t t-set="total_purchase_return_qty"
+                                           t-value="total_purchase_return_qty+s['purchase_return_qty']"/>
+                                        <t t-set="total_purchase_return_price"
+                                           t-value="total_purchase_return_price+s['purchase_return_price']"/>
+                                        <t t-set="total_purchase_return_total"
+                                           t-value="total_purchase_return_total+s['purchase_return_total']"/>
+                                        <t t-set="total_sale_quantity"
+                                           t-value="total_sale_quantity+s['sale_quantity']"/>
+                                        <t t-set="total_sale_price" t-value="total_sale_price+s['sale_price']"/>
+                                        <t t-set="total_sale_total" t-value="total_sale_total+s['sale_total']"/>
+                                        <t t-set="total_sale_return_qty"
+                                           t-value="total_sale_return_qty+s['sale_return_qty']"/>
+                                        <t t-set="total_sale_return_price"
+                                           t-value="total_sale_return_price+s['sale_return_price']"/>
+                                        <t t-set="total_sale_return_total"
+                                           t-value="total_sale_return_total+s['sale_return_total']"/>
+                                        <t t-set="total_final_who_qty"
+                                           t-value="total_final_who_qty+s['final_who_qty']"/>
+                                        <t t-set="total_final_fwh_qty"
+                                           t-value="total_final_fwh_qty+s['final_fwh_qty']"/>
+                                        <t t-set="total_closing_stock_quantity"
+                                           t-value="total_closing_stock_quantity+s['closing_stock_quantity']"/>
+                                        <t t-set="total_closing_stock_price"
+                                           t-value="total_closing_stock_price+s['closing_stock_price']"/>
+                                        <t t-set="total_closing_stock_total"
+                                           t-value="total_closing_stock_total+s['closing_stock_total']"/>
+                                    </t>
+                                </t>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_stock_quantity)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_stock_price)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_stock_total)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_purchase_quantity)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_purchase_price)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_purchase_total)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_purchase_return_qty)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_purchase_return_price)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_purchase_return_total)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_sale_quantity)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_sale_price)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_sale_total)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_sale_return_qty)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_sale_return_price)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_sale_return_total)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_final_who_qty)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_final_fwh_qty)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_closing_stock_quantity)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_closing_stock_price)"/>
+                                    </strong>
+                                </td>
+                                <td class="text-right">
+                                    <strong>
+                                        <span t-esc="'{:,.0f}'.format(total_closing_stock_total)"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
