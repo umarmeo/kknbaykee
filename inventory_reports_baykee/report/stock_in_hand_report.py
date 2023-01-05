@@ -1,6 +1,7 @@
 from odoo import api, fields, models
 from datetime import datetime
 
+
 class StockInHandTemplate(models.AbstractModel):
     _name = 'report.inventory_reports_baykee.stock_in_hand_report'
     _description = 'Stock In Hand Template'
@@ -23,20 +24,30 @@ class StockInHandTemplate(models.AbstractModel):
                       ('location_id', '=', loc.id)]
             if product:
                 domain.append(('product_id', '=', product))
+            available_qty = 0
+            inventory_qty = 0
             stock = self.env['stock.quant'].search(domain).sorted(key=lambda r: r.new_date)
+            val = {}
             for rec in stock:
+                available_qty += rec.available_quantity
+                inventory_qty += rec.inventory_quantity
                 product_variant = [var.name for var in rec.product_id.product_template_variant_value_ids]
                 result = ', '.join(product_variant)
-                vals = {
-                    'pro': rec.product_id.name + ' ' + result,
-                    'categ': rec.product_categ_id.name,
-                    'lot': rec.lot_id.name,
-                    'inv_qty_auto': rec.inventory_quantity_auto_apply,
-                    'ava_qty': rec.available_quantity,
-                    'pro_uom': rec.product_uom_id.name,
-                    'value': rec.value,
-                }
-                temp.append(vals)
+                key = rec.product_id.id
+                if key not in val:
+                    val[key] = {
+                        'product_id': rec.product_id.id,
+                        'pro': rec.product_id.name + ' ' + result,
+                        'categ': rec.product_categ_id.name,
+                        'ava_qty': rec.available_quantity,
+                        'pro_uom': rec.product_uom_id.name,
+                        'value': rec.value,
+                    }
+                    temp.append(val[key])
+                else:
+                    val[key].update({
+                        'ava_qty': val[key].get('ava_qty') + rec.available_quantity,
+                    })
             temp2 = temp
             data_temp.append(
                 [loc.complete_name, temp2])

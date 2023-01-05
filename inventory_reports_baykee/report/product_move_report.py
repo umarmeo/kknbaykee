@@ -90,7 +90,7 @@ class ProductMoveReportTemplate(models.AbstractModel):
                 fwh_warehouse_fwh_qty += fwh.product_uom_qty
             final_who_qty = ho_warehouse_who_qty - fwh_warehouse_who_qty
             final_fwh_qty = - ho_warehouse_fwh_qty + fwh_warehouse_fwh_qty
-            closing_stock_quantity = stock_quantity + purchase_quantity - purchase_return_qty - sale_quantity + sale_return_qty
+            closing_stock_quantity = ((((stock_quantity + purchase_quantity) - purchase_return_qty) - sale_quantity) + sale_return_qty)
             closing_stock_price = product.standard_price
             closing_stock_total = closing_stock_quantity * closing_stock_price
             product_variant = [var.name for var in product.product_template_variant_value_ids]
