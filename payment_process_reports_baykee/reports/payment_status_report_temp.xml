@@ -28,9 +28,9 @@
                                 <span class="text-left"
                                       style="align:left; font-size:14px; font-family:Tahoma; color:black;">
                                     Period:
-                                    <span t-esc="{'1': 'Jan', '2': 'Feb', '3': 'Mar', '4': 'Apr', '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Aug', '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' }[o.month]"/>
+                                    <span t-esc="o.start_date" t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
                                     -
-                                    <span t-esc="o.year"/>
+                                    <span t-esc="o.end_date" t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
                                 </span>
                                 <br/>
                             </div>
