@@ -18,7 +18,7 @@ class PaymentStatusReportTemplate(models.AbstractModel):
         division = docs.division_id.ids if docs.division_id else []
         payment_mode = docs.payment_mode.id if docs.payment_mode else []
         temp = []
-        domain = []
+        domain = [('create_date', '>=', docs.start_date), ('create_date', '<=', docs.end_date)]
         if docs.state:
             domain.append(('state', '=', docs.state))
         if division:
@@ -27,8 +27,7 @@ class PaymentStatusReportTemplate(models.AbstractModel):
             domain.append(('account_analytic_id', 'in', analytic_account))
         if payment_mode:
             domain.append(('payment_mode', 'in', payment_mode))
-        payment_process = self.env['payment.process'].search(domain).filtered(
-            lambda ln: ln.month == int(docs.month) and ln.year == int(docs.year))
+        payment_process = self.env['payment.process'].search(domain)
         for payment in payment_process:
             vals = {
                 'ref': payment.name,

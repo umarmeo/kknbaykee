@@ -7,10 +7,10 @@
                 <form>
                     <group>
                         <group>
-                            <label for="month"/>
+                            <label for="start_date"/>
                             <div class="o_row">
-                                <field name="month" required="1"/>
-                                <field name="year" required="1"/>
+                                <field name="start_date" required="1" />
+                                <field name="end_date" required="1"/>
                             </div>
                         </group>
                         <group>
