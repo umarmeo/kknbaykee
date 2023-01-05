@@ -41,9 +41,9 @@
                                         <th style="text-align:right; width:3%; height: 3px">Sr#</th>
                                         <th style="text-align:left; width:20%; height:2%">Product</th>
                                         <th style="text-align:left; width:20%; height:2%">Product Category</th>
-                                        <th style="text-align:right; width:15%; height:2%">Lot/Serial Number</th>
+<!--                                        <th style="text-align:right; width:15%; height:2%">Lot/Serial Number</th>-->
                                         <th style="text-align:right; width:15%; height:2%">On Hand Quantity</th>
-                                        <th style="text-align:right; width:15%; height:2%">Available Quantity</th>
+<!--                                        <th style="text-align:right; width:15%; height:2%">Available Quantity</th>-->
                                         <th style="text-align:left; width:15%; height:2%">UOM</th>
                                         <th style="text-align:right; width:15%; height:2%">Value</th>
                                     </tr>
@@ -59,12 +59,12 @@
                                             <td style="text-align:left">
                                                 <span t-esc="m['categ']"/>
                                             </td>
-                                            <td style="text-align:right">
-                                                <span t-esc="m['lot']"/>
-                                            </td>
-                                            <td style="text-align:right">
-                                                <span t-esc="'{:,.0f}'.format(m['inv_qty_auto'])"/>
-                                            </td>
+<!--                                            <td style="text-align:right">-->
+<!--                                                <span t-esc="m['lot']"/>-->
+<!--                                            </td>-->
+<!--                                            <td style="text-align:right">-->
+<!--                                                <span t-esc="'{:,.0f}'.format(m['inv_qty_auto'])"/>-->
+<!--                                            </td>-->
                                             <td style="text-align:right">
                                                 <span t-esc="'{:,.0f}'.format(m['ava_qty'])"/>
                                             </td>
@@ -88,18 +88,18 @@
                                         <t t-set="avail" t-value="0"/>
                                         <t t-foreach="data_line[1]" t-as="s">
                                             <t t-set="total_amount" t-value="total_amount+s['value']"/>
-                                            <t t-set="on_hand" t-value="on_hand+s['inv_qty_auto']"/>
+<!--                                            <t t-set="on_hand" t-value="on_hand+s['inv_qty_auto']"/>-->
                                             <t t-set="avail" t-value="avail+s['ava_qty']"/>
                                         </t>
                                         <td class="text-right">
                                         </td>
-                                        <td class="text-right">
-                                        </td>
-                                        <td class="text-right">
-                                            <strong>
-                                                <span t-esc="'{:,.0f}'.format(on_hand)"/>
-                                            </strong>
-                                        </td>
+<!--                                        <td class="text-right">-->
+<!--                                        </td>-->
+<!--                                        <td class="text-right">-->
+<!--                                            <strong>-->
+<!--                                                <span t-esc="'{:,.0f}'.format(on_hand)"/>-->
+<!--                                            </strong>-->
+<!--                                        </td>-->
                                         <td class="text-right">
                                             <strong>
                                                 <span t-esc="'{:,.0f}'.format(avail)"/>
