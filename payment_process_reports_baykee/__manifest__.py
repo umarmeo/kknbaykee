@@ -16,7 +16,6 @@
         'security/ir.model.access.csv',
         'reports/reports.xml',
         'reports/payment_status_report_temp.xml',
-        'views/payment_process_view.xml',
         'wizards/payment_status_report_wiz.xml',
     ],
 }

@@ -1,8 +1,5 @@
 from odoo import api, fields, models, _
 from datetime import date, datetime, timedelta
-import logging
-
-_logger = logging.getLogger(__name__)
 
 
 class PaymentStatusReportTemplate(models.AbstractModel):
