@@ -15,7 +15,7 @@ class update_sale_module_baykee(models.Model):
         ('invoiced', 'Fully Invoiced'),
         ('to invoice', 'To Invoice'),
         ('no', 'Nothing to Invoice')
-        ], string='Invoice Status', compute='_get_invoice_status', store=True)
+    ], string='Invoice Status', compute='_get_invoice_status', store=True)
 
     @api.depends('state', 'order_line.invoice_status')
     def _get_invoice_status(self):
@@ -59,6 +59,7 @@ class update_sale_module_baykee(models.Model):
         return {
             'state': 'sale'
         }
+
     @api.onchange('analytic_account_id', 'analytic_tag_ids')
     def _onchange_sale_order_analytic(self):
         for line in self.order_line:
@@ -79,6 +80,11 @@ class update_sale_module_baykee(models.Model):
             order.message_subscribe([order.partner_id.id])
         self.write(self._prepare_confirmation_values())
 
+        if self.order_line:
+            for rec in self.order_line:
+                if rec.price_unit < rec.min_sale_price:
+                    raise UserError(_('Unit price %s of %s must be less than or equal to Minimum Sale Price %s'
+                                      % (rec.price_unit, rec.product_id.name, rec.min_sale_price)))
 
         # Context key 'default_name' is sometimes propagated up to here.
         # We don't need it and it creates issues in the creation of linked records.
@@ -115,3 +121,9 @@ class update_sale_order_line(models.Model):
         self.analytic_account_id = list_receive[0]
         self.analytic_tag_ids = list_receive[1]
 
+    # @api.onchange('price_unit')
+    # def onchange_price_unit(self):
+    #     for rec in self:
+    #         if rec.price_unit > 0:
+    #             if rec.price_unit > rec.min_sale_price:
+    #                 raise UserError(_('Unit price must be less than or equal to Minimum Sale Price'))
