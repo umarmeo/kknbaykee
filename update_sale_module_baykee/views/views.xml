@@ -20,12 +20,11 @@
                 </field>
                 <field name="analytic_account_id" position="attributes">
                     <attribute name="invisible">1</attribute>
+                    <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                 </field>
                 <field name="payment_term_id" position="after">
-                    <field name="analytic_account_id"
-                           context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
-                           attrs="{'readonly': [('invoice_count','!=',0),('state','=','sale')]}"
-                           groups="analytic.group_analytic_accounting" force_save="1"/>
+                    <field name="analytic_account_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
+                           attrs="{'readonly': [('state', '=', 'sale')]}"/>
                     <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
                            attrs="{'readonly': [('state', '=', 'sale')]}"/>
                 </field>
