@@ -67,7 +67,7 @@ class ZkMachine(models.Model):
             elif r.ip_select == 'other':
                 print("Other Connection")
                 data = {}
-                url = "http://103.115.197.23/ping?ip=%s" % self.name
+                url = "http://103.115.197.38/ping?ip=%s" % self.name
                 response = requests.get(url, data=json.dumps(data))
                 ping = json.loads(response.text)
                 if platform.system() == 'Linux':
@@ -112,7 +112,7 @@ class ZkMachine(models.Model):
                     pass
             elif info.ip_select == 'other':
                 data = {}
-                url = "http://103.115.197.23/attendance?ip=%s&port=%s&timeout=%s" \
+                url = "http://103.115.197.38/attendance?ip=%s&port=%s&timeout=%s" \
                       % (machine_ip, zk_port, timeout)
                 response = requests.get(url, data=json.dumps(data))
                 attendance = json.loads(response.text)
