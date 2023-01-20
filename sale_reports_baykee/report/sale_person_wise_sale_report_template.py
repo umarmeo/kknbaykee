@@ -17,8 +17,8 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
         company_id = self.env.user.company_id
         start_date = docs.start_date
         end_date = docs.end_date
-        sale_person = docs.sale_person
-        sale_team = docs.sale_team
+        sale_person = docs.sale_person.ids
+        sale_team = docs.sale_team.ids
         analytic_account = docs.analytic_account_id.ids
         analytic_tags = docs.analytic_tag_id.ids
         if docs.report_type == 'sale_person':
