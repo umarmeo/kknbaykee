@@ -30,7 +30,137 @@
                             </div>
                         </div>
                         <t t-foreach="dat" t-as="data_line">
-                            <div style="page-break-after: always;" t-if="data_line[1]">
+                            <t t-if="o.report_type == ['sale_person','sale_team','sale_division']">
+                                <div style="page-break-after: always;" t-if="data_line[1]">
+                                    <div class="row" t-if="data_line[1]">
+                                        <div class="col-6">
+                                            <span class="text-left" t-if="o.report_type == 'sale_person'"
+                                                  style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                                Sale Person:
+                                                <t t-esc="data_line[0]"/>
+                                            </span>
+                                            <span class="text-left" t-if="o.report_type == 'sale_team'"
+                                                  style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                                Sale Team:
+                                                <t t-esc="data_line[0]"/>
+                                            </span>
+                                            <span class="text-left" t-if="o.report_type == 'sale_division'"
+                                                  style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                                Sale Division:
+                                                <t t-esc="data_line[0]"/>
+                                            </span>
+                                            <span class="text-left" t-if="o.report_type == 'sale_project'"
+                                                  style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                                Sale Project:
+                                                <t t-esc="data_line[0]"/>
+                                            </span>
+                                        </div>
+                                        <div class="col-6 text-right" style="align:right;">
+                                            <span class="text-right"
+                                                  style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                                Period:
+                                                <t t-esc="data_line[2]"
+                                                   t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                                To:
+                                                <t t-esc="data_line[3]"
+                                                   t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
+                                           t-if="data_line[1]">
+                                        <tr style="background-color:#f48531;color:white;">
+                                            <th style="text-align:center; width:5%; height: 3px">Sr#</th>
+                                            <th style="text-align:center; width:15%; height: 3px">Sale Order No.</th>
+                                            <th style="text-align:center; width:15%; height: 3px">Invoice No.</th>
+                                            <th style="text-align:center; width:20%; height:2%">Customer</th>
+                                            <th style="text-align:center; width:10%; height:2%"
+                                                t-if="o.report_type == 'sale_division'">Project
+                                            </th>
+                                            <th style="text-align:center; width:10%; height:2%"
+                                                t-if="o.report_type == 'sale_project'">Division
+                                            </th>
+                                            <th style="text-align:center; width:15%; height:2%">Amount Without GST</th>
+                                            <th style="text-align:center; width:15%; height:2%">GST</th>
+                                            <th style="text-align:center; width:15%; height:2%">Amount Including GST
+                                            </th>
+                                        </tr>
+                                        <t t-set="i" t-value="1"/>
+                                        <t t-foreach="data_line[1]" t-as="m">
+                                            <tr style="font-size:12px;" t-if="m['invoice']">
+                                                <td style="text-align:center">
+                                                    <span t-esc="i"/>
+                                                </td>
+                                                <td style="text-align:left">
+                                                    <span t-esc="m['sale_order']"/>
+                                                </td>
+                                                <td style="text-align:left">
+                                                    <span t-esc="m['invoice']"/>
+                                                </td>
+                                                <td style="text-align:left">
+                                                    <span t-esc="m['customer']"/>
+                                                </td>
+                                                <td t-if="o.report_type == 'sale_division'" style="text-align:left">
+                                                    <span t-esc="m['project']"/>
+                                                </td>
+                                                <td t-if="o.report_type == 'sale_project'" style="text-align:left">
+                                                    <span t-esc="m['division']"/>
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="'{:,.0f}'.format(m['amount_nogst'])"/>
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="'{:,.0f}'.format(m['gst'])"/>
+                                                </td>
+                                                <td style="text-align:right">
+                                                    <span t-esc="'{:,.0f}'.format(m['amount_gst'])"/>
+                                                </td>
+                                                <t t-set="i" t-value="i+1"/>
+                                            </tr>
+                                        </t>
+                                        <tr style="background-color:#f48531;color:white;">
+                                            <td class="text-right">
+                                            </td>
+                                            <td class="text-left" colspan="1">
+                                                <b>Total</b>
+                                            </td>
+                                            <t t-set="amount_nogst" t-value="0"/>
+                                            <t t-set="gst" t-value="0"/>
+                                            <t t-set="amount_gst" t-value="0"/>
+                                            <t t-foreach="data_line[1]" t-as="s">
+                                                <t t-set="amount_nogst" t-value="amount_nogst+s['amount_nogst']"/>
+                                                <t t-set="gst" t-value="gst+s['gst']"/>
+                                                <t t-set="amount_gst" t-value="amount_gst+s['amount_gst']"/>
+                                            </t>
+                                            <td class="text-right">
+                                            </td>
+                                            <td class="text-right">
+                                            </td>
+                                            <td t-if="o.report_type == 'sale_division'" class="text-right">
+                                            </td>
+                                            <td t-if="o.report_type == 'sale_project'" class="text-right">
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>
+                                                    <span t-esc="'{:,.0f}'.format(amount_nogst)"/>
+                                                </strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>
+                                                    <span t-esc="'{:,.0f}'.format(gst)"/>
+                                                </strong>
+                                            </td>
+                                            <td class="text-right">
+                                                <strong>
+                                                    <span t-esc="'{:,.0f}'.format(amount_gst)"/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </t>
+                            <t t-else="">
                                 <div class="row" t-if="data_line[1]">
                                     <div class="col-6">
                                         <span class="text-left" t-if="o.report_type == 'sale_person'"
@@ -82,7 +212,8 @@
                                         </th>
                                         <th style="text-align:center; width:15%; height:2%">Amount Without GST</th>
                                         <th style="text-align:center; width:15%; height:2%">GST</th>
-                                        <th style="text-align:center; width:15%; height:2%">Amount Including GST</th>
+                                        <th style="text-align:center; width:15%; height:2%">Amount Including GST
+                                        </th>
                                     </tr>
                                     <t t-set="i" t-value="1"/>
                                     <t t-foreach="data_line[1]" t-as="m">
@@ -156,7 +287,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
+                            </t>
                         </t>
                     </div>
                     <div class="footer" style="font-size:11px;border-top:1px solid black;">

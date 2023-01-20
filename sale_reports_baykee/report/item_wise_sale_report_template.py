@@ -18,6 +18,8 @@ class ItemWiseSaleReportTemplate(models.AbstractModel):
         start_date = docs.start_date
         end_date = docs.end_date
         sale_person = docs.sale_person.ids if docs.sale_person else []
+        analytic_account = docs.analytic_account_id.ids if docs.analytic_account_id else []
+        analytic_tag = docs.analytic_tag_id.ids if docs.analytic_tag_id else []
         product_id = docs.product_id
         prod_domain = []
         product_list = []
@@ -32,13 +34,19 @@ class ItemWiseSaleReportTemplate(models.AbstractModel):
                       ('product_id', '=', product.id)]
             if sale_person:
                 domain.append(('salesman_id', '=', sale_person))
+            if analytic_account:
+                domain.append(('analytic_account_id', 'in', analytic_account))
+            if analytic_tag:
+                domain.append(('analytic_tag_ids', 'in', analytic_tag))
             sale_order_line = self.env['sale.order.line'].search(domain).sorted(key=lambda r: r.salesman_id)
             for line in sale_order_line:
                 invoice = self.env['account.move'].search([('invoice_origin', '=', line.order_id.name), ('ref', 'not ilike', 'Reversal of'), ('state', '=', 'posted')])
                 vals = {
+                    'so': line.order_id.name,
                     'sale_person': line.salesman_id.name,
                     'quantity': line.product_uom_qty,
                     'unit_price': line.price_unit,
+                    'total_price': line.price_subtotal,
                     'order_date': invoice.invoice_date,
                 }
                 if invoice:
