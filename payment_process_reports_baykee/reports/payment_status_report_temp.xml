@@ -105,19 +105,19 @@
                                             <span t-esc="i"/>
                                         </td>
                                         <td style="text-align:left">
-                                            <span t-esc="m['ref']"/>
+                                            <span t-if="m['ref']" t-esc="m['ref']"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="{'advance': 'Advance', 'reimbursement': 'Reimbursement'}[m['term']]"/>
+                                            <span t-if="m['term']" t-esc="{'advance': 'Advance', 'reimbursement': 'Reimbursement'}[m['term']]"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="m['desc']"/>
+                                            <span t-if="m['desc']" t-esc="m['desc']"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="{'partial': 'Partial Payment', 'full': 'Full Payment'}[m['status']]"/>
+                                            <span t-if="m['status']" t-esc="{'partial': 'Partial Payment', 'full': 'Full Payment'}[m['status']]"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.0f}'.format(m['amount'])"/>
+                                            <span t-if="m['amount']" t-esc="'{:,.0f}'.format(m['amount'])"/>
                                         </td>
                                         <t t-set="i" t-value="i+1"/>
                                     </tr>
