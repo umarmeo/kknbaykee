@@ -9,8 +9,8 @@
             <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='has_refund_slip']" position="after">
-                    <field name="month" invisible="1"/>
-                    <field name="year" invisible="1"/>
+                    <field name="month" invisible="0"/>
+                    <field name="year" invisible="0"/>
                 </xpath>
             </field>
         </record>
