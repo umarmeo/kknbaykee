@@ -39,7 +39,7 @@ class PaymentStatusReportTemplate(models.AbstractModel):
         data_temp.append([temp2])
         return {
             'doc_ids': self.ids,
-            'doc_model': 'purchase.order.line',
+            'doc_model': 'payment.status.wiz',
             'dat': data_temp,
             'docs': docs,
             'company_id': company_id,
