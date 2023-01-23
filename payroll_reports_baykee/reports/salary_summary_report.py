@@ -54,6 +54,7 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                 payslip_line = self.env['hr.payslip.line'].search(
                     [('employee_id', '=', emp.id)]).filtered(
                     lambda ln: ln.slip_id.month == int(month) and ln.slip_id.year == int(year))
+                print(payslip_line)
                 temp = []
                 basic = 0
                 gross = 0
@@ -135,7 +136,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                 employee = self.env['hr.employee'].search([('department_id', '=', dept.id)])
                 for emp in employee:
                     payslip = self.env['hr.payslip'].search(
-                        [('employee_id', '=', emp.id), ('month', '=', month), ('year', '=', year)])
+                        [('employee_id', '=', emp.id)]).filtered(
+                    lambda ln: ln.month == int(month) and ln.year == int(year))
                     total_days = 0
                     total_absent = 0
                     for slip in payslip:
@@ -166,7 +168,8 @@ class SalarySummaryReportTemplate(models.AbstractModel):
                         total_absent = len(status_absent) + len(out_status_absent)
 
                     payslip_line = self.env['hr.payslip.line'].search(
-                        [('employee_id', '=', emp.id), ('slip_id.month', '=', month), ('slip_id.year', '=', year)])
+                        [('employee_id', '=', emp.id)]).filtered(
+                    lambda ln: ln.slip_id.month == int(month) and ln.slip_id.year == int(year))
                     temp = []
                     basic = 0
                     gross = 0
