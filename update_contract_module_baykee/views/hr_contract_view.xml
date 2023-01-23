@@ -132,36 +132,10 @@
                     </group>
 
                 </xpath>
-                <!--                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='information']" position="after">-->
-                <!--                    <page name="history Salary" string="Salary History">-->
-                <!--                        &lt;!&ndash;                      <group>&ndash;&gt;-->
-                <!--                        <field name="history_contract_salary">-->
-                <!--                            <tree default_order="in_date desc" create="false" readonly="1" force_save="1">-->
-                <!--                                <field name="Basic_salary"/>-->
-                <!--                                <field name="Allowance_fuel"/>-->
-                <!--                                <field name="Allowance_house"/>-->
-                <!--                                <field name="gross_finals"/>-->
-                <!--                                <field name="incremented_date" string="Increment Date"/>-->
-                <!--                                <field name="user_id"/>-->
-                <!--                                <field name="in_date"/>-->
-                <!--                            </tree>-->
-                <!--                            <form create="false" edit="false" delete="false">-->
-                <!--                                <sheet>-->
-                <!--                                    <group>-->
-                <!--                                        <field name="Basic_salary" readonly="1" force_save="1"/>-->
-                <!--                                        <field name="Allowance_fuel" readonly="1" force_save="1"/>-->
-                <!--                                        <field name="Allowance_house" readonly="1" force_save="1"/>-->
-                <!--                                        <field name="gross_finals" readonly="1" force_save="1"/>-->
-                <!--                                        <field name="incremented_date" readonly="1" force_save="1"/>-->
-                <!--                                        <field name="user_id" readonly="1" force_save="1"/>-->
-                <!--                                        <field name="in_date" readonly="1" force_save="1"/>-->
-                <!--                                    </group>-->
-                <!--                                </sheet>-->
-                <!--                            </form>-->
-                <!--                        </field>-->
-                <!--                        &lt;!&ndash;                      </group>&ndash;&gt;-->
-                <!--                    </page>-->
-                <!--                </xpath>-->
+                <xpath expr="//field[@name='hr_responsible_id']" position="after">
+                    <field name="mop" />
+                    <field name="account_number" attrs="{'invisible': [('mop', '!=', 'bank')]}"/>
+                </xpath>
             </field>
         </record>
     </data>

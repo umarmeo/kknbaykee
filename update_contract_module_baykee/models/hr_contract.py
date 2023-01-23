@@ -41,6 +41,12 @@ class HrContract(models.Model):
                                        tracking=True)
     history_contract_salary = fields.One2many('hr.contract.history', 'contract_id', string='Salary History')
     Deduction_Loan = fields.Monetary(string='Loan', tracking=True, compute='compute_loan_amount')
+    mop = fields.Selection([
+        ('cash', 'Cash'),
+        ('bank', 'Bank'),
+        ('cross_cheque', 'Cross Check'),
+    ], string="Mode of Payment", default='cash', tracking=True)
+    account_number = fields.Char(string="Account Number", tracking=True)
 
     state = fields.Selection([
         ('draft', 'New'),
