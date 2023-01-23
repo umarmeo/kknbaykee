@@ -25,9 +25,9 @@ class DepartWisePayableSummaryReportTemplate(models.AbstractModel):
             for emp in employee:
                 year1 = int(year)
                 month1 = int(month)
-                first, last = calendar.monthrange(year1, month1)
-                date_start = datetime.datetime(year1, month1, first)
-                date_end = datetime.datetime(year1, month1, last)
+                days_in_month = calendar.monthrange(year1, month1)[1]
+                date_start = datetime.datetime(year1, month1, 1)
+                date_end = datetime.datetime(year1, month1, days_in_month)
                 date_avg = date_end - date_start
                 total_days = date_avg.days + 1
                 status_absent = self.env['hr.attendance'].search([('employee_id', '=', emp.id),
