@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="age_receivable_report_wizard">
+            <field name="name">age_receivable_report_wizard</field>
+            <field name="model">age.receivable.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="analytic_account_id" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="analytic_tag_id" widget="many2many_tags"
+                                   options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_age_receivable_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="age_receivable_report_wizard_action_window">
+            <field name="name">Age Receivable Report</field>
+            <field name="res_model">age.receivable.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_age_receivable_report_wizard"
+                  name="Age Receivable"
+                  action="age_receivable_report_wizard_action_window"
+                  parent="sale.menu_sale_report"
+                  sequence="7"/>
+
+    </data>
+</odoo>

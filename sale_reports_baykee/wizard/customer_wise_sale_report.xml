@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="cus_wise_sale_wizard">
+            <field name="name">cus_wise_sale_wizard</field>
+            <field name="model">cus.wise.sale.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="product_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="analytic_account_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                            <field name="analytic_tag_id" widget="many2many_tags" options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(action_cus_wise_sale_template)d" string="Export PDF" type="action"
+                                class="oe_highlight"/>
+                        <button string="Close" class="btn btn-danger" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="cus_wise_sale_wizard_action_window">
+            <field name="name">Customer Wise Sale Report</field>
+            <field name="res_model">cus.wise.sale.report</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_cus_wise_sale_wizard_report"
+                  name="Customer Wise Sale Report"
+                  action="cus_wise_sale_wizard_action_window"
+                  parent="sale.menu_sale_report"
+                  sequence="5"/>
+
+    </data>
+</odoo>

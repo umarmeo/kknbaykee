@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="sale_reports_baykee.cus_wise_sale_temp">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <br/>
+                                <h3 t-if="company_id">
+                                    <t t-esc="company_id.name"/>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Customer Wise Sale Report</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <t t-foreach="dat" t-as="data_line">
+                            <div style="page-break-after: always;" t-if="data_line[1]">
+                                <div class="row" t-if="data_line[1]">
+                                    <div class="col-6">
+                                        <span class="text-left"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Customer Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <br/>
+                                    </div>
+                                    <div class="col-6 text-right" style="align:right;">
+                                        <span class="text-right"
+                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                            Period:
+                                            <t t-esc="data_line[2]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                            To:
+                                            <t t-esc="data_line[3]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br/>
+                                <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
+                                       t-if="data_line[1]">
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <th style="text-align:center; width:3%; height: 3px">Sr#</th>
+                                        <th style="text-align:center; width:15%; height: 3px">Sale Order No</th>
+                                        <th style="text-align:center; width:20%; height:2%">Product</th>
+                                        <th style="text-align:center; width:10%; height:2%">Quantity</th>
+                                        <th style="text-align:center; width:15%; height:2%">Unit Price</th>
+                                        <th style="text-align:center; width:15%; height:2%">Total Price</th>
+                                        <th style="text-align:center; width:15%; height:2%">Order Date</th>
+                                    </tr>
+                                    <t t-set="i" t-value="1"/>
+                                    <t t-foreach="data_line[1]" t-as="m">
+                                        <tr style="font-size:12px;">
+                                            <td style="text-align:left">
+                                                <span t-esc="i"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['so']"/>
+                                            </td>
+                                            <td style="text-align:left">
+                                                <span t-esc="m['product']"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="'{:,.0f}'.format(m['quantity'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="'{:,.0f}'.format(m['unit_price'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="'{:,.0f}'.format(m['total_price'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-esc="m['order_date']"/>
+                                            </td>
+                                            <t t-set="i" t-value="i+1"/>
+                                        </tr>
+                                    </t>
+                                    <tr style="background-color:#f48531;color:white;">
+                                        <td class="text-right" colspan="1">
+                                            <b>Total</b>
+                                        </td>
+                                        <t t-set="total_amount" t-value="0"/>
+                                        <t t-set="total_qty" t-value="0"/>
+                                        <t t-set="total_subtotal" t-value="0"/>
+                                        <t t-foreach="data_line[1]" t-as="s">
+                                            <t t-set="total_amount" t-value="total_amount+s['unit_price']"/>
+                                            <t t-set="total_qty" t-value="total_qty+s['quantity']"/>
+                                            <t t-set="total_subtotal" t-value="total_subtotal+s['total_price']"/>
+                                        </t>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.0f}'.format(total_qty)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.0f}'.format(total_amount)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong>
+                                                <span t-esc="'{:,.0f}'.format(total_subtotal)"/>
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="footer" style="font-size:11px;border-top:1px solid black;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

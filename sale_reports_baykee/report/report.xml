@@ -19,5 +19,41 @@
             <field name="binding_model_id" ref="model_sale_person_wise_sale_report"/>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_cus_wise_sale_template" model="ir.actions.report">
+            <field name="name">Customer Wise Sale Report</field>
+            <field name="model">cus.wise.sale.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sale_reports_baykee.cus_wise_sale_temp</field>
+            <field name="report_file">sale_reports_baykee.cus_wise_sale_temp</field>
+            <field name="binding_model_id" ref="model_cus_wise_sale_report"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="paperformat_age_receivable_payable" model="report.paperformat">
+            <field name="name">Age Receivable and Payable Paperformat</field>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">32</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_age_receivable_template" model="ir.actions.report">
+            <field name="name">Age Receivable Report</field>
+            <field name="model">age.receivable.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sale_reports_baykee.age_receivable_temp</field>
+            <field name="report_file">sale_reports_baykee.age_receivable_temp</field>
+            <field name="binding_model_id" ref="model_age_receivable_report"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="paperformat_age_receivable_payable"/>
+        </record>
     </data>
 </odoo>
