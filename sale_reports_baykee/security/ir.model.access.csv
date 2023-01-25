@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_item_wise_sale_report,item.wise.sale.report,model_item_wise_sale_report,,1,1,1,1
+access_cus_wise_sale_report,cus.wise.sale.report,model_cus_wise_sale_report,,1,1,1,1
 access_sale_person_wise_sale_report,sale.person.wise.sale.report,model_sale_person_wise_sale_report,,1,1,1,1
+access_age_receivable_report,age.receivable.report,model_age_receivable_report,,1,1,1,1

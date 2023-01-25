@@ -21,7 +21,11 @@
         'report/report.xml',
         'report/item_wise_sale_report_template.xml',
         'report/sale_person_wise_sale_report_template.xml',
+        'report/customer_wise_sale_report_template.xml',
+        'report/age_receivable_report_template.xml',
         'wizard/item_wise_sale_report.xml',
         'wizard/sale_person_wise_sale_report.xml',
+        'wizard/customer_wise_sale_report.xml',
+        'wizard/age_receivable_report.xml',
     ],
 }
