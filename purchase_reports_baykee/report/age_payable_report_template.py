@@ -153,7 +153,7 @@ class AgePayableTemplate(models.AbstractModel):
                     'total': False,
                 }
                 temp.append(vals)
-            temp2 = temp + temp1
+            temp2 = temp + temp1 + temp3
             data_temp.append(
                 [partner.name, temp2])
         return {
