@@ -7,13 +7,6 @@
                 <form>
                     <group>
                         <group>
-                            <label for="start_date"/>
-                            <div class="o_row">
-                                <field name="start_date" required="1" />
-                                <field name="end_date" required="1"/>
-                            </div>
-                        </group>
-                        <group>
                             <field name="state"/>
                             <field name="division_id" widget="many2many_tags"
                                    options="{'no_create': True, 'no_edit': True, 'no_open': True}"/>

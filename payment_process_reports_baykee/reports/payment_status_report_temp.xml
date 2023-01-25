@@ -25,14 +25,6 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <span class="text-left"
-                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                    Period:
-                                    <span t-esc="o.start_date" t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                    -
-                                    <span t-esc="o.end_date" t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                </span>
-                                <br/>
                             </div>
                             <div class="col-6 text-right" style="align:right;">
                                 <span class="text-right"

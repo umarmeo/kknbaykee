@@ -15,7 +15,7 @@ class PaymentStatusReportTemplate(models.AbstractModel):
         division = docs.division_id.ids if docs.division_id else []
         payment_mode = docs.payment_mode.id if docs.payment_mode else []
         temp = []
-        domain = [('create_date', '>=', docs.start_date), ('create_date', '<=', docs.end_date)]
+        domain = []
         if docs.state:
             domain.append(('state', '=', docs.state))
         if division:
