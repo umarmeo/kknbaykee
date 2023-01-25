@@ -27,6 +27,12 @@ class PartyWisePurchaseReport(models.TransientModel):
 
     end_date = fields.Date(string="End Date", default=_default_end_date)
     product_id = fields.Many2many('product.product', string="Products")
+    report_type = fields.Selection([
+        ('vendor_wise', "Vendor Wise"),
+        ('division', "Division Wise"),
+        ('project', "Project Wise"),
+    ], string="Report Type", default='vendor_wise')
+    partner_id = fields.Many2many('res.partner', string="Vendors")
     analytic_account_id = fields.Many2many('account.analytic.account', string="Analytic Account")
     analytic_tag_ids = fields.Many2many('account.analytic.tag', string="Analytic Tags")
 

@@ -23,9 +23,11 @@
         'report/pending_bills_report_template.xml',
         'report/selling_price_variation_template.xml',
         'report/party_wise_purchase_template.xml',
+        'report/age_payable_report_template.xml',
         'wizard/vandor_price_comparison_report.xml',
         'wizard/pending_bills_report.xml',
         'wizard/selling_price_variation_report.xml',
         'wizard/party_wise_purchase_report.xml',
+        'wizard/age_payable_report.xml',
     ],
 }

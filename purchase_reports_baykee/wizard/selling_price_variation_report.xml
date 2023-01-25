@@ -37,8 +37,8 @@
         <menuitem id="menu_selling_price_variation_wizard_report"
                   name="Selling Price Variation Report"
                   action="selling_price_variation_wizard_action_window"
-                  parent="purchase.purchase_report_main"
-                  sequence="111"/>
+                  parent="sale.menu_sale_report"
+                  sequence="15"/>
 
     </data>
 </odoo>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="purchase_reports_baykee.age_payable_temp">
+            <t t-call="web.html_container">
+                <t t-call="web.internal_layout">
+                    <t t-set="data_report_margin_top" t-value="12"/>
+                    <t t-set="data_report_header_spacing" t-value="9"/>
+                    <t t-set="data_report_dpi" t-value="110"/>
+                    <div class="page">
+                        <h2>Age Payable</h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Company:</strong>
+                                <p t-esc="env.company.name"/>
+                            </div>
+                            <div class="col-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <t>
+                                    <strong>Analytic Account :</strong>
+                                    <t t-if="analytic_accounts">
+                                        <t t-foreach="analytic_accounts" t-as="account">
+                                            <span t-esc="account.name"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="not analytic_accounts">
+                                        <span t-esc="analytic_accounts_all"/>
+                                    </t>
+                                    <br/>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <t>
+                                    <strong>Analytic Tags :</strong>
+                                    <t t-if="analytic_tags">
+                                        <t t-foreach="analytic_tags" t-as="tag">
+                                            <span t-esc="tag.name"/>
+                                        </t>
+                                    </t>
+                                    <t t-if="not analytic_tags">
+                                        <span t-esc="analytic_tags_all"/>
+                                    </t>
+                                    <br/>
+                                </t>
+                            </div>
+                        </div>
+                        <table class="table table-sm table-reports">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-left">Due Date</th>
+                                    <th class="text-left">Account</th>
+                                    <th class="text-right">As of:
+                                        <span t-esc="docs.date"/>
+                                    </th>
+                                    <th class="text-right">1-30</th>
+                                    <th class="text-right">31-60</th>
+                                    <th class="text-right">61-90</th>
+                                    <th class="text-right">91-120</th>
+                                    <th class="text-right">Older</th>
+                                    <th class="text-right">Total</th>
+                                    <!--                                    <th t-if="data['form']['amount_currency']">Currency</th>-->
+                                </tr>
+                            </thead>
+                            <t t-foreach="dat" t-as="data">
+                                <tbody>
+                                    <tr>
+                                        <t t-set="a" t-value="0"/>
+                                        <t t-set="b" t-value="0"/>
+                                        <t t-set="c" t-value="0"/>
+                                        <t t-set="d" t-value="0"/>
+                                        <t t-set="e" t-value="0"/>
+                                        <t t-set="f" t-value="0"/>
+                                        <t t-set="g" t-value="0"/>
+                                        <t t-foreach="data[1]" t-as="s">
+                                            <t t-set="a" t-value="a+s['as_data']"/>
+                                            <t t-set="b" t-value="b+s['1-30']"/>
+                                            <t t-set="c" t-value="c+s['31-60']"/>
+                                            <t t-set="d" t-value="d+s['61-90']"/>
+                                            <t t-set="e" t-value="e+s['91-120']"/>
+                                            <t t-set="f" t-value="f+s['older']"/>
+                                            <t t-set="g" t-value="a+b+c+d+e+f"/>
+                                        </t>
+                                        <td colspan="3" class="text-left">
+                                            <strong t-esc="data[0]"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="a"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="b"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="c"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="d"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="e"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="f"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong t-esc="g"
+                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+
+                                    </tr>
+                                    <tr t-foreach="data[1]" t-as="line">
+                                        <td class="text-left">
+                                            <span t-esc="line['name']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="line['due_date']"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-esc="line['account']"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['as_data']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['1-30']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['31-60']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['61-90']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['91-120']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['older']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line['total']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
