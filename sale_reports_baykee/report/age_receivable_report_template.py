@@ -38,7 +38,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                 e = 0
                 delta = date - move.date
                 days = delta.days
-                if 0 < days < 1:
+                if date <= move.date:
                     as_of = move.amount_currency
                 elif days <= 30:
                     a = move.amount_currency
@@ -81,7 +81,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                 e = 0
                 delta = date - payment.date
                 days = delta.days
-                if 0 < days < 1:
+                if date <= payment.date:
                     as_of = payment.amount
                 elif days <= 30:
                     a = payment.amount
@@ -111,7 +111,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                       ('partner_id', '=', partner.id),
                       ('payment_state', 'in', ['not_paid', 'partial']),
                       ('state', '=', 'posted'),
-                      ('move_type', '=', ['out_invoice', 'out_refund', 'out_receipt']),
+                      ('move_type', 'in', ['out_invoice', 'out_refund', 'out_receipt']),
                       ('partner_id.property_account_receivable_id', '=', partner.property_account_receivable_id.id)]
             if analytic_accounts:
                 domain.append(('analytic_account_id', '=', analytic_accounts))
@@ -127,7 +127,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                 e = 0
                 delta = date - line.invoice_date_due
                 days = delta.days
-                if 0 < days < 1:
+                if date <= line.invoice_date_due:
                     as_of = line.amount_total
                 elif days <= 30:
                     a = line.amount_total
