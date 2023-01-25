@@ -22,7 +22,9 @@
                          t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
-                                <h3>Party Wise Report</h3>
+                                <h3 t-if="o.report_type == 'vendor_wise'">Party Wise Report</h3>
+                                <h3 t-if="o.report_type == 'division'">Division Wise Report</h3>
+                                <h3 t-if="o.report_type == 'project'">Project Wise Report</h3>
                                 <br/>
                             </div>
                         </div>
@@ -30,9 +32,19 @@
                             <div style="page-break-after: always;" t-if="data_line[1]">
                                 <div class="row" t-if="data_line[1]">
                                     <div class="col-6">
-                                        <span class="text-left"
+                                        <span class="text-left" t-if="o.report_type == 'vendor_wise'"
                                               style="align:left; font-size:14px; font-family:Tahoma; color:black;">
                                             Vendor Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <span class="text-left" t-if="o.report_type == 'division'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Division Name:
+                                            <t t-esc="data_line[0]"/>
+                                        </span>
+                                        <span class="text-left" t-if="o.report_type == 'project'"
+                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Project Name:
                                             <t t-esc="data_line[0]"/>
                                         </span>
                                         <br/>
@@ -49,37 +61,12 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="row" t-if="data_line[1]">
-                                    <div class="col-6 text-left">
-                                        <span class="text-left"
-                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            Analytic Account:
-                                            <t t-if="analytic_accounts">
-                                                <t t-foreach="analytic_accounts" t-as="aa">
-                                                    <span t-esc="aa.name.split(',')"/>
-                                                </t>
-                                            </t>
-                                            <span t-if="not analytic_accounts">All</span>
-                                        </span>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <span class="text-right"
-                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
-                                            Analytic Tag:
-                                            <t t-if="analytic_tags">
-                                                <t t-foreach="analytic_tags" t-as="tg">
-                                                    <span t-esc="tg.name.split(',')"/>
-                                                </t>
-                                            </t>
-                                            <span t-if="not analytic_tags">All</span>
-                                        </span>
-                                    </div>
-                                </div>
                                 <br/>
                                 <table class="table table-bordered mb64" style="width:100%;"
                                        t-if="data_line[1]">
                                     <tr style="background-color:#f48531;color:white;">
                                         <th style="text-align:center; width:3%; height: 3px">Sr#</th>
+                                        <th style="text-align:center; width:20%; height:2%" t-if="o.report_type in ['project', 'division']">Vendor</th>
                                         <th style="text-align:center; width:20%; height:2%">Products</th>
                                         <th style="text-align:center; width:7%; height:2%">Quantity</th>
                                         <th style="text-align:center; width:20%; height:2%">Unit Price</th>
@@ -91,6 +78,9 @@
                                         <tr style="font-size:12px;">
                                             <td style="text-align:left">
                                                 <span t-esc="i"/>
+                                            </td>
+                                             <td style="text-align:left" t-if="o.report_type in ['project', 'division']">
+                                                <span t-esc="m['vendor']"/>
                                             </td>
                                             <td style="text-align:left">
                                                 <span t-esc="m['product']"/>
@@ -123,6 +113,9 @@
                                             <t t-set="total_unit_price" t-value="total_unit_price+s['unit_price']"/>
                                             <t t-set="total_price_total" t-value="total_price_total+s['price_total']"/>
                                         </t>
+                                        <td t-if="o.report_type in ['project', 'division']">
+
+                                        </td>
                                         <td class="text-right">
                                             <strong>
                                                 <span t-esc="'{:,.0f}'.format(total_quantity)"/>

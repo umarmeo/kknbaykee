@@ -38,5 +38,16 @@
             <field name="report_file">purchase_reports_baykee.party_wise_purchase_temp</field>
             <field name="binding_type">report</field>
         </record>
+
+        <record id="action_age_payable_template" model="ir.actions.report">
+            <field name="name">Age Payable Report</field>
+            <field name="model">age.payable.report</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">purchase_reports_baykee.age_payable_temp</field>
+            <field name="report_file">purchase_reports_baykee.age_payable_temp</field>
+            <field name="binding_model_id" ref="model_age_payable_report"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="sale_reports_baykee.paperformat_age_receivable_payable"/>
+        </record>
     </data>
 </odoo>
