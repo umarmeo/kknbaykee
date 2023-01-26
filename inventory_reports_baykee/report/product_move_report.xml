@@ -37,32 +37,6 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-6 text-left">
-                                <span class="text-left"
-                                      style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                    Analytic Account:
-                                    <t t-if="o.analytic_account_id">
-                                        <t t-foreach="o.analytic_account_id" t-as="aa">
-                                            <span t-esc="', '.join(aa.name.split(','))"/>
-                                        </t>
-                                    </t>
-                                    <span t-if="not o.analytic_account_id">All</span>
-                                </span>
-                            </div>
-                            <div class="col-6 text-right">
-                                <span class="text-right"
-                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
-                                    Analytic Tag:
-                                    <t t-if="o.analytic_tag_id">
-                                        <t t-foreach="o.analytic_tag_id" t-as="at">
-                                            <span t-esc="', '.join(at.name.split(','))"/>
-                                        </t>
-                                    </t>
-                                    <span t-if="not o.analytic_tag_id">All</span>
-                                </span>
-                            </div>
-                        </div>
                         <br/>
                         <table class="table table-bordered mb64" style="width:100%;">
                             <tr style="background-color:#f48531;color:white;">
@@ -109,13 +83,13 @@
                                             <span t-esc="m['product']"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.0f}'.format(m['stock_quantity'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['open_stock_quantity'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.0f}'.format(m['stock_price'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['open_stock_price'])"/>
                                         </td>
                                         <td style="text-align:right">
-                                            <span t-esc="'{:,.0f}'.format(m['stock_total'])"/>
+                                            <span t-esc="'{:,.0f}'.format(m['open_stock_total'])"/>
                                         </td>
                                         <td style="text-align:right">
                                             <span t-esc="'{:,.0f}'.format(m['purchase_quantity'])"/>
@@ -199,9 +173,9 @@
                                 <t t-foreach="dat" t-as="data_line">
                                     <t t-foreach="data_line[0]" t-as="s">
                                         <t t-set="total_stock_quantity"
-                                           t-value="total_stock_quantity+s['stock_quantity']"/>
-                                        <t t-set="total_stock_price" t-value="total_stock_price+s['stock_price']"/>
-                                        <t t-set="total_stock_total" t-value="total_stock_total+s['stock_total']"/>
+                                           t-value="total_stock_quantity+s['open_stock_quantity']"/>
+                                        <t t-set="total_stock_price" t-value="total_stock_price+s['open_stock_price']"/>
+                                        <t t-set="total_stock_total" t-value="total_stock_total+s['open_stock_total']"/>
                                         <t t-set="total_purchase_quantity"
                                            t-value="total_purchase_quantity+s['purchase_quantity']"/>
                                         <t t-set="total_purchase_price"

@@ -19,63 +19,71 @@ class ProductMoveReportTemplate(models.AbstractModel):
             product_domain.append(('id', 'in', products))
         product_search = self.env['product.product'].search(product_domain)
         for product in product_search:
-            stock_quantity = 0
-            stock_price = 0
-            stock_total = 0
+            open_stock_quantity = 0
             purchase_quantity = 0
-            purchase_price = 0
-            purchase_total = 0
             purchase_return_qty = 0
-            purchase_return_price = 0
-            purchase_return_total = 0
             sale_quantity = 0
-            sale_price = 0
-            sale_total = 0
             sale_return_qty = 0
-            sale_return_price = 0
-            sale_return_total = 0
             ho_warehouse_who_qty = 0
             ho_warehouse_fwh_qty = 0
             fwh_warehouse_who_qty = 0
             fwh_warehouse_fwh_qty = 0
-            purchases_domain = [('product_id', '=', product.id), ('order_id.date_order', '>=', docs.start_date),
-                                ('order_id.date_order', '<=', docs.end_date)]
-            purchase_return_domain = [('product_id', '=', product.id), ('move_id.move_type', '=', 'in_refund'),
-                                      ('move_id.date', '>=', docs.start_date), ('move_id.date', '<=', docs.end_date)]
-            sales_domain = [('product_id', '=', product.id), ('order_id.date_order', '>=', docs.start_date),
-                            ('order_id.date_order', '<=', docs.end_date)]
-            sales_return_domain = [('product_id', '=', product.id), ('move_id.move_type', '=', 'out_refund'),
-                                   ('move_id.date', '>=', docs.start_date), ('move_id.date', '<=', docs.end_date)]
-            if analytic_account:
-                purchases_domain.append(('order_id.account_analytic_id', 'in', analytic_account))
-                purchase_return_domain.append(('analytic_account_id', 'in', analytic_account))
-                sales_domain.append(('analytic_account_id', 'in', analytic_account))
-                sales_return_domain.append(('analytic_account_id', '=', analytic_account))
-            stock_quant = self.env['product.product'].search([('id', '=', product.id)])
-            for stock in stock_quant:
-                stock_quantity += stock.qty_available
-                stock_price = stock.standard_price
-                stock_total = stock_quantity * stock_price
-            purchases = self.env['purchase.order.line'].search(purchases_domain)
-            for purchase in purchases:
-                purchase_quantity += purchase.product_qty
-                purchase_price = purchase.product_id.standard_price
-                purchase_total = purchase_quantity * purchase_price
-            purchase_returns = self.env['account.move.line'].search(purchase_return_domain)
-            for pur_return in purchase_returns:
-                purchase_return_qty += pur_return.quantity
-                purchase_return_price = pur_return.product_id.standard_price
-                purchase_return_total = purchase_return_qty * purchase_return_price
-            sales = self.env['sale.order.line'].search(sales_domain)
-            for sale in sales:
-                sale_quantity += sale.product_uom_qty
-                sale_price = sale.price_unit
-                sale_total = sale_quantity * sale_price
-            sale_returns = self.env['account.move.line'].search(sales_return_domain)
-            for sale_return in sale_returns:
-                sale_return_qty += sale_return.quantity
-                sale_return_price = sale_return.product_id.lst_price
-                sale_return_total = sale_return_qty * sale_return_price
+            purchase_open_qty = 0
+            purchase_return_open_qty = 0
+            sale_open_qty = 0
+            sale_return_open_qty = 0
+
+            purchase_stock_open = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'supplier'), ('location_dest_id.usage', '=', 'internal')])
+            for open_pur in purchase_stock_open:
+                purchase_open_qty += open_pur.qty_done
+            purchase_return_stock_open = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'), ('location_dest_id.usage', '=', 'supplier')])
+            for open_pur_rt in purchase_return_stock_open:
+                purchase_return_open_qty += open_pur_rt.qty_done
+            sale_stock_open = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'), ('location_dest_id.usage', '=', 'customer')])
+            for open_sal in sale_stock_open:
+                sale_open_qty += open_sal.qty_done
+            sale_return_stock_open = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'customer'), ('location_dest_id.usage', '=', 'internal')])
+            for open_sal_rt in sale_return_stock_open:
+                sale_return_open_qty += open_sal_rt.qty_done
+            open_stock_quantity = purchase_open_qty - purchase_return_open_qty - sale_open_qty + sale_return_open_qty
+            open_stock_price = product.standard_price
+            open_stock_total = open_stock_quantity * open_stock_price
+            purchase_stock = self.env['stock.move.line'].search(
+                [('date', '>=', docs.start_date), ('date', '<=', docs.end_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'supplier'), ('location_dest_id.usage', '=', 'internal')])
+            for purchase in purchase_stock:
+                purchase_quantity += purchase.qty_done
+            purchase_price = product.standard_price
+            purchase_total = purchase_quantity * purchase_price
+            purchase_return_stock = self.env['stock.move.line'].search(
+                [('date', '>=', docs.start_date), ('date', '<=', docs.end_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'), ('location_dest_id.usage', '=', 'supplier')])
+            for purchase_return in purchase_return_stock:
+                purchase_return_qty += purchase_return.qty_done
+            purchase_return_price = product.standard_price
+            purchase_return_total = purchase_return_qty * purchase_return_price
+            sale_stock = self.env['stock.move.line'].search(
+                [('date', '>=', docs.start_date), ('date', '<=', docs.end_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'), ('location_dest_id.usage', '=', 'customer')])
+            for sale in sale_stock:
+                sale_quantity += sale.qty_done
+            sale_price = product.lst_price
+            sale_total = sale_quantity * sale_price
+            sale_return_stock = self.env['stock.move.line'].search(
+                [('date', '>=', docs.start_date), ('date', '<=', docs.end_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'customer'), ('location_dest_id.usage', '=', 'internal')])
+            for sale_return in sale_return_stock:
+                sale_return_qty += sale_return.qty_done
+            sale_return_price = product.lst_price
+            sale_return_total = sale_quantity * sale_price
             ho_warehouse = self.env['stock.move'].search(
                 [('product_id', '=', product.id), ('location_id.location_id.name', 'ilike', 'FWH'),
                  ('location_dest_id.location_id.name', 'ilike', 'WHO')])
@@ -90,7 +98,7 @@ class ProductMoveReportTemplate(models.AbstractModel):
                 fwh_warehouse_fwh_qty += fwh.product_uom_qty
             final_who_qty = ho_warehouse_who_qty - fwh_warehouse_who_qty
             final_fwh_qty = - ho_warehouse_fwh_qty + fwh_warehouse_fwh_qty
-            closing_stock_quantity = ((((stock_quantity + purchase_quantity) - purchase_return_qty) - sale_quantity) + sale_return_qty)
+            closing_stock_quantity = open_stock_quantity + purchase_quantity - purchase_return_qty - sale_quantity + sale_return_qty
             closing_stock_price = product.standard_price
             closing_stock_total = closing_stock_quantity * closing_stock_price
             product_variant = [var.name for var in product.product_template_variant_value_ids]
@@ -98,9 +106,9 @@ class ProductMoveReportTemplate(models.AbstractModel):
             temp = []
             vals = {
                 'product': product.name + ' ' + result,
-                'stock_quantity': stock_quantity,
-                'stock_price': stock_price,
-                'stock_total': stock_total,
+                'open_stock_quantity': open_stock_quantity,
+                'open_stock_price': open_stock_price,
+                'open_stock_total': open_stock_total,
                 'purchase_quantity': purchase_quantity,
                 'purchase_price': purchase_price,
                 'purchase_total': purchase_total,
