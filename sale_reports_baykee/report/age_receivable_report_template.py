@@ -28,6 +28,10 @@ class AgeReceivableTemplate(models.AbstractModel):
                                    ('move_id.state', '=', 'posted'),
                                    ('move_id.move_type', '=', 'entry'),
                                    ('account_id', '=', partner.property_account_receivable_id.id)]
+            if analytic_accounts:
+                account_line_domain.append(('analytic_account_id', 'in', analytic_accounts))
+            if analytic_tags:
+                account_line_domain.append(('analytic_tag_ids', 'in', analytic_tags))
             move_line = self.env['account.move.line'].search(account_line_domain)
             for move in move_line:
                 as_of = 0
@@ -114,9 +118,9 @@ class AgeReceivableTemplate(models.AbstractModel):
                       ('move_type', 'in', ['out_invoice', 'out_refund', 'out_receipt']),
                       ('partner_id.property_account_receivable_id', '=', partner.property_account_receivable_id.id)]
             if analytic_accounts:
-                domain.append(('analytic_account_id', '=', analytic_accounts))
+                domain.append(('invoice_line_ids.analytic_account_id', 'in', analytic_accounts))
             if analytic_tags:
-                domain.append(('analytic_tag_ids', '=', analytic_tags))
+                domain.append(('invoice_line_ids.analytic_tag_ids', 'in', analytic_tags))
             data_complete = self.env['account.move'].search(domain)
             for line in data_complete:
                 as_of = 0
