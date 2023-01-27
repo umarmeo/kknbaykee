@@ -12,8 +12,6 @@ class ProductMoveReportTemplate(models.AbstractModel):
         docs = self.env['product.move.wiz'].browse(docids[0])
         company_id = self.env.user.company_id
         products = docs.product_id.ids if docs.product_id else []
-        analytic_account = docs.analytic_account_id.ids if docs.analytic_account_id else []
-        analytic_tag = docs.analytic_tag_id.ids if docs.analytic_tag_id else []
         product_domain = []
         if products:
             product_domain.append(('id', 'in', products))

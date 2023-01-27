@@ -45,5 +45,14 @@
             <field name="binding_type">report</field>
             <field name="paperformat_id" ref="paperformat_stock_in_hand_report"/>
         </record>
+
+        <record id="action_delivery_report" model="ir.actions.report">
+            <field name="name">Deliveries</field>
+            <field name="model">delivery.report.wiz</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inventory_reports_baykee.delivery_report</field>
+            <field name="report_file">inventory_reports_baykee.delivery_report</field>
+            <field name="attachment">'Deliveries'</field>
+        </record>
     </data>
 </odoo>

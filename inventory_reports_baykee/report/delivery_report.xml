@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="inventory_reports_baykee.delivery_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="header" style="border-bottom:1px solid black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left" name="expiration_date">
+                                <img t-if="company_id.logo" t-att-src="image_data_uri(company_id.logo)"
+                                     style="height:100px;width:250px;margin-bottom:15px"/>
+                            </div>
+                            <div class="col-7" name="signature">
+                                <p style="font-size:20px;font-weight:bold;color:#000000;font-family: 'Segoe UI', Arial, sans-serif;text-align:right;width:100%;margin:auto;padding:45px"
+                                   t-esc="company_id.partner_id.name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h3>Deliveries</h3>
+                                <br/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="text-right"
+                                      style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                    Period:
+                                    <t t-esc="o.start_date"
+                                       t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                    To:
+                                    <t t-esc="o.end_date"
+                                       t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                </span>
+                            </div>
+                        </div>
+                        <br/>
+                        <table class="table table-bordered mb64" style="width:100%;">
+                            <tr style="background-color:#f48531;color:white;">
+                                <th style="text-align:right; width:3%; ">Sr#</th>
+                                <th style="text-align:left; width:10%;">Reference</th>
+                                <th style="text-align:left; width:10%; ">Source Location</th>
+                                <th style="text-align:left; width:10%; ">Contact</th>
+                                <th style="text-align:left; width:10%; ">Scheduled Date</th>
+                                <th style="text-align:left; width:10%; ">Deadline Date</th>
+                                <th style="text-align:left; width:10%; ">Transfer Date</th>
+                                <th style="text-align:left; width:10%; ">Source Document</th>
+                                <th style="text-align:left; width:5%; ">Status</th>
+                            </tr>
+                            <t t-set="i" t-value="1"/>
+                            <t t-foreach="dat" t-as="data_line">
+                                <t t-foreach="data_line[0]" t-as="m">
+                                    <tr style="font-size:12px;">
+                                        <td style="text-align:right">
+                                            <span t-esc="i"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['ref']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['source_loc']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['customer']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <span t-esc="m['date']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <t t-esc="m['dead_date']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <t t-esc="m['transfer_date']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <t t-esc="m['source_doc']"/>
+                                        </td>
+                                        <td style="text-align:left">
+                                            <t t-esc="{'done': 'Done'}[m['status']]"/>
+                                        </td>
+                                        <t t-set="i" t-value="i+1"/>
+                                    </tr>
+                                </t>
+                            </t>
+                        </table>
+
+                    </div>
+                    <div class="footer" style="border-top:1px dashed black;font-size:11px;">
+                        <div class="row">
+                            <div class="col-5 text-left">
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y %H:%M:%S')"/>
+                            </div>
+                            <div class="col-7 text-right">
+                                <span>Page</span>
+                                <span class="page"/>/
+                                <span class="topage"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
