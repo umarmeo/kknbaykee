@@ -26,6 +26,8 @@ class ProductMoveReportTemplate(models.AbstractModel):
             ho_warehouse_fwh_qty = 0
             fwh_warehouse_who_qty = 0
             fwh_warehouse_fwh_qty = 0
+            virtual_open_qty = 0
+            virtual_open_qty1 = 0
             purchase_open_qty = 0
             purchase_return_open_qty = 0
             sale_open_qty = 0
@@ -51,7 +53,21 @@ class ProductMoveReportTemplate(models.AbstractModel):
                  ('location_id.usage', '=', 'customer'), ('location_dest_id.usage', '=', 'internal')])
             for open_sal_rt in sale_return_stock_open:
                 sale_return_open_qty += open_sal_rt.qty_done
-            open_stock_quantity = purchase_open_qty - purchase_return_open_qty - sale_open_qty + sale_return_open_qty
+            virtual_stock_open = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'),
+                 ('location_dest_id.usage', '=', 'inventory')])
+            for open_virtual in virtual_stock_open:
+                virtual_open_qty += open_virtual.qty_done
+            print(virtual_open_qty)
+            virtual_stock_open1 = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'inventory'),
+                 ('location_dest_id.usage', '=', 'internal')])
+            for open_virtual1 in virtual_stock_open1:
+                virtual_open_qty1 += open_virtual1.qty_done
+            print(virtual_open_qty1)
+            open_stock_quantity = virtual_open_qty1 - virtual_open_qty + purchase_open_qty - purchase_return_open_qty - sale_open_qty + sale_return_open_qty
             open_stock_price = product.standard_price
             open_stock_total = open_stock_quantity * open_stock_price
             purchase_stock = self.env['stock.move.line'].search(
