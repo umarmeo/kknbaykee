@@ -13,10 +13,6 @@
                         <group>
                             <field name="product_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
                                    widget="many2many_tags"/>
-                            <field name="analytic_account_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                                   widget="many2many_tags"/>
-                            <field name="analytic_tag_id" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
-                                   widget="many2many_tags"/>
                         </group>
                     </group>
                     <footer>

@@ -8,5 +8,3 @@ class ProductMoveReportWizard(models.TransientModel):
     start_date = fields.Date(string='Start Date', default=fields.Date.context_today)
     end_date = fields.Date(string='End Date', default=fields.Date.context_today)
     product_id = fields.Many2many('product.product', string='Product')
-    analytic_account_id = fields.Many2many('account.analytic.account', string='Analytic Account')
-    analytic_tag_id = fields.Many2many('account.analytic.tag', string='Analytic Tag')

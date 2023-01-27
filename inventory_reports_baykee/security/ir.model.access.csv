@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_stock_in_hand_wizard,stock.in.hand.wizard,model_stock_in_hand_wizard,base.group_user,1,1,1,1
 access_pending_delivery_wiz,pending.delivery.wiz,model_pending_delivery_wiz,base.group_user,1,1,1,1
 access_product_move_wiz,product.move.wiz,model_product_move_wiz,base.group_user,1,1,1,1
+access_delivery_report_wiz,delivery.report.wiz,model_delivery_report_wiz,base.group_user,1,1,1,1
