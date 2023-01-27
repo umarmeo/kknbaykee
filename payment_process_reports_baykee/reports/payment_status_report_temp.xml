@@ -16,7 +16,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                    <div class="article" style="font-size:11px;" t-att-data-oe-model="o and o._name"
+                         t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                         <div class="row">
                             <div class="col-12 text-center">
                                 <h3>Payment Status Report</h3>
@@ -24,9 +25,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6">
-                            </div>
-                            <div class="col-6 text-right" style="align:right;">
+                            <div class="col-6 text-left" style="align:right;">
                                 <span class="text-right"
                                       style="align:right; font-size:14px; font-family:Tahoma; color:black;">
                                     Division:
@@ -35,12 +34,10 @@
                                             <span t-esc="', '.join(div.name.split(','))"/>
                                         </t>
                                     </t>
-                                    <span t-if="o.division_id">All</span>
+                                    <span t-if="not o.division_id">All</span>
                                 </span>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 text-left">
+                            <div class="col-6 text-right">
                                 <span class="text-left"
                                       style="align:left; font-size:14px; font-family:Tahoma; color:black;">
                                     Analytic Account:
@@ -52,7 +49,9 @@
                                     <span t-if="not o.analytic_account_id">All</span>
                                 </span>
                             </div>
-                            <div class="col-6 text-right">
+                        </div>
+                        <div class="row">
+                            <div class="col-6 text-left">
                                 <span class="text-right"
                                       style="align:right; font-size:14px; font-family:Tahoma; color:black;">
                                     Mode of Payment:
@@ -64,9 +63,7 @@
                                     <span t-if="not o.payment_mode">All</span>
                                 </span>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 text-left">
+                            <div class="col-6 text-right">
                                 <span class="text-left"
                                       style="align:left; font-size:14px; font-family:Tahoma; color:black;">
                                     Status:
@@ -75,8 +72,6 @@
                                     <span t-if="not o.state">All</span>
                                 </span>
                             </div>
-                            <div class="col-6 text-right">
-                            </div>
                         </div>
                         <br/>
                         <t t-foreach="dat" t-as="data_line">
@@ -84,11 +79,11 @@
                                    t-if="data_line[0]">
                                 <tr style="background-color:#f48531;color:white;">
                                     <th style="text-align:center; width:3%; height: 3px">Sr#</th>
-                                    <th style="text-align:center; width:20%; height:2%">Payment Requisition No.</th>
+                                    <th style="text-align:center; width:10%; height:2%">Payment Requisition No.</th>
                                     <th style="text-align:center; width:7%; height:2%">Term</th>
-                                    <th style="text-align:center; width:20%; height:2%">Description</th>
-                                    <th style="text-align:center; width:20%; height:2%">Payment Status</th>
-                                    <th style="text-align:center; width:20%; height:2%">Amount</th>
+                                    <th style="text-align:center; width:30%; height:2%">Description</th>
+                                    <th style="text-align:center; width:10%; height:2%">Payment Status</th>
+                                    <th style="text-align:center; width:10%; height:2%">Amount</th>
                                 </tr>
                                 <t t-set="i" t-value="1"/>
                                 <t t-foreach="data_line[0]" t-as="m">
@@ -99,14 +94,16 @@
                                         <td style="text-align:left">
                                             <span t-if="m['ref']" t-esc="m['ref']"/>
                                         </td>
-                                        <td style="text-align:right">
-                                            <span t-if="m['term']" t-esc="{'advance': 'Advance', 'reimbursement': 'Reimbursement'}[m['term']]"/>
+                                        <td style="text-align:center">
+                                            <span t-if="m['term']"
+                                                  t-esc="{'advance': 'Advance', 'reimbursement': 'Reimbursement'}[m['term']]"/>
                                         </td>
-                                        <td style="text-align:right">
+                                        <td style="text-align:left">
                                             <span t-if="m['desc']" t-esc="m['desc']"/>
                                         </td>
-                                        <td style="text-align:right">
-                                            <span t-if="m['status']" t-esc="{'partial': 'Partial Payment', 'full': 'Full Payment'}[m['status']]"/>
+                                        <td style="text-align:center">
+                                            <span t-if="m['status']"
+                                                  t-esc="{'partial': 'Partial Payment', 'full': 'Full Payment'}[m['status']]"/>
                                         </td>
                                         <td style="text-align:right">
                                             <span t-if="m['amount']" t-esc="'{:,.0f}'.format(m['amount'])"/>
@@ -115,19 +112,13 @@
                                     </tr>
                                 </t>
                                 <tr style="background-color:#f48531;color:white;">
-                                    <td class="text-right" colspan="2">
+                                    <td class="text-right" colspan="5">
                                         <b>Total</b>
                                     </td>
                                     <t t-set="total_amount" t-value="0"/>
                                     <t t-foreach="data_line[0]" t-as="s">
                                         <t t-set="total_amount" t-value="total_amount+s['amount']"/>
                                     </t>
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right">
-                                    </td>
-                                    <td class="text-right">
-                                    </td>
                                     <td class="text-right">
                                         <strong>
                                             <span t-esc="'{:,.0f}'.format(total_amount)"/>
