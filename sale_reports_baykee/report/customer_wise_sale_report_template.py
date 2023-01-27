@@ -28,7 +28,7 @@ class CustomerWiseSaleReportTemplate(models.AbstractModel):
         for cus in customer_search:
             temp = []
             domain = [('order_id.date_order', '>=', start_date), ('order_id.date_order', '<=', end_date),
-                      ('order_partner_id', '=', cus.id)]
+                      ('order_partner_id', '=', cus.id), ('order_id.state', '=', 'sale')]
             if product_id:
                 domain.append(('product_id', 'in', product_id))
             if analytic_account:
@@ -42,7 +42,7 @@ class CustomerWiseSaleReportTemplate(models.AbstractModel):
                 invoice = self.env['account.move'].search([('invoice_origin', '=', line.order_id.name), ('ref', 'not ilike', 'Reversal of'), ('state', '=', 'posted')])
                 vals = {
                     'so': line.order_id.name,
-                    'product': line.product_id.name + ' ' + result,
+                    'product': str(line.product_id.name) + ' ' + result,
                     'quantity': line.product_uom_qty,
                     'unit_price': line.price_unit,
                     'total_price': line.price_subtotal,
