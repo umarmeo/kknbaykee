@@ -28,6 +28,10 @@ class AgePayableTemplate(models.AbstractModel):
                                    ('move_id.state', '=', 'posted'),
                                    ('move_id.move_type', '=', 'entry'),
                                    ('account_id', '=', partner.property_account_payable_id.id)]
+            if analytic_accounts:
+                account_line_domain.append(('analytic_account_id', 'in', analytic_accounts))
+            if analytic_tags:
+                account_line_domain.append(('analytic_tag_ids', 'in', analytic_tags))
             move_line = self.env['account.move.line'].search(account_line_domain)
             for move in move_line:
                 as_of = 0
@@ -54,12 +58,12 @@ class AgePayableTemplate(models.AbstractModel):
                     'name': move.move_name,
                     'due_date': move.date,
                     'account': partner.property_account_payable_id.name,
-                    'as_data': as_of,
-                    '1-30': a,
-                    '31-60': b,
-                    '61-90': c,
-                    '91-120': d,
-                    'older': e,
+                    'as_data': -as_of,
+                    '1-30': -a,
+                    '31-60': -b,
+                    '61-90': -c,
+                    '91-120': -d,
+                    'older': -e,
                     'total': False,
                 }
                 temp3.append(vals)
@@ -114,11 +118,10 @@ class AgePayableTemplate(models.AbstractModel):
                       ('move_type', 'in', ['in_invoice', 'in_refund', 'in_receipt', 'entry']),
                       ('partner_id.property_account_payable_id', '=', partner.property_account_payable_id.id)]
             if analytic_accounts:
-                domain.append(('analytic_account_id', '=', analytic_accounts))
+                domain.append(('invoice_line_ids.analytic_account_id', 'in', analytic_accounts))
             if analytic_tags:
-                domain.append(('analytic_tag_ids', '=', analytic_tags))
+                domain.append(('invoice_line_ids.analytic_tag_ids', 'in', analytic_tags))
             data_complete = self.env['account.move'].search(domain)
-            print(data_complete)
             for line in data_complete:
                 as_of = 0
                 a = 0
