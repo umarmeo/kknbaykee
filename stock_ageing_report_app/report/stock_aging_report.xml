@@ -21,8 +21,8 @@
         <field name="name">Stock Aging Report</field>
         <field name="model">product.product</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">accounting_reports_baykee.cash_bank_summary_temp</field>
-        <field name="report_file">accounting_reports_baykee.cash_bank_summary_temp</field>
+        <field name="report_name">stock_ageing_report_app.report_stockaginginfo</field>
+        <field name="report_file">stock_ageing_report_app.report_stockaginginfo</field>
         <field name="paperformat_id" ref="paperformat_stock_aging_report"/>
     </record>
 
