@@ -84,7 +84,8 @@ class CashAndBankSummaryTemplate(models.AbstractModel):
                     'payment': credit,
                     'close_bal': close_bal,
                 })
-
+        for item in main:
+            print(list(item.values()))
         report = self.env['ir.actions.report']._get_report_from_name(
             'accounting_reports_baykee.cash_bank_summary_temp')
         docargs = {
