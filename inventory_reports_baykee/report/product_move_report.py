@@ -22,10 +22,14 @@ class ProductMoveReportTemplate(models.AbstractModel):
             purchase_return_qty = 0
             sale_quantity = 0
             sale_return_qty = 0
+            virtual_stock_qty = 0
+            virtual_stock_return_qty = 0
             ho_warehouse_who_qty = 0
             ho_warehouse_fwh_qty = 0
             fwh_warehouse_who_qty = 0
             fwh_warehouse_fwh_qty = 0
+            virtual_open_qty = 0
+            virtual_open_qty1 = 0
             purchase_open_qty = 0
             purchase_return_open_qty = 0
             sale_open_qty = 0
@@ -51,7 +55,19 @@ class ProductMoveReportTemplate(models.AbstractModel):
                  ('location_id.usage', '=', 'customer'), ('location_dest_id.usage', '=', 'internal')])
             for open_sal_rt in sale_return_stock_open:
                 sale_return_open_qty += open_sal_rt.qty_done
-            open_stock_quantity = purchase_open_qty - purchase_return_open_qty - sale_open_qty + sale_return_open_qty
+            virtual_stock_open = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'),
+                 ('location_dest_id.usage', '=', 'inventory')])
+            for open_virtual in virtual_stock_open:
+                virtual_open_qty += open_virtual.qty_done
+            virtual_stock_open1 = self.env['stock.move.line'].search(
+                [('date', '<', docs.start_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'inventory'),
+                 ('location_dest_id.usage', '=', 'internal')])
+            for open_virtual1 in virtual_stock_open1:
+                virtual_open_qty1 += open_virtual1.qty_done
+            open_stock_quantity = virtual_open_qty1 - virtual_open_qty + purchase_open_qty - purchase_return_open_qty - sale_open_qty + sale_return_open_qty
             open_stock_price = product.standard_price
             open_stock_total = open_stock_quantity * open_stock_price
             purchase_stock = self.env['stock.move.line'].search(
@@ -82,6 +98,18 @@ class ProductMoveReportTemplate(models.AbstractModel):
                 sale_return_qty += sale_return.qty_done
             sale_return_price = product.lst_price
             sale_return_total = sale_quantity * sale_price
+            virtual_stock = self.env['stock.move.line'].search(
+                [('date', '>=', docs.start_date), ('date', '<=', docs.end_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'internal'),
+                 ('location_dest_id.usage', '=', 'inventory')])
+            for virtual in virtual_stock:
+                virtual_stock_qty += virtual.qty_done
+            virtual_stock_return = self.env['stock.move.line'].search(
+                [('date', '>=', docs.start_date), ('date', '<=', docs.end_date), ('product_id', '=', product.id),
+                 ('location_id.usage', '=', 'inventory'),
+                 ('location_dest_id.usage', '=', 'internal')])
+            for virtual_return in virtual_stock_return:
+                virtual_stock_return_qty += virtual_return.qty_done
             ho_warehouse = self.env['stock.move'].search(
                 [('product_id', '=', product.id), ('location_id.location_id.name', 'ilike', 'FWH'),
                  ('location_dest_id.location_id.name', 'ilike', 'WHO')])
@@ -96,7 +124,7 @@ class ProductMoveReportTemplate(models.AbstractModel):
                 fwh_warehouse_fwh_qty += fwh.product_uom_qty
             final_who_qty = ho_warehouse_who_qty - fwh_warehouse_who_qty
             final_fwh_qty = - ho_warehouse_fwh_qty + fwh_warehouse_fwh_qty
-            closing_stock_quantity = open_stock_quantity + purchase_quantity - purchase_return_qty - sale_quantity + sale_return_qty
+            closing_stock_quantity = open_stock_quantity + purchase_quantity - purchase_return_qty - sale_quantity + sale_return_qty - virtual_stock_qty + virtual_stock_return_qty
             closing_stock_price = product.standard_price
             closing_stock_total = closing_stock_quantity * closing_stock_price
             product_variant = [var.name for var in product.product_template_variant_value_ids]

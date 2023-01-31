@@ -3,3 +3,5 @@ access_stock_in_hand_wizard,stock.in.hand.wizard,model_stock_in_hand_wizard,base
 access_pending_delivery_wiz,pending.delivery.wiz,model_pending_delivery_wiz,base.group_user,1,1,1,1
 access_product_move_wiz,product.move.wiz,model_product_move_wiz,base.group_user,1,1,1,1
 access_delivery_report_wiz,delivery.report.wiz,model_delivery_report_wiz,base.group_user,1,1,1,1
+access_dead_stock_wiz,dead.stock.wiz,model_dead_stock_wiz,base.group_user,1,1,1,1
+access_stock_aging_report_wizard,stock.aging.report.wizard,model_stock_aging_report_wizard,base.group_user,1,1,1,1

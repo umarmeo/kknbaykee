@@ -54,5 +54,38 @@
             <field name="report_file">inventory_reports_baykee.delivery_report</field>
             <field name="attachment">'Deliveries'</field>
         </record>
+
+        <record id="action_dead_stock_report" model="ir.actions.report">
+            <field name="name">Dead Stock</field>
+            <field name="model">dead.stock.wiz</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inventory_reports_baykee.dead_stock_report</field>
+            <field name="report_file">inventory_reports_baykee.dead_stock_report</field>
+            <field name="attachment">'Dead Stocks'</field>
+        </record>
+        <!-- Stock Aging Report PaperFormat -->
+        <record id="paperformat_stock_aging_report" model="report.paperformat">
+            <field name="name">Stock Aging Report</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">15</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">25</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Stock Aging Report -->
+        <record id="action_report_stock_aging" model="ir.actions.report">
+            <field name="name">Stock Aging Report</field>
+            <field name="model">product.product</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inventory_reports_baykee.report_stockaginginfo</field>
+            <field name="report_file">inventory_reports_baykee.report_stockaginginfo</field>
+            <field name="paperformat_id" ref="paperformat_stock_aging_report"/>
+        </record>
     </data>
 </odoo>

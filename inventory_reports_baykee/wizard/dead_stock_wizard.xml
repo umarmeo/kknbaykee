@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_dead_stock_report_view_form">
+        <field name="name">dead.stock.wiz.form</field>
+        <field name="model">dead.stock.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Dead Stock Report">
+                <group colspan="4" col="4">
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <group>
+                 <field name="location_id" domain="[('usage','=','internal')]" widget="many2many_tags"/>
+                 </group>
+               
+              <footer>
+                    <button name="%(inventory_reports_baykee.action_dead_stock_report)d" type="action" string="Print" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_dead_stock_reporting" model="ir.actions.act_window">
+        <field name="name">Dead Stock Report</field>
+        <field name="res_model">dead.stock.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_dead_stock_report" name="Dead Stocks" action="action_dead_stock_reporting"
+              parent="stock.menu_warehouse_report"/>
+</odoo>
