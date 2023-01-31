@@ -53,11 +53,11 @@
                        position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
                     <attribute name="readonly">1</attribute>
-                     <attribute name="force_save">1</attribute>
+                    <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='order_line']/tree[1]/field[@name='analytic_tag_ids']" position="attributes">
                     <attribute name="options">{'no_create': True, 'no_edit': True, 'no_open': True}</attribute>
-                        <attribute name="readonly">1</attribute>
+                    <attribute name="readonly">1</attribute>
                     <attribute name="force_save">1</attribute>
                 </xpath>
                 <xpath expr="//field[@name='partner_ref']" position="after">
@@ -70,14 +70,14 @@
                     <field name="analytic_tag_ids" options="{'no_create': True, 'no_edit': True, 'no_open': True}"
                            readonly="1" force_save="1"/>
                 </xpath>
-                <!--                <xpath expr="//form[1]/header[1]/button[@name='button_cancel']" position="attributes">-->
-                <!--                    <attribute name="groups">update_purchase_module_baykee.purchase_order_baykee_cancel_button-->
-                <!--                    </attribute>-->
-                <!--                </xpath>-->
-                <!--                <xpath expr="//form[1]/header[1]/button[@name='button_confirm']" position="attributes">-->
-                <!--                    <attribute name="groups">update_purchase_module_baykee.purchase_order_baykee_confirm-->
-                <!--                    </attribute>-->
-                <!--                </xpath>-->
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='price_unit']" position="attributes">
+                    <attribute name="string">Unit Price(PKR)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree[1]/field[@name='price_unit']" position="before">
+                    <field name="dollar_rate"/>
+                    <field name="dollar_unit_price"/>
+                </xpath>
+
             </field>
         </record>
     </data>
