@@ -25,6 +25,13 @@ class update_purchase_order_line(models.Model):
     _inherit = 'purchase.order.line'
 
     analytic_tag_ids = fields.Many2one('account.analytic.tag', string='Analytic Tags', store=True)
+    dollar_rate = fields.Float(string='Dollar Rate')
+    dollar_unit_price = fields.Float(string='Unit Price(Dollar)')
+
+    @api.onchange('dollar_rate', 'dollar_unit_price')
+    def onchange_dollar_rate(self):
+        for rec in self:
+            rec.price_unit = rec.dollar_rate * rec.dollar_unit_price
 
     @api.onchange('account_analytic_id', 'analytic_tag_ids', 'order_id')
     def _onchange_purchase_order_line(self):
