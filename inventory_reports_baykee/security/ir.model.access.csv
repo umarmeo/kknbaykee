@@ -5,3 +5,4 @@ access_product_move_wiz,product.move.wiz,model_product_move_wiz,base.group_user,
 access_delivery_report_wiz,delivery.report.wiz,model_delivery_report_wiz,base.group_user,1,1,1,1
 access_dead_stock_wiz,dead.stock.wiz,model_dead_stock_wiz,base.group_user,1,1,1,1
 access_stock_aging_report_wizard,stock.aging.report.wizard,model_stock_aging_report_wizard,base.group_user,1,1,1,1
+access_slow_move_wiz,slow.move.wiz,model_slow_move_wiz,base.group_user,1,1,1,1

@@ -6,5 +6,6 @@ from . import product_move_report_wiz
 from . import delivery_report_wiz
 from . import dead_stock_wizard
 from . import stock_aging_report
+from . import slow_moving_wizard
 
 

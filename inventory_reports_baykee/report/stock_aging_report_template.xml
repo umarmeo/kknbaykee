@@ -176,75 +176,75 @@
                                         <t t-set="total_cost" t-value="sub_total * record.get('cost_price')"/>
                                         
                                         <td style="color:#006600;padding-left:5px;padding-right:5px;border: 1px solid black;text-align:right;">
-                                            <span t-esc="'%.2f'% sub_total or 0.00"/>
+                                            <span t-esc="'%.0f'% sub_total or 0"/>
                                         </td>
                                         <td style="padding-left:5px;padding-right:5px;border: 1px solid black;text-align:right;">
-                                            <span t-esc="'%.2f'% total_cost or 0.00"/>
+                                            <span t-esc="'%.0f'% total_cost or 0"/>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_1_data"/>
+                                                <t t-esc="'%.0f'% col_1_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_1_data_value" t-value="col_1_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_1_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_1_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_2_data"/>
+                                                <t t-esc="'%.0f'% col_2_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_2_data_value" t-value="col_2_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_2_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_2_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_3_data"/>
+                                                <t t-esc="'%.0f'% col_3_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_3_data_value" t-value="col_3_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_3_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_3_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_4_data"/>
+                                                <t t-esc="'%.0f'% col_4_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_4_data_value" t-value="col_4_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_4_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_4_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_5_data"/>
+                                                <t t-esc="'%.0f'% col_5_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_5_data_value" t-value="col_5_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_5_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_5_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_6_data"/>
+                                                <t t-esc="'%.0f'% col_6_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_6_data_value" t-value="col_6_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_6_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_6_data_value or 0"/>
                                             </center>
                                         </td>
                                     </tr>
@@ -433,75 +433,75 @@
                                         <t t-set="total_cost" t-value="sub_total * record.get('cost_price')"/>
                                         
                                         <td style="color:#006600;padding-left:5px;padding-right:5px;border: 1px solid black;text-align:right;">
-                                            <span t-esc="'%.2f'% sub_total or 0.00"/>
+                                            <span t-esc="'%.0f'% sub_total or 0"/>
                                         </td>
                                         <td style="padding-left:5px;padding-right:5px;border: 1px solid black;text-align:right;">
-                                            <span t-esc="'%.2f'% total_cost or 0.00"/>
+                                            <span t-esc="'%.0f'% total_cost or 0"/>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_1_data"/>
+                                                <t t-esc="'%.0f'% col_1_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_1_data_value" t-value="col_1_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_1_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_1_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_2_data"/>
+                                                <t t-esc="'%.0f'% col_2_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_2_data_value" t-value="col_2_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_2_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_2_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_3_data"/>
+                                                <t t-esc="'%.0f'% col_3_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_3_data_value" t-value="col_3_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_3_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_3_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_4_data"/>
+                                                <t t-esc="'%.0f'% col_4_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_4_data_value" t-value="col_4_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_4_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_4_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_5_data"/>
+                                                <t t-esc="'%.0f'% col_5_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_5_data_value" t-value="col_5_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_5_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_5_data_value or 0"/>
                                             </center>
                                         </td>
                                         <td style="color:#006600;padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
-                                                <t t-esc="col_6_data"/>
+                                                <t t-esc="'%.0f'% col_6_data"/>
                                             </center>
                                         </td>
                                         <td style="padding-left:5px;border: 1px solid black;font-weight:bold;">
                                             <center>
                                                 <t t-set="col_6_data_value" t-value="col_6_data * record.get('cost_price')"/>
-                                                <span t-esc="'%.2f'% col_6_data_value or 0.00"/>
+                                                <span t-esc="'%.0f'% col_6_data_value or 0"/>
                                             </center>
                                         </td>
                                     </tr>

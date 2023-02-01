@@ -87,5 +87,14 @@
             <field name="report_file">inventory_reports_baykee.report_stockaginginfo</field>
             <field name="paperformat_id" ref="paperformat_stock_aging_report"/>
         </record>
+
+        <record id="action_slow_move_report" model="ir.actions.report">
+            <field name="name">Slow Moving Stock</field>
+            <field name="model">slow.move.wiz</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">inventory_reports_baykee.slow_move_report</field>
+            <field name="report_file">inventory_reports_baykee.slow_move_report</field>
+            <field name="attachment">'Slow Moving Stocks'</field>
+        </record>
     </data>
 </odoo>
