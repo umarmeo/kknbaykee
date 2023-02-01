@@ -6,5 +6,6 @@ from . import product_move_report
 from . import delivery_report
 from . import dead_stock_report
 from . import stock_aging_report
+from . import slow_move_report
 
 
