@@ -28,29 +28,8 @@
                         </div>
                         <t t-foreach="dat" t-as="data_line">
                             <div style="page-break-after: always;" t-if="data_line[1]">
-                                <div class="row" t-if="data_line[1]">
+                                <div class="row" t-if="data_line[0]">
                                     <div class="col-6">
-                                        <span class="text-left"
-                                              style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            USD Rate:
-                                            <t t-esc="data_line[0]"/>
-                                        </span>
-                                        <p class="text-left"
-                                           style="align:left; font-size:14px; font-family:Tahoma; color:black;">
-                                            Markup:
-                                            <t t-esc="m"/>
-                                        </p>
-                                    </div>
-                                    <div class="col-6 text-right" style="align:right;">
-                                        <span class="text-right"
-                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
-                                            Period:
-                                            <t t-esc="data_line[2]"
-                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                            To:
-                                            <t t-esc="data_line[3]"
-                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
-                                        </span>
                                         <t>
                                             <strong>Products :</strong>
                                             <t t-if="products">
@@ -62,14 +41,31 @@
                                                 <span t-esc="products_all"/>
                                             </t>
                                         </t>
+                                        <p class="text-left"
+                                           style="align:left; font-size:14px; font-family:Tahoma; color:black;">
+                                            Markup:
+                                            <t t-esc="m"/>
+                                        </p>
+                                    </div>
+                                    <div class="col-6 text-right" style="align:right;">
+                                        <span class="text-right"
+                                              style="align:right; font-size:14px; font-family:Tahoma; color:black;">
+                                            Period:
+                                            <t t-esc="data_line[1]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                            To:
+                                            <t t-esc="data_line[2]"
+                                               t-options='{"widget": "date", "format": "dd-MMM-Y"}'/>
+                                        </span>
                                     </div>
                                 </div>
                                 <br/>
                                 <table class="table table-bordered mb64" style="width:100%;margin-top:7%;"
-                                       t-if="data_line[1]">
+                                       t-if="data_line[0]">
                                     <tr style="background-color:#f48531;color:white;">
                                         <th style="text-align:center; width:5%;">Sr#</th>
-                                        <th style="text-align:center; width:10%;">Product</th>
+                                        <th style="text-align:center; width:20%;">Product</th>
+                                        <th style="text-align:center; width:15%">Dollar Rate</th>
                                         <th style="text-align:center; width:15%;">Landed Cost in PKR</th>
                                         <th style="text-align:center; width:15%;">Landed Cost in USD</th>
                                         <th style="text-align:center; width:15%;" t-esc="markup"/>
@@ -79,28 +75,32 @@
                                         </th>
                                     </tr>
                                     <t t-set="i" t-value="1"/>
-                                    <t t-foreach="data_line[1]" t-as="m">
+                                    <t t-foreach="data_line[0]" t-as="m">
                                         <tr style="font-size:12px;">
                                             <td style="text-align:center">
                                                 <span t-esc="i"/>
                                             </td>
                                             <td style="text-align:left">
-                                                <span t-esc="m['product']"/>
+                                                <span t-if="m['product']" t-esc="m['product']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="round(m['unit_price'])"/>
+                                                <span t-if="m['dollar_rate']" t-esc="round(m['dollar_rate'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="round(m['landed_cost_in_usd'])"/>
+                                                <span t-if="m['unit_price']" t-esc="round(m['unit_price'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="round(m['after_markup'])"/>
+                                                <span t-if="m['landed_cost_in_usd']"
+                                                      t-esc="round(m['landed_cost_in_usd'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="round(m['new_price'])"/>
+                                                <span t-if="m['after_markup']" t-esc="round(m['after_markup'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-esc="round(m['difference'])"/>
+                                                <span t-if="m['new_price']" t-esc="round(m['new_price'])"/>
+                                            </td>
+                                            <td style="text-align:right">
+                                                <span t-if="m['difference']" t-esc="round(m['difference'])"/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
@@ -116,7 +116,7 @@
                                         <t t-set="after_markup" t-value="0"/>
                                         <t t-set="new_price" t-value="0"/>
                                         <t t-set="difference" t-value="0"/>
-                                        <t t-foreach="data_line[1]" t-as="s">
+                                        <t t-foreach="data_line[0]" t-as="s">
                                             <t t-set="unit_price" t-value="unit_price+round(s['unit_price'])"/>
                                             <t t-set="landed_cost_in_usd"
                                                t-value="landed_cost_in_usd+round(s['landed_cost_in_usd'])"/>
@@ -124,6 +124,9 @@
                                             <t t-set="new_price" t-value="new_price+round(s['new_price'])"/>
                                             <t t-set="difference" t-value="difference+round(s['difference'])"/>
                                         </t>
+                                        <td>
+
+                                        </td>
                                         <td class="text-right">
                                             <strong>
                                                 <span t-esc="'{:,.0f}'.format(unit_price)"/>

@@ -17,7 +17,6 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
         start_date = docs.start_date
         end_date = docs.end_date
         markup = docs.markup
-        usd_rate = docs.usd_rate
         product_id = docs.product_id.ids
         temp = []
         product_domain = []
@@ -28,15 +27,21 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
             domain = [('order_id.date_order', '>=', start_date), ('order_id.date_order', '<=', end_date),
                       ('product_id', '=', product.id)]
             purchase_order_line = self.env['purchase.order.line'].search(domain, limit=1, order='create_date desc')
+            after_markup = 0
+            new_price = 0
+            difference = 0
             for line in purchase_order_line:
-                landed_cost_in_usd = int(line.price_unit) / usd_rate
-                after_markup = landed_cost_in_usd + ((landed_cost_in_usd * markup) / 100)
-                new_price = after_markup * usd_rate
-                difference = new_price - line.price_unit
+                product_variant = [var.name for var in line.product_id.product_template_variant_value_ids]
+                result = ', '.join(product_variant)
+                if line.dollar_unit_price:
+                    after_markup = line.dollar_unit_price + ((line.dollar_unit_price * markup) / 100)
+                    new_price = after_markup * line.dollar_rate
+                    difference = new_price - line.price_unit
                 vals = {
-                    'product': line.product_id.name,
+                    'product': line.product_id.name + ' ' + result,
+                    'dollar_rate': line.dollar_rate,
                     'unit_price': line.price_unit,
-                    'landed_cost_in_usd': landed_cost_in_usd,
+                    'landed_cost_in_usd': line.dollar_unit_price,
                     'after_markup': after_markup,
                     'new_price': new_price,
                     'difference': difference,
@@ -44,7 +49,7 @@ class SellingPriceVariationReportTemplate(models.AbstractModel):
                 temp.append(vals)
         temp2 = temp
         data_temp.append(
-            [usd_rate, temp2, start_date, end_date])
+            [temp2, start_date, end_date])
         return {
             'doc_ids': self.ids,
             'doc_model': 'purchase.order.line',
