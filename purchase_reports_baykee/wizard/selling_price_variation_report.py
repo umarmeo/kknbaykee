@@ -44,7 +44,6 @@ class SellingPriceVariationReport(models.TransientModel):
         return last
 
     end_date = fields.Date(string="End Date", default=_default_end_date)
-    usd_rate = fields.Integer(string="USD Rate", required=True)
     markup = fields.Integer(string="Markup", required=True)
     product_id = fields.Many2many('product.product', string="Product")
 
