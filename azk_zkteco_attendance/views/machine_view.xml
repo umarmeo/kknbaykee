@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_yzk_machine_form" model="ir.ui.view">
+        <field name="name">azk.machine.form</field>
+        <field name="model">azk.machine</field>
+        <field name="arch" type="xml">
+            <form string="Biometric Device">
+                <header>
+                    <button name="clear_attendance" type="object" string="Clear Device Data" class="oe_highlight" icon="fa-remove " confirm="Are you sure you want to clean the device? Make sure all data is downloaded to Odoo first"/>
+                    <button name="download_attendance" type="object" string="Download attendance" class="oe_highlight" icon="fa-download " />
+                    <button name="test_connection" type="object" string="Test connection" class="oe_highlight" icon="fa-check " />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Machine Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="machine_ip" help="IP of the device to connect to. Make sure it is accessible by Odoo. If device on premises and Odoo on cloud then install a tunnel like ngrok or expose the IP of the machine"/>
+                            <field name="port_num"/>
+                             <field name="password" password="True"/>
+                            <field name="auto_create_employee"/>
+                            <field name="timeout"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="address_id" string="Location" help="Auto create employee on Odoo if not set or not found by name. If unchecked then make sure to create employees and fill device_id with same value of user_id on the this machine"/>
+                        </group>
+                    </group>
+                    <group>
+                     <group>
+                       <group>
+                         <field name="serial_num" readonly="1"/>
+                       </group>
+                       <group>
+			                <field name="last_run_status" readonly="1" widget="toggle_button"/>
+			                <field name="last_error_msg" readonly="1"/>
+                       </group>
+                     </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_azk_machine_tree" model="ir.ui.view">
+        <field name="name">azk.machine.tree</field>
+        <field name="model">azk.machine</field>
+        <field name="arch" type="xml">
+            <tree string="Biometric Machine">
+                <field name="name"/>
+                <field name="machine_ip"/>
+                <field name="port_num"/>
+                <field name="timeout"/>
+                <field name="serial_num" readonly="1"/>
+                <field name="last_run_status" readonly="1" widget="toggle_button"/>
+                <field name="last_error_msg" readonly="1"/>
+                <field name="address_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="azk_machine_action" model="ir.actions.act_window">
+        <field name="name">Attendances</field>
+        <field name="res_model">azk.machine</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="hr_employee_inherit_form_view" model="ir.ui.view">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="device_id"/>
+            </field>
+        </field>
+    </record>
+
+	<menuitem id="azk_machine_menu" parent="hr_attendance.menu_hr_attendance_root" sequence="50" name="Attendance Machine" />
+    <menuitem id="azk_machine_sub_menu" parent="azk_machine_menu"  name="Machine Configuration" action="azk_machine_action" sequence="1"/>
+
+	<record id="action_delete_machine_user" model="ir.actions.server">
+       <field name="name">Delete User On Machine</field>
+       <field name="model_id" ref="model_hr_employee"/>
+       <field name="binding_model_id" ref="hr.model_hr_employee"/>
+       <field name="binding_view_types">form</field>
+       <field name="state">code</field>
+       <field name="code">
+			action = records.action_delete_machine_users()
+       </field>
+   </record>
+   
+   <record id="action_create_machine_user" model="ir.actions.server">
+       <field name="name">Create User On Machine</field>
+       <field name="model_id" ref="model_hr_employee"/>
+       <field name="binding_model_id" ref="hr.model_hr_employee"/>
+       <field name="binding_view_types">list,form</field>
+       <field name="state">code</field>
+       <field name="code">
+			action = records.action_create_machine_users()
+       </field>
+   </record>
+
+</odoo>
+

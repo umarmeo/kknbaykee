@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="create_machine_user_wizard">
+        <field name="name">create_machine_user_wizard</field>
+        <field name="model">azk.machine.user.create</field>
+        <field name="arch" type="xml">
+            <form string="Create Machine Users">
+                <group>
+                     <field name="machine_id" required="1" />
+                    <field name="link_if_exists" />
+                </group>
+                <footer>
+                    <button name="create_user" string="Create" type="object" class="btn-primary" />
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+     <record model="ir.ui.view" id="delete_machine_user_wizard">
+        <field name="name">delete_machine_user_wizard</field>
+        <field name="model">azk.machine.user.delete</field>
+        <field name="arch" type="xml">
+            <form string="Delete Machine Users">
+                <group>
+                     <field name="machine_id" required="1" />
+                    
+                </group>
+                <footer>
+                    <button name="delete_user" string="Delete" type="object" class="btn-primary" />
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
