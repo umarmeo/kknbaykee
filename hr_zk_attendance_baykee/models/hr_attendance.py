@@ -207,11 +207,12 @@ class attendance_report_form(models.Model):
     def add_absent_leave(self, start_work=False):
         weekDays = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
         if start_work:
-            delete_date = [1]
+            delete_date = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+                           26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]
             for i in delete_date:
-                date_check = datetime.date.today() - datetime.timedelta(days=i)
-                date_hour_start = str(datetime.date(date_check.year, 3, 13))
-                date_hour_end = str(datetime.date(date_check.year, 11, 7))
+                date_check = date.today() - timedelta(days=i)
+                date_hour_start = str(date(date_check.year, 3, 13))
+                date_hour_end = str(date(date_check.year, 11, 7))
                 attendance = self.env['hr.attendance'].search([('current_shiftatt_date', '=', date_check)])
                 if len(attendance) > 0:
                     id = []
@@ -230,16 +231,16 @@ class attendance_report_form(models.Model):
                         else:
                             status = 'Absent'
                         start_date = date_check
-                        if employee.new_shift_type:
-                            check_in = datetime.datetime(start_date.year, start_date.month,
-                                                         start_date.day) + datetime.timedelta(
-                                hours=employee.new_shift_type.shift_start)
+                        if employee.employee_shift:
+                            check_in = datetime(start_date.year, start_date.month,
+                                                start_date.day) + timedelta(
+                                hours=employee.employee_shift.shift_start)
                             now_dubai = check_in.astimezone(pytz.timezone('Canada/Eastern'))
-                            if employee.new_shift_type.shift_type == 'Night':
-                                now_dubai += datetime.timedelta(days=1)
+                            if employee.employee_shift.shift_type == 'Night':
+                                now_dubai += timedelta(days=1)
                             atten_time1 = now_dubai.strftime("%Y-%m-%d %H:%M:%S")
                             if date_hour_start < str(atten_time1).split()[0] < date_hour_end:
-                                check_in = now_dubai - datetime.timedelta(hours=1)
+                                check_in = now_dubai - timedelta(hours=1)
                                 check_in = check_in.strftime("%Y-%m-%d %H:%M:%S")
                             else:
                                 check_in = now_dubai.strftime("%Y-%m-%d %H:%M:%S")
@@ -250,7 +251,7 @@ class attendance_report_form(models.Model):
                             'current_shiftatt_date': start_date,
                             'check_in': check_in,
                             'check_out': check_in,
-                            'new_shift': employee.new_shift_type.id if employee.new_shift_type else False,
+                            'new_shift': employee.employee_shift.id if employee.employee_shift else False,
                             'status': status,
                             'is_absent': True,
                             'out_status': status,
