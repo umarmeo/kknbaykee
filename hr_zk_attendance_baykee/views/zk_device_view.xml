@@ -15,17 +15,14 @@
                     </header>
                     <sheet>
                         <div class="oe_title">
-                            <label for="ip_select"/>
-                            <h3>
-                                <field name="ip_select"/>
-                            </h3>
-                            <label for="name" attrs="{'invisible':[('ip_select','=',False)]}"/>
                             <h1>
-                                <field name="name" placeholder="Machine IP" attrs="{'invisible':[('ip_select','=',False)]}"/>
+                                <field name="name" placeholder="Machine Name"/>
                             </h1>
                         </div>
                         <group>
                             <group>
+                                <field name="machine_ip"
+                                       help="IP of the device to connect to. Make sure it is accessible by Odoo. If device on premises and Odoo on cloud then install a tunnel like ngrok or expose the IP of the machine"/>
                                 <field name="port_no"/>
                                 <field name="zk_timeout"/>
                                 <field name="zk_after_date"/>
@@ -34,6 +31,11 @@
                             <group>
                                 <field name="company_id" groups="base.group_multi_company"/>
                                 <field name="machine_location"/>
+                            </group>
+                            <group>
+                                <field name="serial_num" readonly="1"/>
+                                <field name="last_run_status" readonly="1" widget="toggle_button"/>
+                                <field name="last_error_msg" readonly="1"/>
                             </group>
                         </group>
                     </sheet>
