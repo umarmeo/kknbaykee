@@ -22,6 +22,51 @@ class AgeReceivableTemplate(models.AbstractModel):
             part_domain += [('id', 'in', partners)]
         partner_search = self.env['res.partner'].search(part_domain)
         for partner in partner_search:
+            temp3 = []
+            account_line_domain = [('date', '<=', date),
+                                   ('partner_id', '=', partner.id),
+                                   ('move_id.state', '=', 'posted'),
+                                   ('move_id.move_type', '=', 'entry'),
+                                   ('account_id', '=', partner.property_account_receivable_id.id)]
+            if analytic_accounts:
+                account_line_domain.append(('analytic_account_id', 'in', analytic_accounts))
+            if analytic_tags:
+                account_line_domain.append(('analytic_tag_ids', 'in', analytic_tags))
+            move_line = self.env['account.move.line'].search(account_line_domain)
+            for move in move_line:
+                as_of = 0
+                a = 0
+                b = 0
+                c = 0
+                d = 0
+                e = 0
+                delta = date - move.date
+                days = delta.days
+                if date <= move.date:
+                    as_of = move.amount_currency
+                elif days <= 30:
+                    a = move.amount_currency
+                elif 31 <= days <= 60:
+                    b = move.amount_currency
+                elif 61 <= days <= 90:
+                    c = move.amount_currency
+                elif 91 <= days <= 120:
+                    d = move.amount_currency
+                elif days >= 121:
+                    e = move.amount_currency
+                vals = {
+                    'name': move.move_name,
+                    'due_date': move.date,
+                    'account': partner.property_account_receivable_id.name,
+                    'as_data': as_of,
+                    '1-30': a,
+                    '31-60': b,
+                    '61-90': c,
+                    '91-120': d,
+                    'older': e,
+                    'total': False,
+                }
+                temp3.append(vals)
             temp1 = []
             payment_domain = [('date', '<=', date),
                               ('partner_id', '=', partner.id),
@@ -40,7 +85,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                 e = 0
                 delta = date - payment.date
                 days = delta.days
-                if 0 < days < 1:
+                if date <= payment.date:
                     as_of = payment.amount
                 elif days <= 30:
                     a = payment.amount
@@ -68,14 +113,14 @@ class AgeReceivableTemplate(models.AbstractModel):
             temp = []
             domain = [('invoice_date', '<=', date),
                       ('partner_id', '=', partner.id),
-                      ('payment_state', '=', 'not_paid'),
+                      ('payment_state', 'in', ['not_paid', 'partial']),
                       ('state', '=', 'posted'),
-                      ('move_type', '=', ['out_invoice', 'out_refund', 'out_receipt', 'entry']),
+                      ('move_type', 'in', ['out_invoice', 'out_refund', 'out_receipt']),
                       ('partner_id.property_account_receivable_id', '=', partner.property_account_receivable_id.id)]
             if analytic_accounts:
-                domain.append(('analytic_account_id', '=', analytic_accounts))
+                domain.append(('invoice_line_ids.analytic_account_id', 'in', analytic_accounts))
             if analytic_tags:
-                domain.append(('analytic_tag_ids', '=', analytic_tags))
+                domain.append(('invoice_line_ids.analytic_tag_ids', 'in', analytic_tags))
             data_complete = self.env['account.move'].search(domain)
             for line in data_complete:
                 as_of = 0
@@ -86,7 +131,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                 e = 0
                 delta = date - line.invoice_date_due
                 days = delta.days
-                if 0 < days < 1:
+                if date <= line.invoice_date_due:
                     as_of = line.amount_total
                 elif days <= 30:
                     a = line.amount_total
@@ -111,7 +156,7 @@ class AgeReceivableTemplate(models.AbstractModel):
                     'total': False,
                 }
                 temp.append(vals)
-            temp2 = temp + temp1
+            temp2 = temp + temp1 + temp3
             data_temp.append(
                 [partner.name, temp2])
         return {

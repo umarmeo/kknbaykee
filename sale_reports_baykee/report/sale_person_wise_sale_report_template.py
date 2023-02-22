@@ -112,6 +112,10 @@ class SalePersonWiseSaleReportTemplate(models.AbstractModel):
                 temp = []
                 domain = [('date_order', '>=', start_date), ('date_order', '<=', end_date),
                           ('analytic_tag_ids', '=', tag.id), ('state', '=', 'sale')]
+                if sale_person:
+                    domain += [('user_id', 'in', sale_person)]
+                if analytic_account:
+                    domain += [('analytic_account_id', 'in', analytic_account)]
                 sale_order = self.env['sale.order'].search(domain).sorted(key=lambda r: r.user_id)
                 for order in sale_order:
                     invoices = self.env['account.move'].search(

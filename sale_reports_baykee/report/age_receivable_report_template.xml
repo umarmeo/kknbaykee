@@ -88,32 +88,25 @@
                                             <strong t-esc="data[0]"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="a"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(a)"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="b"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(b)"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="c"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(c)"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="d"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(d)"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="e"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(e)"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="f"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(f)"/>
                                         </td>
                                         <td class="text-right">
-                                            <strong t-esc="g"
-                                                    t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <strong t-esc="'{:,.0f}'.format(g)"/>
                                         </td>
 
                                     </tr>
@@ -128,32 +121,25 @@
                                             <span t-esc="line['account']"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['as_data']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['as_data'])"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['1-30']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['1-30'])"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['31-60']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['31-60'])"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['61-90']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['61-90'])"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['91-120']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['91-120'])"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['older']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['older'])"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="line['total']"
-                                                  t-options="{'widget': 'monetary', 'display_currency': env.company.currency_id}"/>
+                                            <span t-esc="'{:,.0f}'.format(line['total'])"/>
                                         </td>
                                     </tr>
                                 </tbody>
