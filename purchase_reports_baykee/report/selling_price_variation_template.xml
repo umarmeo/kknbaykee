@@ -84,23 +84,23 @@
                                                 <span t-if="m['product']" t-esc="m['product']"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-if="m['dollar_rate']" t-esc="round(m['dollar_rate'])"/>
+                                                <span t-if="m['dollar_rate']" t-esc="'{:,.0f}'.format(m['dollar_rate'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-if="m['unit_price']" t-esc="round(m['unit_price'])"/>
+                                                <span t-if="m['unit_price']" t-esc="'{:,.0f}'.format(m['unit_price'])"/>
                                             </td>
                                             <td style="text-align:right">
                                                 <span t-if="m['landed_cost_in_usd']"
-                                                      t-esc="round(m['landed_cost_in_usd'])"/>
+                                                      t-esc="'{:,.0f}'.format(m['landed_cost_in_usd'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-if="m['after_markup']" t-esc="round(m['after_markup'])"/>
+                                                <span t-if="m['after_markup']" t-esc="'{:,.0f}'.format(m['after_markup'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-if="m['new_price']" t-esc="round(m['new_price'])"/>
+                                                <span t-if="m['new_price']" t-esc="'{:,.0f}'.format(m['new_price'])"/>
                                             </td>
                                             <td style="text-align:right">
-                                                <span t-if="m['difference']" t-esc="round(m['difference'])"/>
+                                                <span t-if="m['difference']" t-esc="'{:,.0f}'.format(m['difference'])"/>
                                             </td>
                                             <t t-set="i" t-value="i+1"/>
                                         </tr>
