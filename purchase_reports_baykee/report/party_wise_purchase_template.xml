@@ -66,12 +66,13 @@
                                        t-if="data_line[1]">
                                     <tr style="background-color:#f48531;color:white;">
                                         <th style="text-align:center; width:3%; height: 3px">Sr#</th>
-                                        <th style="text-align:center; width:20%; height:2%" t-if="o.report_type in ['project', 'division']">Vendor</th>
-                                        <th style="text-align:center; width:20%; height:2%">Products</th>
+                                        <th style="text-align:center; width:15%; height:2%" t-if="o.report_type in ['project', 'division']">Vendor</th>
+                                        <th style="text-align:center; width:15%; height:2%">Products</th>
+                                        <th style="text-align:center; width:15%; height:2%">PO No</th>
                                         <th style="text-align:center; width:7%; height:2%">Quantity</th>
-                                        <th style="text-align:center; width:20%; height:2%">Unit Price</th>
-                                        <th style="text-align:center; width:20%; height:2%">Total Price</th>
-                                        <th style="text-align:center; width:20%; height:2%">Order Date</th>
+                                        <th style="text-align:center; width:15%; height:2%">Unit Price</th>
+                                        <th style="text-align:center; width:15%; height:2%">Total Price</th>
+                                        <th style="text-align:center; width:15%; height:2%">Order Date</th>
                                     </tr>
                                     <t t-set="i" t-value="1"/>
                                     <t t-foreach="data_line[1]" t-as="m">
@@ -84,6 +85,9 @@
                                             </td>
                                             <td style="text-align:left">
                                                 <span t-esc="m['product']"/>
+                                            </td>
+                                             <td style="text-align:left">
+                                                <span t-esc="m['po']"/>
                                             </td>
                                             <td style="text-align:right">
                                                 <span t-esc="'{:,.0f}'.format(m['quantity'])"/>
@@ -102,7 +106,7 @@
                                         </tr>
                                     </t>
                                     <tr style="background-color:#f48531;color:white;">
-                                        <td class="text-right" colspan="2">
+                                        <td class="text-right" colspan="3">
                                             <b>Total</b>
                                         </td>
                                         <t t-set="total_quantity" t-value="0"/>

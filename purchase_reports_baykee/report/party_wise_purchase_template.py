@@ -35,6 +35,7 @@ class PartyWisePurchaseReportTemplate(models.AbstractModel):
                     result = ', '.join(product_variant)
                     vals = {
                         'product': line.product_id.name + ' ' + result,
+                        'po': line.order_id.name,
                         'quantity': line.product_qty,
                         'unit_price': line.price_unit,
                         'price_total': line.price_subtotal,
@@ -61,6 +62,7 @@ class PartyWisePurchaseReportTemplate(models.AbstractModel):
                     result = ', '.join(product_variant)
                     vals = {
                         'vendor': line.order_id.partner_id.name,
+                        'po': line.order_id.name,
                         'product': line.product_id.name + ' ' + result,
                         'quantity': line.product_qty,
                         'unit_price': line.price_unit,
@@ -88,6 +90,7 @@ class PartyWisePurchaseReportTemplate(models.AbstractModel):
                     result = ', '.join(product_variant)
                     vals = {
                         'vendor': line.order_id.partner_id.name,
+                        'po': line.order_id.name,
                         'product': line.product_id.name + ' ' + result,
                         'quantity': line.product_qty,
                         'unit_price': line.price_unit,
