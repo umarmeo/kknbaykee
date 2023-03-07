@@ -77,10 +77,10 @@ class HrPayslipRun(models.Model):
             contract.deduction_half_leave = 0
             contract.deduction_short_leave = 0
             if contract.deduction_check == 'Yes':
-                if employee.contract_id.date_start > start_date:
-                    temp_start_date = employee.joining_date
-                else:
-                    temp_start_date = start_date
+                # if employee.contract_id.date_start > start_date:
+                #     temp_start_date = employee.joining_date
+                # else:
+                temp_start_date = start_date
 
                 both_absent = self.env['hr.attendance'].search([('employee_id', '=', employee.id),
                                                                 ('status', '=', 'Absent'),
