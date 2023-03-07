@@ -27,7 +27,9 @@ class LoanSkipInstallment(models.TransientModel):
         print(installment_lines)
         if not installment_lines:
             raise ValidationError(_("Date doesn't exist"))
+
         installment_lines.with_context(_force_unlink=True).unlink()
+
         installment_lines_new = self.env['hr.advance.loan.line'].search(
             [('loan_id', '=', active_ids)], order='id desc', limit=1)
         date_new = installment_lines_new.date + relativedelta(months=+1)
