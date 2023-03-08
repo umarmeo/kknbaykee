@@ -14,6 +14,7 @@
         'wizard/skip_installment.xml',
         'views/payslip_view.xml',
         'views/hr_payroll_structure.xml',
+        'views/advance_loan.xml',
     ],
     'installable': True,
     'auto_install': False,
