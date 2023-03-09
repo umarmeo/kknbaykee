@@ -83,21 +83,21 @@ class HrAdvanceLoan(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New') and vals.get('type') == 'loan':
-            loan_count = self.env['hr.advance.loan'].search_count(
-                [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'), ('type', '=', 'loan'),
-                 ('balance_amount', '!=', 0)])
-            if loan_count:
-                raise ValidationError(_("The employee has already a pending Loan installment"))
-            else:
-                vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.loan.seq') or _('New')
+            # loan_count = self.env['hr.advance.loan'].search_count(
+            #     [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'), ('type', '=', 'loan'),
+            #      ('balance_amount', '!=', 0)])
+            # if loan_count:
+            #     raise ValidationError(_("The employee has already a pending Loan installment"))
+            # else:
+            vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.loan.seq') or _('New')
         if vals.get('name', _('New')) == _('New') and vals.get('type') == 'ad_sal':
-            advance_count = self.env['hr.advance.loan'].search_count(
-                [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'), ('type', '=', 'ad_sal'),
-                 ('advance_paid', '!=', True)])
-            if advance_count:
-                raise ValidationError(_("The employee has already taken Advance"))
-            else:
-                vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.salary.seq') or _('New')
+            # advance_count = self.env['hr.advance.loan'].search_count(
+            #     [('employee_id', '=', vals['employee_id']), ('state', '=', 'approve'), ('type', '=', 'ad_sal'),
+            #      ('advance_paid', '!=', True)])
+            # if advance_count:
+            #     raise ValidationError(_("The employee has already taken Advance"))
+            # else:
+            vals['name'] = self.env['ir.sequence'].next_by_code('hr.advance.salary.seq') or _('New')
         res = super(HrAdvanceLoan, self).create(vals)
         return res
 
